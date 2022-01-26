@@ -19,9 +19,11 @@ public class MyApplication : Gtk.Application {
 	private Gtk.Entry missionname;
 	private Gtk.ProgressBar pbar;
 	private string outdir;
-
 	public static bool show_version;
-
+    private const Gtk.TargetEntry[] targets = {
+		{"text/uri-list",0,0},
+		{"STRING",0,1},
+	};
 
 	const OptionEntry[] options = {
 		{ "version", 'v', 0, OptionArg.NONE, out show_version, "show version", null},
@@ -63,17 +65,26 @@ public class MyApplication : Gtk.Application {
 		lognames =  builder.get_object("log_label") as Gtk.Entry;
 		missionname =  builder.get_object("mission_label") as Gtk.Entry;
 		pbar =  builder.get_object("pbar") as Gtk.ProgressBar;
-		window.set_default_size(600,480);
+
 		this.add_window (window);
         window.set_application (this);
+		window.set_default_size(600,480);
 
+		handle_dnd(window);
         window.destroy.connect( () => {
                 quit();
             });
 
-        window.set_icon_name("fl2xui");
+		try {
+			var pix =  new Gdk.Pixbuf.from_resource("/org/stronnag/fl2xui/fl2xui.png");
+			window.set_icon(pix);
+		} catch (Error e) {
+			stderr.printf("failed to set icon %s\n", e.message);
+			window.set_icon_name("fl2xui");
+		}
 		runbtn.sensitive = false;
 		connect_signals();
+		outdir = Init.setup();
         window.show_all ();
     }
 
@@ -166,6 +177,52 @@ public class MyApplication : Gtk.Application {
 			});
 	}
 
+	private void handle_dnd (Gtk.Widget w) {
+		Gtk.drag_dest_set (w, Gtk.DestDefaults.ALL, targets, Gdk.DragAction.COPY);
+		w.drag_data_received.connect((ctx, x, y, data, info, time) => {
+				string mf = null; // mission
+				string[] items = {};
+				if (info == 0) {
+					uint8 buf[1024];
+					foreach(var uri in data.get_uris ())
+					{
+						try {
+							var f = Filename.from_uri(uri);
+							var fs = FileStream.open (f, "r");
+							var nr =  fs.read (buf);
+							if (nr > 128) {
+								if(buf[0] == '<') {
+									buf[nr-1] = 0;
+									if( ((string)buf).contains("<MISSION>") || ((string)buf).contains("<mission>"))
+										mf = f;
+								} else if(buf[0] == '{' && buf[1] == '\n') {
+									mf = f;
+								} else if(buf[0] == 'H' && buf[1] == ' ') {
+									items +=  f;
+								} else if (((string)buf).has_prefix("Date,Time,")) {
+									items +=  f;
+								}
+							}
+						} catch (Error e) {
+							stderr.printf("dnd: %s\n", e.message);
+						}
+					}
+				}
+				Gtk.drag_finish (ctx, true, false, time);
+				if(mf != null) {
+					missionname.text = mf;
+				}
+				if(items.length > 0) {
+					var s = lognames.text;
+					foreach(var p in s.split(",")) {
+						items += p;
+					}
+					lognames.text = string.joinv(",", items);
+					runbtn.sensitive = true;
+				}
+			});
+	}
+
 	private void run_generator() {
 		string[] args={};
 		args += "flightlog2kml";
@@ -175,103 +232,42 @@ public class MyApplication : Gtk.Application {
 		args += "-kml=%s".printf(kml_check.active.to_string());
 		args += "-rssi=%s".printf(rssi_check.active.to_string());
 		args += "-gradient=%s".printf(grad_combo.active_id);
-
 		if (missionname.text != null && missionname.text != "") {
 			args += "-mission=%s".printf(missionname.text);
 		}
-
 		if (outdir != null && outdir != "") {
 			args += "-outdir=%s".printf(outdir);
 		}
-
 		if(idx_entry.text != "" && idx_entry.text != "0") {
 			args += "--index=%s".printf(idx_entry.text);
 		}
-
 		foreach(var s in lognames.text.split(",")) {
 			args += s;
 		}
-//		print("CMD: %s\n", string.joinv(" ", args));
 
-		Pid child_pid;
-		int p_stdout;
-		int p_stderr;
-		var running = true;
-		try {
-			Process.spawn_async_with_pipes (null,
-											args,
-											null,
-											SpawnFlags.SEARCH_PATH |
-											SpawnFlags.DO_NOT_REAP_CHILD,
-											null,
-											out child_pid,
-											null,
-											out p_stdout,
-											out p_stderr);
-
-			pbar.show();
-			Timeout.add(50, () => {
-					if(running) {
-						pbar.pulse();
-					} else {
-						pbar.hide();
-					}
-					return running;
+		var p = new ProcessLauncher();
+		bool running = true;
+		p.result.connect((s) => {
+				add_textview("%s\n".printf(s));
 			});
 
-			IOChannel error = new IOChannel.unix_new (p_stderr);
-			IOChannel output = new IOChannel.unix_new (p_stdout);
-			error.add_watch (IOCondition.IN|IOCondition.HUP, (source, condition) => {
-					string line = null;
-					 size_t len = 0;
-					if (condition == IOCondition.HUP)
-						 return false;
-					try {
-						IOStatus eos = source.read_line (out line, out len, null);
-                        if(eos == IOStatus.EOF)
-                            return false;
-						if (len > 0) {
-							var s = "ERROR: %s".printf(line);
-							add_textview(s);
-						}
-						return true;
-					} catch (IOChannelError e) {
-						stderr.printf("%s\n", e.message);
-					}  catch (ConvertError e) {
-						stderr.printf("%s\n", e.message);
-					}
-					return false;
-				});
-			output.add_watch (IOCondition.IN|IOCondition.HUP, (source, condition) => {
-					string line = null;
-					size_t len = 0;
-					if (condition == IOCondition.HUP)
-						return false;
-					try {
-						IOStatus eos = source.read_line (out line, out len, null);
-						if(eos == IOStatus.EOF)
-							return false;
-						if (len > 0) {
-							add_textview(line);
-						}
-						return true;
-					} catch (IOChannelError e) {
-						stderr.printf("%s\n", e.message);
-					}  catch (ConvertError e) {
-						stderr.printf("%s\n", e.message);
-					}
-					return false;
-				});
+        p.complete.connect((s) => {
+				if(s != null) {
+					add_textview("%s".printf(s));
+				}
+                running = false;
+			});
 
-			ChildWatch.add (child_pid, (pid, status) => {
-					try { error.shutdown(false); } catch {}
-					Process.close_pid (pid);
-					running = false;
-				});
-		} catch  (SpawnError e) {
-            stderr.printf("%s\n", e.message);
-			running = false;
-		}
+		Timeout.add(50, () => {
+				if(running) {
+					pbar.pulse();
+				} else {
+					pbar.set_fraction(0.0);
+					runbtn.sensitive = true;
+				}
+				return running;
+			});
+		p.run(args);
 	}
 
 	private void add_textview(string s) {
@@ -279,7 +275,6 @@ public class MyApplication : Gtk.Application {
 		Gtk.TextIter iter;
 		textbuf.get_end_iter(out iter);
 		textbuf.insert(ref iter, s, -1);
-		textbuf.get_end_iter(out iter);
 		textview.scroll_to_iter(iter, 0.0, true, 0.0, 1.0);
 	}
 

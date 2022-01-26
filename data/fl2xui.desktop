@@ -1,6 +1,6 @@
 [Desktop Entry]
 Terminal=false
 Type=Application
-Name=fl2x UI
+Name=fl2xui
 Exec=fl2xui
-Icon=fl2ui
+Icon=fl2xui

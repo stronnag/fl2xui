@@ -6,7 +6,7 @@
     <property name="can-focus">False</property>
     <property name="icon-name">fl2xui</property>
     <child>
-      <object class="GtkBox">
+      <object class="GtkBox" id="mbox">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
@@ -15,8 +15,6 @@
           <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="margin-left">4</property>
-            <property name="margin-right">4</property>
             <property name="margin-start">4</property>
             <property name="margin-end">4</property>
             <child>
@@ -45,6 +43,7 @@
                   <object class="GtkEntry" id="idx_entry">
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
+                    <property name="tooltip-text" translatable="yes">Log index in log file (0 == all entries)</property>
                     <property name="width-chars">4</property>
                     <property name="placeholder-text" translatable="yes">0</property>
                     <property name="input-purpose">digits</property>
@@ -67,6 +66,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Log files. Multiple files may be specified.</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -79,6 +79,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Optional mission file (*.mission)</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -119,6 +120,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Output directory</property>
               </object>
               <packing>
                 <property name="left-attach">2</property>
@@ -137,6 +139,7 @@
           <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="tooltip-text" translatable="yes">Save as KML (vice KMZ). </property>
             <property name="column-homogeneous">True</property>
             <child>
               <object class="GtkCheckButton" id="dms_check">
@@ -144,6 +147,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="tooltip-text" translatable="yes">Display positions as DD:MM:SS (vice DD.dddddd)</property>
                 <property name="halign">start</property>
                 <property name="draw-indicator">True</property>
               </object>
@@ -158,6 +162,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="tooltip-text" translatable="yes">Extrude points to the ground</property>
                 <property name="halign">start</property>
                 <property name="draw-indicator">True</property>
               </object>
@@ -172,6 +177,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="tooltip-text" translatable="yes">Add an efficiency layer (if data available)</property>
                 <property name="halign">start</property>
                 <property name="draw-indicator">True</property>
               </object>
@@ -186,6 +192,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="tooltip-text" translatable="yes">Set the RSSI layer as the defailt (vice flight mode)</property>
                 <property name="halign">start</property>
                 <property name="draw-indicator">True</property>
               </object>
@@ -256,7 +263,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkScrolledWindow">
+          <object class="GtkScrolledWindow" id="swin">
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="shadow-type">in</property>
@@ -301,6 +308,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Run the log conversion</property>
                 <property name="halign">end</property>
               </object>
               <packing>
