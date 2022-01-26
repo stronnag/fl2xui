@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gresources>
+  <gresource prefix="/org/stronnag/fl2xui">
+    <file preprocess="xml-stripblanks" compressed="true">fl2xui.ui</file>
+    <file compressed="true">fl2xui.svg</file>
+  </gresource>
+</gresources>
