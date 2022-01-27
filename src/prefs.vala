@@ -68,8 +68,8 @@ namespace Prefs {
 
 namespace Init {
 	public string? setup () {
-		var osname = Environment.get_os_info(OsInfoKey.NAME);
-		bool iswin = osname.has_prefix("Windows");
+		var u = Posix.utsname();
+		bool iswin = u.sysname.has_prefix("MSYS_NT");
 		if (iswin) {
 			var homed = Environment.get_home_dir ();
 			var curd = Environment.get_current_dir ();
@@ -79,8 +79,9 @@ namespace Init {
 			sb.append(";");
 			sb.append(path);
 			Environment.set_variable("PATH", sb.str, true);
-			stderr.printf("INIT: %s\n", sb.str);
-			return homed;
+//			stderr.printf("INIT: %s\n", sb.str);
+			var docd =  GLib.Path.build_filename(homed, "Documents");
+			return docd;
 		} else {
 			return null;
 		}
