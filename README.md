@@ -3,6 +3,7 @@
 fl2xui is a cross-platform  GUI for the [flightlog2kml](https://github.com/stronnag/bbl2kml) tool.
 
 ![Linux](docs/docs/images/linux.png)
+![MacOS](docs/docs/images/macos.png)
 ![Windows](docs/docs/images/windows.png)
 
 * Multiple logs (BBL, OTX)
@@ -47,4 +48,4 @@ fl2xui is a cross-platform  GUI for the [flightlog2kml](https://github.com/stron
 
 ### MacOS
 
-* Untested, will require homebrew or similar environment.
+* Homebrew or similar environment.
