@@ -41,10 +41,9 @@ fl2xui is a cross-platform  GUI for the [flightlog2kml](https://github.com/stron
 
 * Win64 Zip file (release area)  provided with shortcut. No other file should be moved from the `fl2xui` directory, which may be installed in a convenient location.
 * Multiple files may be selected from the file chooser.
-* Output by default to the user's home (`C:\Users\USERNAME`). If there is consensus on a better place (`Documents`??); please create a GH Issue.
+* Output by default to the user's "Documents" (`C:\Users\USERNAME\Documents`) directory.
 * Can be built from source using Msys2.
 * Recommended that `blackbox_decode` and `flightlog2kml` are in the `fl2xui\bin` directory (as in the release archive).
-* The archive no doubt contains far more GTK artefacts than are necessary.
 
 ### MacOS
 
