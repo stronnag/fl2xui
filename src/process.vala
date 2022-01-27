@@ -5,9 +5,7 @@ class ProcessLauncher : Object {
 
 	public void run(string[]? argv) {
 		try {
-			var p = new Subprocess.newv(argv,
-										SubprocessFlags.STDOUT_PIPE|
-										SubprocessFlags.STDERR_PIPE);
+			var p = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE|SubprocessFlags.STDERR_PIPE);
 			var std1 = p.get_stdout_pipe();
 			p.wait_check_async.begin(null, (obj,res) => {
 					try {
@@ -28,7 +26,8 @@ class ProcessLauncher : Object {
 			var ds1 = new DataInputStream(std1);
 			queue_read(ds1);
 		} catch(Error e) {
-			stderr.printf("SUBP: %s\n", e.message);
+			stderr.printf("SUBP: %s %s\n", argv[0],  e.message);
+			complete(null);
 		}
 	}
 

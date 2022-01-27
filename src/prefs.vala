@@ -79,6 +79,7 @@ namespace Init {
 			sb.append(";");
 			sb.append(path);
 			Environment.set_variable("PATH", sb.str, true);
+			stderr.printf("INIT: %s\n", sb.str);
 			return homed;
 		} else {
 			return null;
