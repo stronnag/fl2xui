@@ -27,7 +27,6 @@ fl2xui is a cross-platform  GUI for the [flightlog2kml](https://github.com/stron
 
 * Common GTK packages
 * Easily built from source
-
     ```
 	# Once (setup)
 	meson build --buildtype=release --strip --prefix=~/.local
