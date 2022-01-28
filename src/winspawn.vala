@@ -6,8 +6,13 @@ class ProcessLauncher : Object {
 
 	public void run(string[]? argv) {
 		int opipe[2];
-
-		var cmd = string.joinv(" ", argv);
+		var sb = new StringBuilder();
+		foreach(var a in argv) {
+			sb.append_c('"');
+			sb.append(a);
+			sb.append("\" ");
+		}
+		var cmd = sb.str.strip();
 		Posix.pipe(opipe);
 		var res = create_win_process(cmd, opipe);
 		if (res) {
