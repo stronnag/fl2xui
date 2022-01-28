@@ -20,7 +20,6 @@ fl2xui is a cross-platform  GUI for the [flightlog2kml](https://github.com/stron
 
 * Multiple selection of logs from file chooser
 * No drag and drop
-* Due to limitations of the Glib sub-process API, forces a console window.
 
 ## Installation
 
@@ -40,7 +39,7 @@ fl2xui is a cross-platform  GUI for the [flightlog2kml](https://github.com/stron
 
 ### Windows
 
-* Win64 Zip file (release area)  provided with shortcut. No other file should be moved from the `fl2xui` directory, which may be installed in a convenient location.
+* Win64 Zip file (release area)  provided with shortcut.
 * Multiple files may be selected from the file chooser.
 * Output by default to the user's "Documents" (`C:\Users\USERNAME\Documents`) directory.
 * Can be built from source using Msys2.
