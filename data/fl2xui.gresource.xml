@@ -2,6 +2,6 @@
 <gresources>
   <gresource prefix="/org/stronnag/fl2xui">
     <file preprocess="xml-stripblanks" compressed="true">fl2xui.ui</file>
-    <file>fl2xui.png</file>
+    <file compressed="true">fl2xui.svg</file>
   </gresource>
 </gresources>

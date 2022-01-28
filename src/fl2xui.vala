@@ -76,10 +76,10 @@ public class MyApplication : Gtk.Application {
             });
 
 		try {
-			var pix =  new Gdk.Pixbuf.from_resource("/org/stronnag/fl2xui/fl2xui.png");
+			var pix =  new Gdk.Pixbuf.from_resource("/org/stronnag/fl2xui/fl2xui.svg");
 			window.set_icon(pix);
 		} catch (Error e) {
-			stderr.printf("failed to set icon %s\n", e.message);
+		stderr.printf("failed to set icon %s\n", e.message);
 			window.set_icon_name("fl2xui");
 		}
 		runbtn.sensitive = false;
@@ -248,7 +248,7 @@ public class MyApplication : Gtk.Application {
 		var p = new ProcessLauncher();
 		bool running = true;
 		p.result.connect((s) => {
-				add_textview("%s\n".printf(s));
+				add_textview("%s".printf(s));
 			});
 
         p.complete.connect((s) => {

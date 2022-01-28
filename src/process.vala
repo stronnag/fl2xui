@@ -5,21 +5,14 @@ class ProcessLauncher : Object {
 
 	public void run(string[]? argv) {
 		try {
-			var p = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE|SubprocessFlags.STDERR_PIPE);
+			var p = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE|SubprocessFlags.STDERR_MERGE);
 			var std1 = p.get_stdout_pipe();
 			p.wait_check_async.begin(null, (obj,res) => {
 					try {
 						p.wait_check_async.end (res);
 						complete(null);
 					} catch (Error e) {
-//						stderr.printf("WASN: %s\n", e.message);
-						var std2 = p.get_stderr_pipe();
-						uint8 buffer[4096];
-						size_t bs;
-						try {
-							std2.read_all(buffer, out bs);
-						} catch {}
-						complete((string)buffer);
+						complete(null);
 					}
 				});
 
@@ -36,7 +29,7 @@ class ProcessLauncher : Object {
 				try {
 					var s = ds.read_line_utf8_async.end(res);
 					if(s != null) {
-						result(s);
+						result("%s\n".printf(s));
 						queue_read(ds);
 					} else {
 					}

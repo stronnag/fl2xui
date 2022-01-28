@@ -38,6 +38,7 @@ executable(
 	],
     include_directories : configuration_inc,
     install: true,
+    gui_app: true,
 )
 
 subdir('data')
