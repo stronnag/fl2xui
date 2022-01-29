@@ -73,7 +73,7 @@ authors:
 ### Linux, FreeBSD
 
 * Common GTK packages
-* Debian package `*.deb` for Debian / Ubuntu and derivatives in {{ fl2xui }} release area.
+* Debian package `*.deb` for Debian / Ubuntu and derivatives in [fl2xui release area](https://github.com/stronnag/fl2xui/releases).
 * Easily built from source
 
     ```
@@ -86,7 +86,7 @@ authors:
 
 ### Windows
 
-* Win64 Zip file ({{ fl2xui }} release area)  provided with shortcut launcher.
+* Win64 Zip file in the [fl2xui release area](https://github.com/stronnag/fl2xui/releases),  provided with shortcut launcher.
 * Can be built from source using Msys2 (as Linux).
 * It is recommended that `blackbox_decode` and `flightlog2kml` are in the `fl2xui\bin` directory (as in the release archive).
 
