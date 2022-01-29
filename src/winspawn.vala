@@ -5,7 +5,6 @@ class ProcessLauncher : Object {
 	public signal void complete(string? d);
 
 	public void run(string[]? argv) {
-		int opipe[2];
 		var sb = new StringBuilder();
 		foreach(var a in argv) {
 			if(a.contains(" ")) {
@@ -18,14 +17,13 @@ class ProcessLauncher : Object {
 			sb.append_c(' ');
 		}
 		var cmd = sb.str.strip();
-//		result(("Args: %s\n".printf(cmd)));
-		Posix.pipe(opipe);
-		var res = create_win_process(cmd, opipe);
+		int opipe=-1;
+		var res = create_win_process(cmd, &opipe);
 		if (res) {
 			ThreadFunc<bool>  trun = () => {
 				size_t nr;
 				uchar buf[1024];
-				while((nr = Posix.read(opipe[0], buf, 1023)) > 0) {
+				while((nr = Posix.read(opipe, buf, 1023)) > 0) {
 					buf[nr] = 0;
 					var s = (string)buf;
 					Idle.add(() => { result(s); return false; });

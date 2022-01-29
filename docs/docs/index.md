@@ -71,8 +71,9 @@ authors:
 ## Defaults
 
 The defaults for run time options are taken from the {{ bbl2kml }} configuration file:
+
 * **POSIX OS** : ~/.config/fl2x/config.json
-* **Windows** : %APPDATA%\fl2x\config.json
+* **Windows** : %LOCALAPPDATA%\fl2x\config.json
 
 See also [flight2kml wiki example](https://github.com/stronnag/bbl2kml/wiki/Sample-Config-file).
 

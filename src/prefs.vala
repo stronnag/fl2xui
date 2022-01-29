@@ -8,6 +8,7 @@ namespace Prefs {
 		public bool kml;
 		public bool dms;
 		public string bbdec;
+		public string outdir;
 	}
 
 	private string? have_conf_file(string fn) {
@@ -25,14 +26,6 @@ namespace Prefs {
 		try {
 			var uc = Environment.get_user_config_dir();
 			var fn = GLib.Path.build_filename(uc,"fl2x","config.json");
-
-			if  (have_conf_file(fn) == null) {
-				var apd = Environment.get_variable("APPDATA");
-				if (apd != null) {
-					fn = GLib.Path.build_filename(apd,"fl2x","config.json");
-				}
-			}
-
 			if(have_conf_file(fn) != null)	{
 				var parser = new Json.Parser ();
 				parser.load_from_file (fn);
@@ -58,6 +51,9 @@ namespace Prefs {
 				if (obj.has_member("blackbox-decode")) {
 					p.bbdec = obj.get_string_member("blackbox-decode");
 				}
+				if (obj.has_member("outdir")) {
+					p.outdir = obj.get_string_member("outdir");
+				}
 			}
 		} catch (Error e) {
 			error ("%s", e.message);
@@ -79,7 +75,6 @@ namespace Init {
 			sb.append(";");
 			sb.append(path);
 			Environment.set_variable("PATH", sb.str, true);
-//			stderr.printf("INIT: %s\n", sb.str);
 			var docd =  GLib.Path.build_filename(homed, "Documents");
 			return docd;
 		} else {

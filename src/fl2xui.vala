@@ -18,7 +18,6 @@ public class MyApplication : Gtk.Application {
 	private Gtk.Entry lognames;
 	private Gtk.Entry missionname;
 	private Gtk.ProgressBar pbar;
-	private string outdir;
 	public static bool show_version;
     private const Gtk.TargetEntry[] targets = {
 		{"text/uri-list",0,0},
@@ -84,7 +83,9 @@ public class MyApplication : Gtk.Application {
 		}
 		runbtn.sensitive = false;
 		connect_signals();
-		outdir = Init.setup();
+		if (prefs.outdir == null || prefs.outdir == "") {
+			prefs.outdir = Init.setup();
+		}
         window.show_all ();
     }
 
@@ -170,9 +171,12 @@ public class MyApplication : Gtk.Application {
 				var chooser = new Gtk.FileChooserNative (
 					"Output Directory", window, Gtk.FileChooserAction.SELECT_FOLDER,
 					"_Open", "_Cancel");
+				if (prefs.outdir != null) {
+					chooser.set_filename (prefs.outdir);
+				}
 				var id = chooser.run();
 				if (id == Gtk.ResponseType.ACCEPT || id == Gtk.ResponseType.OK) {
-					outdir = chooser.get_filename ();
+					prefs.outdir = chooser.get_filename ();
 				}
 			});
 	}
@@ -236,9 +240,9 @@ public class MyApplication : Gtk.Application {
 			args += "-mission";
 			args += missionname.text;
 		}
-		if (outdir != null && outdir != "") {
+		if (prefs.outdir != null && prefs.outdir != "") {
 			args += "-outdir";
-			args += outdir;
+			args += prefs.outdir;
 		}
 		if(idx_entry.text != "" && idx_entry.text != "0") {
 			args += "--index=%s".printf(idx_entry.text);
@@ -260,7 +264,7 @@ public class MyApplication : Gtk.Application {
                 running = false;
 			});
 
-		Timeout.add(50, () => {
+		Timeout.add(100, () => {
 				if(running) {
 					pbar.pulse();
 				} else {
