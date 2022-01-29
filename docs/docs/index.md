@@ -13,16 +13,15 @@ authors:
 
 ### Linux (dark theme)
 
-![Linux](images/linux.png)
+![Linux](images/linux.png){: width="40%" }
 
 ### MacOS
 
-![MacOS](images/macos.png)
+![MacOS](images/macos.png){: width="40%" }
 
 ### Windows
 
-![Windows](images/windows.png)
-
+![Windows](images/windows.png){: width="40%" }
 
 ### Features
 
@@ -33,7 +32,7 @@ authors:
 
 ## User Interface
 
-![Linux](images/annotated-ui.png)
+![Linux](images/annotated-ui.png){: width="60%" }
 
 ### File / index selection area (1)
 
