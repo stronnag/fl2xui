@@ -68,6 +68,14 @@ authors:
 * Run button is enabled when log files have been selected
 * An oscillating progress bar is displayed when a conversion is in process (after clicking "Run").
 
+## Defaults
+
+The defaults for run time options are taken from the {{ bbl2kml }} configuration file:
+* **POSIX OS** : ~/.config/fl2x/config.json
+* **Windows** : %APPDATA%\fl2x\config.json
+
+See also [flight2kml wiki example](https://github.com/stronnag/bbl2kml/wiki/Sample-Config-file).
+
 ## Installation
 
 ### Linux, FreeBSD
@@ -86,6 +94,7 @@ authors:
 
 ### Windows
 
+* Win64 Installer file in the [fl2xui release area](https://github.com/stronnag/fl2xui/releases),  creates a desktop shortcut launcher.
 * Win64 Zip file in the [fl2xui release area](https://github.com/stronnag/fl2xui/releases),  provided with shortcut launcher.
 * Can be built from source using Msys2 (as Linux).
 * It is recommended that `blackbox_decode` and `flightlog2kml` are in the `fl2xui\bin` directory (as in the release archive).
