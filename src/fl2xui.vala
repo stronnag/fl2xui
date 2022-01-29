@@ -233,10 +233,12 @@ public class MyApplication : Gtk.Application {
 		args += "-rssi=%s".printf(rssi_check.active.to_string());
 		args += "-gradient=%s".printf(grad_combo.active_id);
 		if (missionname.text != null && missionname.text != "") {
-			args += "-mission=%s".printf(missionname.text);
+			args += "-mission";
+			args += missionname.text;
 		}
 		if (outdir != null && outdir != "") {
-			args += "-outdir=%s".printf(outdir);
+			args += "-outdir";
+			args += outdir;
 		}
 		if(idx_entry.text != "" && idx_entry.text != "0") {
 			args += "--index=%s".printf(idx_entry.text);

@@ -8,11 +8,17 @@ class ProcessLauncher : Object {
 		int opipe[2];
 		var sb = new StringBuilder();
 		foreach(var a in argv) {
-			sb.append_c('"');
+			if(a.contains(" ")) {
+				sb.append_c('"');
+			}
 			sb.append(a);
-			sb.append("\" ");
+			if(a.contains(" ")) {
+				sb.append_c('"');
+			}
+			sb.append_c(' ');
 		}
 		var cmd = sb.str.strip();
+//		result(("Args: %s\n".printf(cmd)));
 		Posix.pipe(opipe);
 		var res = create_win_process(cmd, opipe);
 		if (res) {

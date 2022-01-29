@@ -2,3 +2,4 @@
 *~
 *.exe
 site/
+/setvers.sh

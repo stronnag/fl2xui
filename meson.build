@@ -1,4 +1,4 @@
-project('fl2xui', 'vala', 'c', version : '0.0.3')
+project('fl2xui', 'vala', 'c', version : '0.0.4')
 
 conf_data = configuration_data()
 conf_data.set('version', meson.project_version())
@@ -24,7 +24,6 @@ configure_file(
 configuration_inc = include_directories('build')
 
 subdir('src')
-
 executable(
     meson.project_name(),
     wresources,
