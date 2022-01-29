@@ -1,0 +1,649 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
+    
+    
+      
+        <title>fl2xui - fl2xui</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.a57b2b03.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#757575">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="assets/extra.css">
+    
+      <link rel="stylesheet" href="assets/pdf.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="grey" data-md-color-accent="dark-orange">
+  
+    
+    <script>function __prefix(e){return new URL(".",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#fl2xui" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="fl2xui" class="md-header__button md-logo" aria-label="fl2xui" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            fl2xui
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              fl2xui
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="fl2xui" class="md-nav__button md-logo" aria-label="fl2xui" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    fl2xui
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          fl2xui
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        fl2xui
+      </a>
+      
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linux-dark-theme" class="md-nav__link">
+    Linux (dark theme)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#macos" class="md-nav__link">
+    MacOS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows" class="md-nav__link">
+    Windows
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-interface" class="md-nav__link">
+    User Interface
+  </a>
+  
+    <nav class="md-nav" aria-label="User Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-index-selection-area-1" class="md-nav__link">
+    File / index selection area (1)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visualisation-options-2" class="md-nav__link">
+    Visualisation Options (2)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-area-3" class="md-nav__link">
+    Output Area (3)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#progress-bar-and-run-button-4" class="md-nav__link">
+    Progress bar and Run button (4)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linux-freebsd" class="md-nav__link">
+    Linux, FreeBSD
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows_1" class="md-nav__link">
+    Windows
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#macos_1" class="md-nav__link">
+    MacOS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#author-and-licence" class="md-nav__link">
+    Author and Licence
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+    <nav class="md-nav" aria-label="Overview">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linux-dark-theme" class="md-nav__link">
+    Linux (dark theme)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#macos" class="md-nav__link">
+    MacOS
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows" class="md-nav__link">
+    Windows
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#features" class="md-nav__link">
+    Features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#user-interface" class="md-nav__link">
+    User Interface
+  </a>
+  
+    <nav class="md-nav" aria-label="User Interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#file-index-selection-area-1" class="md-nav__link">
+    File / index selection area (1)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#visualisation-options-2" class="md-nav__link">
+    Visualisation Options (2)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#output-area-3" class="md-nav__link">
+    Output Area (3)
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#progress-bar-and-run-button-4" class="md-nav__link">
+    Progress bar and Run button (4)
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    Installation
+  </a>
+  
+    <nav class="md-nav" aria-label="Installation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#linux-freebsd" class="md-nav__link">
+    Linux, FreeBSD
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#windows_1" class="md-nav__link">
+    Windows
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#macos_1" class="md-nav__link">
+    MacOS
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#author-and-licence" class="md-nav__link">
+    Author and Licence
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="fl2xui">fl2xui<a class="headerlink" href="#fl2xui" title="Permanent link">#</a></h1>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">#</a></h2>
+<p><a href="https://github.com/stronnag/fl2xui">fl2xui</a> is a cross-platform  GUI for the <a href="https://github.com/stronnag/bbl2kml">flightlog2kml</a> tool that converts (<a href="https://github.com/iNavFlight/inav">inav</a>) flight logs to beautiful, annotated KML or KMZ files for visualisation in Google Earth.</p>
+<p><a href="https://github.com/stronnag/fl2xui">fl2xui</a> provides a consistent user interface across Linux, FreeBSD, MacOS and Windows.</p>
+<h3 id="linux-dark-theme">Linux (dark theme)<a class="headerlink" href="#linux-dark-theme" title="Permanent link">#</a></h3>
+<p><img alt="Linux" src="images/linux.png" /></p>
+<h3 id="macos">MacOS<a class="headerlink" href="#macos" title="Permanent link">#</a></h3>
+<p><img alt="MacOS" src="images/macos.png" /></p>
+<h3 id="windows">Windows<a class="headerlink" href="#windows" title="Permanent link">#</a></h3>
+<p><img alt="Windows" src="images/windows.png" /></p>
+<h3 id="features">Features<a class="headerlink" href="#features" title="Permanent link">#</a></h3>
+<ul>
+<li>Multiple logs (Blackbox, OTX/ETX CSV)</li>
+<li>Summary information</li>
+<li>Easy access to common visualisation options.</li>
+</ul>
+<h2 id="user-interface">User Interface<a class="headerlink" href="#user-interface" title="Permanent link">#</a></h2>
+<p><img alt="Linux" src="images/annotated-ui.png" /></p>
+<h3 id="file-index-selection-area-1">File / index selection area (1)<a class="headerlink" href="#file-index-selection-area-1" title="Permanent link">#</a></h3>
+<ul>
+<li><strong>Log...</strong> : Opens a file chooser to select log files. Multiple files may be selected. The files may be a combination of Blackbox logs or OpenTX / EdgeTX CSV logs.</li>
+<li><strong>Output...</strong> : Opens a file chooser to select the output directory. The defaults (no selection) are:<ul>
+<li>Linux, FreeBSD, MacOS : Current (working) directory, typically <code>$HOME</code> when launched from a desktop environment.</li>
+<li>Windows : "Documents" (e.g. <code>C:\Users\USERNAME\Documents</code>).</li>
+</ul>
+</li>
+<li><strong>Mission...</strong> : Optional mission file (single selection). MW XML format (e.g. from <a href="https://github.com/stronnag/mwptools">mwp</a> or <a href="https://github.com/iNavFlight/inav">inav</a> configurator.</li>
+<li><strong>Index</strong> : If 0 (default), processes all logs in (each) file; if non zero, processes a single log at the specified index.</li>
+</ul>
+<h3 id="visualisation-options-2">Visualisation Options (2)<a class="headerlink" href="#visualisation-options-2" title="Permanent link">#</a></h3>
+<div class="admonition info">
+<p class="admonition-title">Drag and drop</p>
+<p>On Linux / FreeBSD, you can also drag and drop logs and mission files into this area, at least with the Gnome desktop environment.</p>
+</div>
+<ul>
+<li><strong>DMS</strong> : Display positions as degrees / minutes / seconds (<code>DD:MM:SS.sss</code>) vice decimal degress (<code>DD.dddddd</code>).</li>
+<li><strong>Extrude</strong> : Extrude flight points the ground.</li>
+<li><strong>Efficiency Layer</strong> : Include an efficiency layer in the output.</li>
+<li><strong>RSSI as default</strong> : Set the RSSI layer as the default (vice Flight Mode).</li>
+<li><strong>KML</strong> : Generate uncompressed KML (vice compressed KMZ).</li>
+<li><strong>Gradient</strong> : Select the colour gradient for RSSI / Efficiency layer)<ul>
+<li><strong>Red</strong> - shades of red</li>
+<li><strong>Green / Red</strong> - Green (best) to red (worst)</li>
+<li><strong>Yellow / Orange / Red</strong> - Yellow (best) to red (worst) via orange</li>
+</ul>
+</li>
+</ul>
+<h3 id="output-area-3">Output Area (3)<a class="headerlink" href="#output-area-3" title="Permanent link">#</a></h3>
+<ul>
+<li>Output Area : Scrolled window showing process or error messages.</li>
+</ul>
+<h3 id="progress-bar-and-run-button-4">Progress bar and Run button (4)<a class="headerlink" href="#progress-bar-and-run-button-4" title="Permanent link">#</a></h3>
+<ul>
+<li>Run button is enabled when log files have been selected</li>
+<li>An oscillating progress bar is displayed when a conversion is in process (after clicking "Run").</li>
+</ul>
+<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">#</a></h2>
+<h3 id="linux-freebsd">Linux, FreeBSD<a class="headerlink" href="#linux-freebsd" title="Permanent link">#</a></h3>
+<ul>
+<li>Common GTK packages</li>
+<li>Debian package <code>*.deb</code> for Debian / Ubuntu and derivatives in <a href="https://github.com/stronnag/fl2xui">fl2xui</a> release area.</li>
+<li>
+<p>Easily built from source</p>
+<div class="highlight"><pre><span></span><code># Once (setup)
+meson build --buildtype=release --strip --prefix=~/.local
+# Build and install to ~/.local/bin (add to PATH if necessary)
+# or specify some other PATH element (/usr/bin, /usr/local/bin, ~/bin)
+meson install -C build
+</code></pre></div>
+</li>
+</ul>
+<h3 id="windows_1">Windows<a class="headerlink" href="#windows_1" title="Permanent link">#</a></h3>
+<ul>
+<li>Win64 Zip file (<a href="https://github.com/stronnag/fl2xui">fl2xui</a> release area)  provided with shortcut launcher.</li>
+<li>Can be built from source using Msys2 (as Linux).</li>
+<li>It is recommended that <code>blackbox_decode</code> and <code>flightlog2kml</code> are in the <code>fl2xui\bin</code> directory (as in the release archive).</li>
+</ul>
+<h3 id="macos_1">MacOS<a class="headerlink" href="#macos_1" title="Permanent link">#</a></h3>
+<ul>
+<li>Homebrew or similar environment is required to build from source (as Linux).</li>
+</ul>
+<h2 id="author-and-licence">Author and Licence<a class="headerlink" href="#author-and-licence" title="Permanent link">#</a></h2>
+<p>(c) 2020 Jonathan Hudson</p>
+<p>GPL v2 or later.</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": ".", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.b1047164.min.js"></script>
+      
+    
+  </body>
+</html>
