@@ -9,6 +9,10 @@ fl2xui is a cross-platform  GUI for the [flightlog2kml](https://github.com/stron
 * Multiple logs (BBL, OTX)
 * Summary information
 
+## User Guide
+
+The user guide is [online](https://stronnag.github.io/fl2xui/). The following sections are a summary.
+
 ## OS Specific features and limitations
 
 ### Linux, FreeBSD
