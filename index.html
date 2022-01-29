@@ -309,6 +309,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#defaults" class="md-nav__link">
+    Defaults
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installation" class="md-nav__link">
     Installation
   </a>
@@ -467,6 +474,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#defaults" class="md-nav__link">
+    Defaults
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installation" class="md-nav__link">
     Installation
   </a>
@@ -576,6 +590,11 @@
 <li>Run button is enabled when log files have been selected</li>
 <li>An oscillating progress bar is displayed when a conversion is in process (after clicking "Run").</li>
 </ul>
+<h2 id="defaults">Defaults<a class="headerlink" href="#defaults" title="Permanent link">#</a></h2>
+<p>The defaults for run time options are taken from the <a href="https://github.com/stronnag/bbl2kml">flightlog2kml</a> configuration file:
+* <strong>POSIX OS</strong> : ~/.config/fl2x/config.json
+* <strong>Windows</strong> : %APPDATA%\fl2x\config.json</p>
+<p>See also <a href="https://github.com/stronnag/bbl2kml/wiki/Sample-Config-file">flight2kml wiki example</a>.</p>
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">#</a></h2>
 <h3 id="linux-freebsd">Linux, FreeBSD<a class="headerlink" href="#linux-freebsd" title="Permanent link">#</a></h3>
 <ul>
@@ -593,6 +612,7 @@ meson install -C build
 </ul>
 <h3 id="windows_1">Windows<a class="headerlink" href="#windows_1" title="Permanent link">#</a></h3>
 <ul>
+<li>Win64 Installer file in the <a href="https://github.com/stronnag/fl2xui/releases">fl2xui release area</a>,  creates a desktop shortcut launcher.</li>
 <li>Win64 Zip file in the <a href="https://github.com/stronnag/fl2xui/releases">fl2xui release area</a>,  provided with shortcut launcher.</li>
 <li>Can be built from source using Msys2 (as Linux).</li>
 <li>It is recommended that <code>blackbox_decode</code> and <code>flightlog2kml</code> are in the <code>fl2xui\bin</code> directory (as in the release archive).</li>
