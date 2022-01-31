@@ -15,6 +15,7 @@ wresources = gnome.compile_resources(
 )
 
 deps = []
+dopts = []
 
 configure_file(
   input : 'src/fl2xui-config.h.in',
@@ -34,7 +35,8 @@ executable(
 	dependency('json-glib-1.0'),
 	deps,
         meson.get_compiler('vala').find_library('posix'),
-	],
+    ],
+    vala_args : dopts,
     include_directories : configuration_inc,
     install: true,
     gui_app: true,

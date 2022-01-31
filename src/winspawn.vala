@@ -1,8 +1,18 @@
 extern bool create_win_process(char *cmd, int *opipe);
+extern uint get_exe_path(char *buf, uint blen);
 
 class ProcessLauncher : Object {
 	public signal void result(string? d);
 	public signal void complete(string? d);
+
+	public static string? get_exe_dir() {
+		char buf[4096];
+		if (get_exe_path(buf, 4096) > 0) {
+			return  Path.get_dirname((string)buf);
+		} else {
+			return null;
+		}
+	}
 
 	public void run(string[]? argv) {
 		var sb = new StringBuilder();

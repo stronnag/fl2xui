@@ -64,21 +64,21 @@ namespace Prefs {
 
 namespace Init {
 	public string? setup () {
-		var u = Posix.utsname();
-		bool iswin = u.sysname.has_prefix("MSYS_NT");
-		if (iswin) {
-			var homed = Environment.get_home_dir ();
-			var curd = Environment.get_current_dir ();
-			var path = Environment.get_variable("PATH");
-			var sb = new StringBuilder();
-			sb.append(curd);
-			sb.append(";");
-			sb.append(path);
-			Environment.set_variable("PATH", sb.str, true);
-			var docd =  GLib.Path.build_filename(homed, "Documents");
-			return docd;
-		} else {
-			return null;
-		}
+#if WINDOWSNT
+    var homed = Environment.get_home_dir ();
+	var epath= ProcessLauncher.get_exe_dir();
+	if (epath != null) {
+		var path = Environment.get_variable("PATH");
+		var sb = new StringBuilder();
+		sb.append(epath);
+		sb.append(";");
+		sb.append(path);
+		Environment.set_variable("PATH", sb.str, true);
+	}
+	var docd =  GLib.Path.build_filename(homed, "Documents");
+	return docd;
+#else
+	return null;
+#endif
 	}
 }

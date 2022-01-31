@@ -83,8 +83,9 @@ public class MyApplication : Gtk.Application {
 		}
 		runbtn.sensitive = false;
 		connect_signals();
+		var od  = Init.setup();
 		if (prefs.outdir == null || prefs.outdir == "") {
-			prefs.outdir = Init.setup();
+			prefs.outdir = od;
 		}
         window.show_all ();
     }

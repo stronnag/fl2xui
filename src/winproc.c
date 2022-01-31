@@ -10,6 +10,10 @@
 
 #define BUFSIZE 4096
 
+unsigned int get_exe_path(char*buf, unsigned int blen) {
+     return GetModuleFileName(NULL, buf, blen);
+}
+
 bool create_win_process(char *cmd, int *wrout) {
      PROCESS_INFORMATION piProcInfo;
      STARTUPINFO siStartInfo;
