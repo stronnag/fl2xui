@@ -100,6 +100,20 @@ See also [flight2kml wiki example](https://github.com/stronnag/bbl2kml/wiki/Samp
 * Can be built from source using Msys2 (as Linux).
 * It is recommended that `blackbox_decode` and `flightlog2kml` are in the `fl2xui\bin` directory (as in the release archive).
 
+#### Look and Feel
+
+From {{ fl2xui}} 0.0.5, the default theme is set to emulate the Windows 10 look and feel. This may be changed by copying the distributed `fl2xui\etc\gtk-3.0\settings.ini` to `%LOCALAPPDATA%\gtk-3.0\settings.ini` and editing some settings as required:
+
+* `gtk-theme-name` : sets the theme name
+    * `Windows10` : Windows 10 theme emulation
+    * `Adwaita` : Default GTK theme
+    * `win32` : Ugly Windows 7 (more like Windows 95?) theme
+* `gtk-application-prefer-dark-theme` : set a dark theme
+    * `0` light theme
+	* `1` dark theme
+
+If a dark theme is forced, then the Window header bar (by default drawn by the Windows window manager), is still light. This may be forced to be dark by setting the environment variable `GTK_CSD=1`. This may be set as a user environment variable from the Windows Control Panel.
+
 ### MacOS
 
 * Homebrew or similar environment is required to build from source (as Linux).
