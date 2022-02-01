@@ -335,6 +335,19 @@
     Windows
   </a>
   
+    <nav class="md-nav" aria-label="Windows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#look-and-feel" class="md-nav__link">
+    Look and Feel
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -500,6 +513,19 @@
     Windows
   </a>
   
+    <nav class="md-nav" aria-label="Windows">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#look-and-feel" class="md-nav__link">
+    Look and Feel
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
         
           <li class="md-nav__item">
@@ -619,6 +645,22 @@ meson install -C build
 <li>Can be built from source using Msys2 (as Linux).</li>
 <li>It is recommended that <code>blackbox_decode</code> and <code>flightlog2kml</code> are in the <code>fl2xui\bin</code> directory (as in the release archive).</li>
 </ul>
+<h4 id="look-and-feel">Look and Feel<a class="headerlink" href="#look-and-feel" title="Permanent link">#</a></h4>
+<p>From <a href="https://github.com/stronnag/fl2xui">fl2xui</a> 0.0.5, the default theme is set to emulate the Windows 10 look and feel. This may be changed by copying the distributed <code>fl2xui\etc\gtk-3.0\settings.ini</code> to <code>%LOCALAPPDATA%\gtk-3.0\settings.ini</code> and editing some settings as required:</p>
+<ul>
+<li><code>gtk-theme-name</code> : sets the theme name<ul>
+<li><code>Windows10</code> : Windows 10 theme emulation</li>
+<li><code>Adwaita</code> : Default GTK theme</li>
+<li><code>win32</code> : Ugly Windows 7 (more like Windows 95?) theme</li>
+</ul>
+</li>
+<li><code>gtk-application-prefer-dark-theme</code> : set a dark theme<ul>
+<li><code>0</code> light theme</li>
+<li><code>1</code> dark theme</li>
+</ul>
+</li>
+</ul>
+<p>If a dark theme is forced, then the Window header bar (by default drawn by the Windows window manager), is still light. This may be forced to be dark by setting the environment variable <code>GTK_CSD=1</code>. This may be set as a user environment variable from the Windows Control Panel.</p>
 <h3 id="macos_1">MacOS<a class="headerlink" href="#macos_1" title="Permanent link">#</a></h3>
 <ul>
 <li>Homebrew or similar environment is required to build from source (as Linux).</li>
