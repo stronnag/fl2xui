@@ -38,7 +38,7 @@ class ProcessLauncher : Object {
 					var s = (string)buf;
 					Idle.add(() => { result(s); return false; });
 				}
-				Idle.add(() => { complete(null); return false; });
+				Idle.add(() => { complete(null); Posix.close(opipe); return false; });
 				return true;
 			};
 			new Thread<bool>("trun", (owned)trun);
