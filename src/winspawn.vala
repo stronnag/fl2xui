@@ -1,9 +1,13 @@
-extern bool create_win_process(char *cmd, int *opipe);
+extern void *create_win_process(char *cmd, int *opipe);
 extern uint get_exe_path(char *buf, uint blen);
+extern void waitproc(void *h);
+
+
 
 class ProcessLauncher : Object {
 	public signal void result(string? d);
 	public signal void complete(string? d);
+	private int opipe;
 
 	public static string? get_exe_dir() {
 		char buf[4096];
@@ -14,7 +18,7 @@ class ProcessLauncher : Object {
 		}
 	}
 
-	public void run(string[]? argv) {
+	public bool run(string[]? argv) {
 		var sb = new StringBuilder();
 		foreach(var a in argv) {
 			if(a.contains(" ")) {
@@ -27,9 +31,16 @@ class ProcessLauncher : Object {
 			sb.append_c(' ');
 		}
 		var cmd = sb.str.strip();
-		int opipe=-1;
+		opipe=-1;
 		var res = create_win_process(cmd, &opipe);
-		if (res) {
+		if (res != null) {
+			ThreadFunc<bool>  wrun = () => {
+				waitproc(res);
+				windone();
+				return true;
+			};
+			new Thread<bool>("wrun", (owned)wrun);
+
 			ThreadFunc<bool>  trun = () => {
 				size_t nr;
 				uchar buf[1024];
@@ -38,11 +49,19 @@ class ProcessLauncher : Object {
 					var s = (string)buf;
 					Idle.add(() => { result(s); return false; });
 				}
-				Idle.add(() => { complete(null); Posix.close(opipe); return false; });
+				Posix.close(opipe);
 				return true;
 			};
 			new Thread<bool>("trun", (owned)trun);
 		}
+		return (res != null);
+	}
+
+	private void windone(string? s=null) {
+		Idle.add(() => {
+				complete(s);
+				return false;
+			});
 	}
 }
 
@@ -75,7 +94,9 @@ static int main(string[]? args) {
 		});
 
 	Idle.add(() => {
-			p.run(args[1:]);
+			if (p.run(args[1:]) == false) {
+				m.quit();
+			}
 			return false;
 		});
 	m.run();

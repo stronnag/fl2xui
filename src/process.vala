@@ -3,7 +3,7 @@ class ProcessLauncher : Object {
 	public signal void result(string? d);
 	public signal void complete(string? d);
 
-	public void run(string[]? argv) {
+	public bool run(string[]? argv) {
 		try {
 			var p = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE|SubprocessFlags.STDERR_MERGE);
 			var std1 = p.get_stdout_pipe();
@@ -21,7 +21,9 @@ class ProcessLauncher : Object {
 		} catch(Error e) {
 			stderr.printf("SUBP: %s %s\n", argv[0],  e.message);
 			complete(null);
+			return false;
 		}
+		return true;
 	}
 
 	private void queue_read(DataInputStream ds) {

@@ -14,10 +14,10 @@ unsigned int get_exe_path(char*buf, unsigned int blen) {
      return GetModuleFileName(NULL, buf, blen);
 }
 
-bool create_win_process(char *cmd, int *wrout) {
+HANDLE create_win_process(char *cmd, int *wrout) {
      PROCESS_INFORMATION piProcInfo;
      STARTUPINFO siStartInfo;
-     bool bSuccess = false;
+     bool bSuccess;
      int opipes[2];
 
      pipe(opipes);
@@ -42,15 +42,22 @@ bool create_win_process(char *cmd, int *wrout) {
 			      &siStartInfo,  // STARTUPINFO pointer
 			      &piProcInfo);  // receives PROCESS_INFORMATION
 
-   if (bSuccess ) {
-      CloseHandle(piProcInfo.hProcess);
-      CloseHandle(piProcInfo.hThread);
-      close(opipes[1]);
-      *wrout = opipes[0];
-   }
-   return bSuccess;
+     *wrout = opipes[0];
+     close(opipes[1]);
+     if (bSuccess ) {
+	  CloseHandle(piProcInfo.hThread);
+     } else {
+	  close(opipes[0]);
+     }
+     return piProcInfo.hProcess;
 }
 
+void waitproc(HANDLE h) {
+     if(h != NULL) {
+	  WaitForSingleObject(h, INFINITE);
+	  CloseHandle(h);
+    }
+}
 
 #ifdef TEST
 void read_pipes (int  hout) {

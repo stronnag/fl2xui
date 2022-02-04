@@ -274,7 +274,7 @@ public class MyApplication : Gtk.Application {
 				}
 				return running;
 			});
-		p.run(args);
+		running = p.run(args);
 	}
 
 	private void add_textview(string s) {
