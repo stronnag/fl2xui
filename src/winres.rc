@@ -12,12 +12,12 @@ FILETYPE 0x1
     {
       VALUE "CompanyName", "Stronnag MegaCorp"
       VALUE "FileDescription", "Flightlog2kml GUI"
-      VALUE "FileVersion", "0.0.6"
+      VALUE "FileVersion", "0.0.7"
       VALUE "InternalName", "fl2xui"
       VALUE "LegalCopyright", "Copyright (c) 2022 Jonathan Hudson"
       VALUE "OriginalFilename", "fl2xui.exe"
       VALUE "ProductName", "fl2xui"
-      VALUE "ProductVersion", "0.0.6"
+      VALUE "ProductVersion", "0.0.7"
     }
   }
 
