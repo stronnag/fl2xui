@@ -14,6 +14,7 @@ public class MyApplication : Gtk.Application {
 	private Gtk.Button outbtn;
 	private Gtk.Button logbtn;
 	private Gtk.Button missionbtn;
+	private Gtk.SpinButton intspin;
 	private Gtk.TextView textview;
 	private Gtk.Entry lognames;
 	private Gtk.Entry missionname;
@@ -60,6 +61,7 @@ public class MyApplication : Gtk.Application {
 		logbtn = builder.get_object("log_btn") as Gtk.Button;
 		missionbtn = builder.get_object("mission_btn") as Gtk.Button;
 		textview = builder.get_object("textview") as Gtk.TextView;
+		intspin = builder.get_object("intspin") as Gtk.SpinButton;
 
 		lognames =  builder.get_object("log_label") as Gtk.Entry;
 		missionname =  builder.get_object("mission_label") as Gtk.Entry;
@@ -248,6 +250,10 @@ public class MyApplication : Gtk.Application {
 		if(idx_entry.text != "" && idx_entry.text != "0") {
 			args += "--index=%s".printf(idx_entry.text);
 		}
+
+		var sval = intspin.get_value ();
+		args += "-interval=%d".printf((int)(1000*sval));
+
 		foreach(var s in lognames.text.split(",")) {
 			args += s;
 		}
