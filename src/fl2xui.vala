@@ -8,6 +8,9 @@ public class MyApplication : Gtk.Application {
 	private Gtk.CheckButton extrude_check;
 	private Gtk.CheckButton kml_check;
 	private Gtk.CheckButton effic_check;
+	private Gtk.CheckButton speed_check;
+	private Gtk.CheckButton altitude_check;
+	private Gtk.CheckButton battery_check;
 	private Gtk.ComboBox grad_combo;
 	private Gtk.Entry idx_entry;
 	private Gtk.Button runbtn;
@@ -51,6 +54,12 @@ public class MyApplication : Gtk.Application {
 		kml_check.active = prefs.kml;
 		effic_check = builder.get_object("effic_check") as Gtk.CheckButton;
 		effic_check.active = prefs.effic;
+		speed_check = builder.get_object("speed_check") as Gtk.CheckButton;
+		speed_check.active = prefs.speed;
+		altitude_check = builder.get_object("altitude_check") as Gtk.CheckButton;
+		altitude_check.active = prefs.altitude;
+		battery_check = builder.get_object("battery_check") as Gtk.CheckButton;
+		battery_check.active = prefs.battery;
 		idx_entry =  builder.get_object("idx_entry") as Gtk.Entry;
 		runbtn = builder.get_object("runbtn") as Gtk.Button;
 		outbtn = builder.get_object("out_btn") as Gtk.Button;
@@ -241,10 +250,26 @@ public class MyApplication : Gtk.Application {
 		string[] args={};
 		args += "flightlog2kml";
 		args += "-dms=%s".printf(dms_check.active.to_string());
-		args += "-efficiency=%s".printf(effic_check.active.to_string());
+		args += "-efficiency=%s".printf(effic_check.active.to_string()); // legacy
 		args += "-extrude=%s".printf(extrude_check.active.to_string());
 		args += "-kml=%s".printf(kml_check.active.to_string());
 		args += "-rssi=%s".printf(rssi_check.active.to_string());
+		string [] astrs={};
+		if(effic_check.active) {
+			astrs += "effic";
+		}
+		if(speed_check.active) {
+			astrs += "speed";
+		}
+		if(altitude_check.active) {
+			astrs += "altitude";
+		}
+		if(battery_check.active) {
+			astrs += "battery";
+		}
+		if (astrs.length > 0) {
+			args += "attributes=%s".printf(string.joinv(",", astrs));
+		}
 		var name = FlCombo.get_name(grad_combo.active);
 		args += "-gradient=%s".printf(name);
 		if (missionname.text != null && missionname.text != "") {

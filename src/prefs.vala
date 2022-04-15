@@ -1,5 +1,11 @@
 namespace Prefs {
 
+	public enum ATTRS {
+		effic  = (1 << 0),
+		speed = (1 << 1),
+		altitude = (1 << 2),
+	}
+
 	public struct Prefs {
 		public string gradient;
 		public bool effic;
@@ -9,6 +15,9 @@ namespace Prefs {
 		public bool dms;
 		public string bbdec;
 		public string outdir;
+		public bool speed;
+		public bool altitude;
+		public bool battery;
 	}
 
 	private string? have_conf_file(string fn) {
@@ -40,13 +49,22 @@ namespace Prefs {
 					p.rssi = obj.get_boolean_member("rssi");
 				}
 				if (obj.has_member("extrude")) {
-						p.extrude = obj.get_boolean_member("extrude");
+					p.extrude = obj.get_boolean_member("extrude");
 				}
 				if (obj.has_member("kml")) {
 					p.kml = obj.get_boolean_member("kml");
 				}
 				if (obj.has_member("gradient")) {
 						p.gradient = obj.get_string_member("gradient");
+				}
+				if (obj.has_member("attributes")) {
+					var attr = obj.get_string_member("attributes");
+					if (attr.contains("effic")) {
+						p.effic = true;
+					}
+					p.speed = attr.contains("speed");
+					p.altitude = attr.contains("altitude");
+					p.battery = attr.contains("battery");
 				}
 				if (obj.has_member("blackbox-decode")) {
 					p.bbdec = obj.get_string_member("blackbox-decode");
