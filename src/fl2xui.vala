@@ -8,7 +8,7 @@ public class MyApplication : Gtk.Application {
 	private Gtk.CheckButton extrude_check;
 	private Gtk.CheckButton kml_check;
 	private Gtk.CheckButton effic_check;
-	private Gtk.ComboBoxText grad_combo;
+	private Gtk.ComboBox grad_combo;
 	private Gtk.Entry idx_entry;
 	private Gtk.Button runbtn;
 	private Gtk.Button outbtn;
@@ -51,10 +51,6 @@ public class MyApplication : Gtk.Application {
 		kml_check.active = prefs.kml;
 		effic_check = builder.get_object("effic_check") as Gtk.CheckButton;
 		effic_check.active = prefs.effic;
-		grad_combo =  builder.get_object("grad_combo") as Gtk.ComboBoxText;
-		if(prefs.gradient != null) {
-			grad_combo.active_id = prefs.gradient;
-		}
 		idx_entry =  builder.get_object("idx_entry") as Gtk.Entry;
 		runbtn = builder.get_object("runbtn") as Gtk.Button;
 		outbtn = builder.get_object("out_btn") as Gtk.Button;
@@ -67,9 +63,20 @@ public class MyApplication : Gtk.Application {
 		missionname =  builder.get_object("mission_label") as Gtk.Entry;
 		pbar =  builder.get_object("pbar") as Gtk.ProgressBar;
 
+		var gradbox = builder.get_object("grad_box") as Gtk.Box;
+		var gradlabel = new Gtk.Label("Gradient:");
+		grad_combo=FlCombo.build_grad_combo();
+		gradbox.pack_start (gradlabel, false);
+        gradbox.pack_start (grad_combo, false);
+
 		this.add_window (window);
         window.set_application (this);
 		window.set_default_size(600,480);
+
+		if(prefs.gradient != null) {
+			var id = FlCombo.get_id(prefs.gradient);
+			grad_combo.active = id;
+		}
 
 		handle_dnd(window);
         window.destroy.connect( () => {
@@ -238,7 +245,8 @@ public class MyApplication : Gtk.Application {
 		args += "-extrude=%s".printf(extrude_check.active.to_string());
 		args += "-kml=%s".printf(kml_check.active.to_string());
 		args += "-rssi=%s".printf(rssi_check.active.to_string());
-		args += "-gradient=%s".printf(grad_combo.active_id);
+		var name = FlCombo.get_name(grad_combo.active);
+		args += "-gradient=%s".printf(name);
 		if (missionname.text != null && missionname.text != "") {
 			args += "-mission";
 			args += missionname.text;

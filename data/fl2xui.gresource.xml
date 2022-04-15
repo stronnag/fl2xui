@@ -3,5 +3,8 @@
   <gresource prefix="/org/stronnag/fl2xui">
     <file preprocess="xml-stripblanks" compressed="true">fl2xui.ui</file>
     <file compressed="true">fl2xui.svg</file>
+    <file>reds.png</file>
+    <file>rdylgn.png</file>
+    <file>ylorrd.png</file>
   </gresource>
 </gresources>

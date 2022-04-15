@@ -11,5 +11,5 @@ if host_machine.system() == 'windows'
   wguisrcs += windows.compile_resources('winres.rc')
 
 else
-  wguisrcs = files('fl2xui.vala', 'prefs.vala', 'process.vala')
+  wguisrcs = files('fl2xui.vala', 'prefs.vala', 'process.vala', 'combo.vala')
 endif

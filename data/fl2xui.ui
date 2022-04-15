@@ -146,6 +146,7 @@
           <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="tooltip-text" translatable="yes">Save as KML (vice KMZ). </property>
             <property name="column-homogeneous">True</property>
             <child>
               <object class="GtkCheckButton" id="dms_check">
@@ -208,39 +209,14 @@
               </packing>
             </child>
             <child>
-              <object class="GtkBox">
+              <object class="GtkBox" id="grad_box">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
                 <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="label" translatable="yes">Gradient:</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
+                  <placeholder/>
                 </child>
                 <child>
-                  <object class="GtkComboBoxText" id="grad_combo">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="tooltip-text" translatable="yes">Set gradient colour scheme</property>
-                    <property name="active">0</property>
-                    <property name="active-id">red</property>
-                    <items>
-                      <item id="red" translatable="yes">Red</item>
-                      <item id="rdgn" translatable="yes">Green/Red</item>
-                      <item id="yor" translatable="yes">Yellow/Orange/Red</item>
-                    </items>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
+                  <placeholder/>
                 </child>
               </object>
               <packing>
@@ -254,7 +230,6 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
-                <property name="tooltip-text" translatable="yes">Save as KML (vice KMZ). </property>
                 <property name="halign">start</property>
                 <property name="draw-indicator">True</property>
               </object>
@@ -286,7 +261,6 @@
                     <property name="name">intspin</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
-                    <property name="tooltip-text" translatable="yes">Set sampling interval (seconds)</property>
                     <property name="text" translatable="yes">1000</property>
                     <property name="input-purpose">digits</property>
                     <property name="adjustment">adjustment1</property>
