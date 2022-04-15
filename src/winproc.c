@@ -20,7 +20,7 @@ HANDLE create_win_process(char *cmd, int *wrout) {
      bool bSuccess;
      int opipes[2];
 
-     pipe(opipes);
+     _pipe(opipes, 4096,_O_BINARY);
 
      HANDLE ohandle = (HANDLE)_get_osfhandle(opipes[1]);
      memset(&piProcInfo, 0, sizeof(PROCESS_INFORMATION) );

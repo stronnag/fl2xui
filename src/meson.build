@@ -6,7 +6,7 @@ add_project_arguments(['--pkg', 'fl2xui'], language: 'vala')
 
 if host_machine.system() == 'windows'
   dopts += '--define=WINDOWSNT'
-  wguisrcs = files('fl2xui.vala', 'prefs.vala', 'winspawn.vala', 'winproc.c')
+  wguisrcs = files('fl2xui.vala', 'prefs.vala', 'winspawn.vala', 'winproc.c', 'combo.vala')
   windows = import('windows')
   wguisrcs += windows.compile_resources('winres.rc')
 
