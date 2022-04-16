@@ -69,6 +69,7 @@ namespace Prefs {
 				obj.set_string_member("attributes", s);
 				obj.set_boolean_member("rssi", p.rssi);
 				obj.set_boolean_member("kml", p.kml);
+				obj.set_boolean_member("dms", p.dms);
 			} else {
 				Json.Builder builder = new Json.Builder ();
 				builder.begin_object ();
@@ -86,6 +87,8 @@ namespace Prefs {
 				builder.add_boolean_value(p.rssi);
 				builder.set_member_name("kml");
 				builder.add_boolean_value( p.kml);
+				builder.set_member_name("dms");
+				builder.add_boolean_value( p.dms);
 				builder.end_object ();
 				root = builder.get_root ();
 			}
