@@ -50,7 +50,7 @@ public class MyApplication : Gtk.Application {
 
     private int _command_line (ApplicationCommandLine command_line) {
 		string[] args = command_line.get_arguments ();
-		fileargs = string.joinv(",", args[1:]);
+		fileargs = string.joinv(",", args[1:args.length]);
 		activate();
 		return 0;
 	}
