@@ -33,9 +33,11 @@ public class MyApplication : Gtk.Application {
 	public MyApplication () {
 		Object(application_id: "org.stronnag.fl2xui",
 			   flags: ApplicationFlags.HANDLES_OPEN|ApplicationFlags.HANDLES_COMMAND_LINE);
-		var  options = new OptionEntry[] {
+
+		const OptionEntry[] options = {
 			{ "version", 'v', 0, OptionArg.NONE, null, "show version", null},
 			{null} };
+
 		add_main_option_entries(options);
 		handle_local_options.connect(do_handle_local_options);
 	}
