@@ -53,7 +53,8 @@ namespace Prefs {
 	public void save_prefs(Prefs p) {
 		try {
 			var uc = Environment.get_user_config_dir();
-			var fn = GLib.Path.build_filename(uc,"fl2x","config.json");
+			var dir = GLib.Path.build_filename(uc,"fl2x");
+			var fn = GLib.Path.build_filename(dir, "config.json");
 			var s = attr_string(p);
 			Json.Node root;
 
@@ -71,6 +72,8 @@ namespace Prefs {
 				obj.set_boolean_member("kml", p.kml);
 				obj.set_boolean_member("dms", p.dms);
 			} else {
+				File dpath = File.new_for_path (dir);
+				dpath.make_directory_with_parents ();
 				Json.Builder builder = new Json.Builder ();
 				builder.begin_object ();
 				builder.set_member_name("efficiency");
