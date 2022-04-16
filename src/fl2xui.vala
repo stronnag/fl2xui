@@ -14,6 +14,7 @@ public class MyApplication : Gtk.Application {
 	private Gtk.ComboBox grad_combo;
 	private Gtk.Entry idx_entry;
 	private Gtk.Button runbtn;
+	private Gtk.Button savebtn;
 	private Gtk.Button outbtn;
 	private Gtk.Button logbtn;
 	private Gtk.Button missionbtn;
@@ -22,21 +23,37 @@ public class MyApplication : Gtk.Application {
 	private Gtk.Entry lognames;
 	private Gtk.Entry missionname;
 	private Gtk.ProgressBar pbar;
-	public static bool show_version;
-    private const Gtk.TargetEntry[] targets = {
+	private string fileargs;
+
+	private const Gtk.TargetEntry[] targets = {
 		{"text/uri-list",0,0},
 		{"STRING",0,1},
 	};
 
-	const OptionEntry[] options = {
-		{ "version", 'v', 0, OptionArg.NONE, out show_version, "show version", null},
-		{null}
-	};
+	public MyApplication () {
+		Object(application_id: "org.stronnag.fl2xui",
+			   flags: ApplicationFlags.HANDLES_OPEN|ApplicationFlags.HANDLES_COMMAND_LINE);
+		var  options = new OptionEntry[] {
+			{ "version", 'v', 0, OptionArg.NONE, null, "show version", null},
+			{null} };
+		add_main_option_entries(options);
+		handle_local_options.connect(do_handle_local_options);
+	}
 
-    public MyApplication () {
-        Object(application_id: "org.stronnag.fl2xui",
-               flags:ApplicationFlags.FLAGS_NONE);
+    private int do_handle_local_options(VariantDict o) {
+        if (o.contains("version")) {
+            stdout.printf("%s\n", FL2XUI_VERSION_STRING);
+            return 0;
+        }
+		return -1;
     }
+
+    private int _command_line (ApplicationCommandLine command_line) {
+		string[] args = command_line.get_arguments ();
+		fileargs = string.joinv(",", args[1:]);
+		activate();
+		return 0;
+	}
 
     protected override void activate () {
         Builder builder;
@@ -46,21 +63,46 @@ public class MyApplication : Gtk.Application {
         window = builder.get_object ("appwin") as Gtk.ApplicationWindow;
 		dms_check = builder.get_object("dms_check") as Gtk.CheckButton;
 		dms_check.active = prefs.dms;
+		dms_check.toggled.connect(() => {
+				prefs.dms= dms_check.active;
+			});
 		rssi_check = builder.get_object("rssi_check") as Gtk.CheckButton;
 		rssi_check.active = prefs.rssi;
+		rssi_check.toggled.connect(() => {
+				prefs.rssi= rssi_check.active;
+			});
 		extrude_check = builder.get_object("extrude_check") as Gtk.CheckButton;
 		extrude_check.active = prefs.extrude;
+		extrude_check.toggled.connect(() => {
+				prefs.extrude = extrude_check.active;
+			});
 		kml_check = builder.get_object("kml_check") as Gtk.CheckButton;
 		kml_check.active = prefs.kml;
+		kml_check.toggled.connect(() => {
+				prefs.kml = kml_check.active;
+			});
 		effic_check = builder.get_object("effic_check") as Gtk.CheckButton;
 		effic_check.active = prefs.effic;
+		effic_check.toggled.connect(() => {
+				prefs.effic = effic_check.active;
+			});
 		speed_check = builder.get_object("speed_check") as Gtk.CheckButton;
 		speed_check.active = prefs.speed;
+		speed_check.toggled.connect(() => {
+				prefs.speed= speed_check.active;
+			});
 		altitude_check = builder.get_object("altitude_check") as Gtk.CheckButton;
 		altitude_check.active = prefs.altitude;
+		altitude_check.toggled.connect(() => {
+				prefs.altitude= altitude_check.active;
+			});
 		battery_check = builder.get_object("battery_check") as Gtk.CheckButton;
 		battery_check.active = prefs.battery;
+		battery_check.toggled.connect(() => {
+				prefs.battery =  battery_check.active;
+			});
 		idx_entry =  builder.get_object("idx_entry") as Gtk.Entry;
+		savebtn = builder.get_object("save_prefs") as Gtk.Button;
 		runbtn = builder.get_object("runbtn") as Gtk.Button;
 		outbtn = builder.get_object("out_btn") as Gtk.Button;
 		logbtn = builder.get_object("log_btn") as Gtk.Button;
@@ -87,6 +129,15 @@ public class MyApplication : Gtk.Application {
 			grad_combo.active = id;
 		}
 
+		grad_combo.changed.connect(() => {
+				var name = FlCombo.get_name(grad_combo.active);
+				prefs.gradient = name;
+			});
+
+		savebtn.clicked.connect( () => {
+				Prefs.save_prefs(prefs);
+			});
+
 		handle_dnd(window);
         window.destroy.connect( () => {
                 quit();
@@ -104,6 +155,10 @@ public class MyApplication : Gtk.Application {
 		var od  = Init.setup();
 		if (prefs.outdir == null || prefs.outdir == "") {
 			prefs.outdir = od;
+		}
+		if(fileargs !=null && fileargs.length > 0) {
+			lognames.text = fileargs;
+			runbtn.sensitive = true;
 		}
         window.show_all ();
     }
@@ -207,8 +262,7 @@ public class MyApplication : Gtk.Application {
 				string[] items = {};
 				if (info == 0) {
 					uint8 buf[1024];
-					foreach(var uri in data.get_uris ())
-					{
+					foreach(var uri in data.get_uris ()) {
 						try {
 							var f = Filename.from_uri(uri);
 							var fs = FileStream.open (f, "r");
@@ -249,29 +303,17 @@ public class MyApplication : Gtk.Application {
 	private void run_generator() {
 		string[] args={};
 		args += "flightlog2kml";
-		args += "-dms=%s".printf(dms_check.active.to_string());
-		args += "-efficiency=%s".printf(effic_check.active.to_string()); // legacy
-		args += "-extrude=%s".printf(extrude_check.active.to_string());
-		args += "-kml=%s".printf(kml_check.active.to_string());
-		args += "-rssi=%s".printf(rssi_check.active.to_string());
-		string [] astrs={};
-		if(effic_check.active) {
-			astrs += "effic";
+		args += "-dms=%s".printf(prefs.dms.to_string());
+		args += "-efficiency=%s".printf(prefs.effic.to_string()); // legacy
+		args += "-extrude=%s".printf(prefs.extrude.to_string());
+		args += "-kml=%s".printf(prefs.kml.to_string());
+		args += "-rssi=%s".printf(prefs.rssi.to_string());
+		var astr = Prefs.attr_string(prefs);
+
+		if (astr.length > 0) {
+			args += "-attributes=%s".printf(astr);
 		}
-		if(speed_check.active) {
-			astrs += "speed";
-		}
-		if(altitude_check.active) {
-			astrs += "altitude";
-		}
-		if(battery_check.active) {
-			astrs += "battery";
-		}
-		if (astrs.length > 0) {
-			args += "attributes=%s".printf(string.joinv(",", astrs));
-		}
-		var name = FlCombo.get_name(grad_combo.active);
-		args += "-gradient=%s".printf(name);
+		args += "-gradient=%s".printf(prefs.gradient);
 		if (missionname.text != null && missionname.text != "") {
 			args += "-mission";
 			args += missionname.text;
@@ -324,23 +366,14 @@ public class MyApplication : Gtk.Application {
 		textview.scroll_to_iter(iter, 0.0, true, 0.0, 1.0);
 	}
 
+	public override int command_line (ApplicationCommandLine command_line) {
+        hold ();
+        int res = _command_line (command_line);
+        release ();
+        return res;
+    }
+
 	public static int main (string[] args) {
-        var opt = new OptionContext("");
-        try
-        {
-            opt.set_summary("fl2xui %s".printf(FL2XUI_VERSION_STRING));
-            opt.set_help_enabled(true);
-            opt.add_main_entries(options, null);
-            opt.parse(ref args);
-        } catch (OptionError e) {
-            stderr.printf("Error: %s\n", e.message);
-            stderr.printf("Run '%s --help' to see a full list of available options\n", args[0]);
-            return 1;
-        }
-        if (show_version) {
-            stdout.printf("%s\n", FL2XUI_VERSION_STRING);
-            return 0;
-        }
         MyApplication app = new MyApplication ();
         return app.run (args);
     }

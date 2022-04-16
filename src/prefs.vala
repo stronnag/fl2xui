@@ -1,3 +1,23 @@
+/*
+{
+   "blackbox-decode" : "blackbox_decode",
+   "blt-vers" : 2,
+   "dms" : false,
+   "efficiency" : false,
+   "extrude" : false,
+   "gradient" : "",
+   "home-alt" : -999999,
+   "kml" : false,
+   "outdir" : "",
+   "rssi" : false,
+   "split-time" : 120,
+   "type" : 0,
+   "visibility" : 0,
+   "max-wp" : 120
+   "attributes" : "",
+   }
+ */
+
 namespace Prefs {
 
 	public enum ATTRS {
@@ -7,14 +27,15 @@ namespace Prefs {
 	}
 
 	public struct Prefs {
-		public string gradient;
-		public bool effic;
-		public bool rssi;
-		public bool extrude;
-		public bool kml;
-		public bool dms;
 		public string bbdec;
+		public bool dms;
+		public bool effic;
+		public bool extrude;
+		public string gradient;
+		public bool kml;
 		public string outdir;
+		public bool rssi;
+		// part of attributes
 		public bool speed;
 		public bool altitude;
 		public bool battery;
@@ -28,6 +49,54 @@ namespace Prefs {
             return null;
         }
     }
+
+	public void save_prefs(Prefs p) {
+		try {
+			var uc = Environment.get_user_config_dir();
+			var fn = GLib.Path.build_filename(uc,"fl2x","config.json");
+			if(have_conf_file(fn) != null)	{
+				var parser = new Json.Parser ();
+				parser.load_from_file (fn);
+				var root = parser.get_root ();
+				var obj = root.get_object ();
+				obj.set_boolean_member("efficiency", p.effic);
+				obj.set_boolean_member("extrude", p.extrude);
+				obj.set_string_member("gradient", p.gradient);
+				obj.set_string_member("outdir", p.outdir);
+				var s = attr_string(p);
+				obj.set_string_member("attributes", s);
+				obj.set_boolean_member("rssi", p.rssi);
+				obj.set_boolean_member("kml", p.kml);
+				var gen = new Json.Generator ();
+				gen.set_root (root);
+				gen.set_pretty(true);
+#if TEST
+				stderr.printf("%s\n", gen.to_data(null));
+#else
+				gen.to_file(fn);
+#endif
+			}
+		} catch (Error e) {
+			error ("%s", e.message);
+		}
+	}
+
+	public string attr_string(Prefs p) {
+		string [] astrs={};
+		if(p.effic) {
+			astrs += "effic";
+		}
+		if(p.speed) {
+			astrs += "speed";
+		}
+		if(p.altitude) {
+			astrs += "altitude";
+		}
+		if(p.battery) {
+			astrs += "battery";
+		}
+		return string.joinv(",", astrs);
+	}
 
 	public Prefs read_prefs()
     {
@@ -100,3 +169,21 @@ namespace Init {
 #endif
 	}
 }
+
+
+#if TEST
+// valac --pkg posix --pkg json-glib-1.0 --pkg gio-2.0 --define TEST prefs.vala
+public static int main(string?[] args) {
+	var prefs = Prefs.read_prefs();
+	var od  = Init.setup();
+	if (prefs.outdir == null || prefs.outdir == "") {
+		prefs.outdir = od;
+	}
+
+	prefs.extrude = false;
+	prefs.kml = true;
+	prefs.speed = false;
+	Prefs.save_prefs(prefs);
+	return 0;
+}
+#endif
