@@ -54,28 +54,50 @@ namespace Prefs {
 		try {
 			var uc = Environment.get_user_config_dir();
 			var fn = GLib.Path.build_filename(uc,"fl2x","config.json");
+			var s = attr_string(p);
+			Json.Node root;
+
 			if(have_conf_file(fn) != null)	{
 				var parser = new Json.Parser ();
 				parser.load_from_file (fn);
-				var root = parser.get_root ();
+				root = parser.get_root ();
 				var obj = root.get_object ();
 				obj.set_boolean_member("efficiency", p.effic);
 				obj.set_boolean_member("extrude", p.extrude);
 				obj.set_string_member("gradient", p.gradient);
 				obj.set_string_member("outdir", p.outdir);
-				var s = attr_string(p);
 				obj.set_string_member("attributes", s);
 				obj.set_boolean_member("rssi", p.rssi);
 				obj.set_boolean_member("kml", p.kml);
-				var gen = new Json.Generator ();
-				gen.set_root (root);
-				gen.set_pretty(true);
-#if TEST
-				stderr.printf("%s\n", gen.to_data(null));
-#else
-				gen.to_file(fn);
-#endif
+			} else {
+				Json.Builder builder = new Json.Builder ();
+				builder.begin_object ();
+				builder.set_member_name("efficiency");
+				builder.add_boolean_value(p.effic);
+				builder.set_member_name("extrude");
+				builder.add_boolean_value(p.extrude);
+				builder.set_member_name("gradient");
+				builder.add_string_value(p.gradient);
+				builder.set_member_name("outdir");
+				builder.add_string_value( p.outdir);
+				builder.set_member_name("attributes");
+				builder.add_string_value(s);
+				builder.set_member_name("rssi");
+				builder.add_boolean_value(p.rssi);
+				builder.set_member_name("kml");
+				builder.add_boolean_value( p.kml);
+				builder.end_object ();
+				root = builder.get_root ();
 			}
+			var gen = new Json.Generator ();
+			gen.set_root (root);
+			gen.set_pretty(true);
+
+#if TEST
+			stderr.printf("P=%s\n", gen.to_data(null));
+#else
+			gen.to_file(fn);
+#endif
 		} catch (Error e) {
 			error ("%s", e.message);
 		}
