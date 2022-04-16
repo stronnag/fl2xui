@@ -120,6 +120,7 @@ public class MyApplication : Gtk.Application {
 		gradbox.pack_start (gradlabel, false);
         gradbox.pack_start (grad_combo, false);
 
+		window.set_title("fl2xui %s".printf(FL2XUI_VERSION_STRING));
 		this.add_window (window);
         window.set_application (this);
 		window.set_default_size(600,480);
