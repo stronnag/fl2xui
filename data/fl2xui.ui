@@ -43,7 +43,7 @@ Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
                 <property name="hexpand">True</property>
                 <property name="editable">False</property>
                 <property name="caps-lock-warning">False</property>
-                <property name="placeholder-text" translatable="yes">&lt;None, required&gt;</property>
+                <property name="placeholder-text" translatable="yes">&lt;Required&gt;</property>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -114,7 +114,7 @@ Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
                 <property name="hexpand">True</property>
                 <property name="editable">False</property>
                 <property name="caps-lock-warning">False</property>
-                <property name="placeholder-text" translatable="yes">&lt;None,optional&gt;</property>
+                <property name="placeholder-text" translatable="yes">&lt;Optional&gt;</property>
               </object>
               <packing>
                 <property name="expand">False</property>
