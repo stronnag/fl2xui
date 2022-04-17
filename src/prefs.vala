@@ -73,7 +73,9 @@ namespace Prefs {
 				obj.set_boolean_member("dms", p.dms);
 			} else {
 				File dpath = File.new_for_path (dir);
-				dpath.make_directory_with_parents ();
+				if (dpath.query_exists () == false) {
+					dpath.make_directory_with_parents ();
+				}
 				Json.Builder builder = new Json.Builder ();
 				builder.begin_object ();
 				builder.set_member_name("efficiency");
