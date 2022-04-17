@@ -43,6 +43,7 @@ namespace FlCombo {
         combobox.set_attributes (cell, "text", Column.NAME);
         combobox.set_attributes (cell_pb, "pixbuf", Column.IMAGE);
 		combobox.active = 0;
+		combobox.tooltip_text = "Set the colour gradient for attribute plots";
 		return combobox;
 	}
 

@@ -73,7 +73,8 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">True</property>
-                <property name="tooltip-text" translatable="yes">Log files. Multiple files may be specified.</property>
+                <property name="tooltip-text" translatable="yes">Log files. Multiple files may be specified.
+Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
               </object>
               <packing>
                 <property name="left-attach">0</property>
@@ -146,7 +147,6 @@
           <object class="GtkGrid">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="tooltip-text" translatable="yes">Save as KML (vice KMZ). </property>
             <property name="column-homogeneous">True</property>
             <child>
               <object class="GtkCheckButton" id="dms_check">
@@ -199,6 +199,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="tooltip-text" translatable="yes">Save as KML (vice KMZ). </property>
                 <property name="halign">start</property>
                 <property name="draw-indicator">True</property>
               </object>
@@ -230,6 +231,7 @@
                     <property name="name">intspin</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
+                    <property name="tooltip-text" translatable="yes">Set the sampling interval in fractional seconds (0.1s - 10s)</property>
                     <property name="text" translatable="yes">1000</property>
                     <property name="input-purpose">digits</property>
                     <property name="adjustment">adjustment1</property>
@@ -268,7 +270,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
-                <property name="tooltip-text" translatable="yes">Add an efficiency layer (if data available)</property>
+                <property name="tooltip-text" translatable="yes">Add an efficiency layer (if data available) to the KML/Z</property>
                 <property name="halign">start</property>
                 <property name="draw-indicator">True</property>
               </object>
@@ -283,6 +285,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="tooltip-text" translatable="yes">Add a speed layer to the KML/Z</property>
                 <property name="halign">start</property>
                 <property name="draw-indicator">True</property>
               </object>
@@ -297,6 +300,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="tooltip-text" translatable="yes">Add an elevation layer to the KML/Z</property>
                 <property name="halign">start</property>
                 <property name="draw-indicator">True</property>
               </object>
@@ -328,6 +332,7 @@
                 <property name="visible">True</property>
                 <property name="can-focus">True</property>
                 <property name="receives-default">False</property>
+                <property name="tooltip-text" translatable="yes">Add a VBAT layer to the KML/Z</property>
                 <property name="halign">start</property>
                 <property name="draw-indicator">True</property>
               </object>
