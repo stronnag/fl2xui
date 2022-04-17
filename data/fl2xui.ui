@@ -18,55 +18,9 @@
         <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <child>
-          <!-- n-columns=3 n-rows=2 -->
-          <object class="GtkGrid">
+          <object class="GtkBox">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
-            <property name="margin-start">4</property>
-            <property name="margin-end">4</property>
-            <child>
-              <object class="GtkBox">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="halign">end</property>
-                <property name="spacing">4</property>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="margin-left">4</property>
-                    <property name="margin-right">4</property>
-                    <property name="margin-start">4</property>
-                    <property name="margin-end">4</property>
-                    <property name="label" translatable="yes">Index:</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">0</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkEntry" id="idx_entry">
-                    <property name="visible">True</property>
-                    <property name="can-focus">True</property>
-                    <property name="tooltip-text" translatable="yes">Log index in log file (0 == all entries)</property>
-                    <property name="width-chars">4</property>
-                    <property name="placeholder-text" translatable="yes">0</property>
-                    <property name="input-purpose">digits</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-              </object>
-              <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
             <child>
               <object class="GtkButton" id="log_btn">
                 <property name="label" translatable="yes">Log ...</property>
@@ -77,21 +31,9 @@
 Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
               </object>
               <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">0</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkButton" id="mission_btn">
-                <property name="label" translatable="yes">Mission ...</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">True</property>
-                <property name="tooltip-text" translatable="yes">Optional mission file (*.mission)</property>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">1</property>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -101,11 +43,68 @@ Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
                 <property name="hexpand">True</property>
                 <property name="editable">False</property>
                 <property name="caps-lock-warning">False</property>
-                <property name="placeholder-text" translatable="yes">&lt;None&gt;</property>
+                <property name="placeholder-text" translatable="yes">&lt;None, required&gt;</property>
               </object>
               <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">0</property>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkLabel">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <property name="margin-left">4</property>
+                <property name="margin-right">4</property>
+                <property name="margin-start">4</property>
+                <property name="margin-end">4</property>
+                <property name="label" translatable="yes">Index:</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="idx_entry">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="tooltip-text" translatable="yes">Log index in log file (0 == all entries)</property>
+                <property name="width-chars">4</property>
+                <property name="placeholder-text" translatable="yes">0</property>
+                <property name="input-purpose">digits</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">True</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkBox">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <child>
+              <object class="GtkButton" id="mission_btn">
+                <property name="label" translatable="yes">Mission ...</property>
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Optional mission file (*.mission)</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
               </packing>
             </child>
             <child>
@@ -115,11 +114,12 @@ Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
                 <property name="hexpand">True</property>
                 <property name="editable">False</property>
                 <property name="caps-lock-warning">False</property>
-                <property name="placeholder-text" translatable="yes">&lt;None&gt;</property>
+                <property name="placeholder-text" translatable="yes">&lt;None,optional&gt;</property>
               </object>
               <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">1</property>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
               </packing>
             </child>
             <child>
@@ -131,15 +131,31 @@ Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
                 <property name="tooltip-text" translatable="yes">Output directory</property>
               </object>
               <packing>
-                <property name="left-attach">2</property>
-                <property name="top-attach">1</property>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">2</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkEntry" id="out_label">
+                <property name="visible">True</property>
+                <property name="can-focus">True</property>
+                <property name="hexpand">True</property>
+                <property name="editable">False</property>
+                <property name="caps-lock-warning">False</property>
+                <property name="placeholder-text" translatable="yes">&lt;default&gt;</property>
+              </object>
+              <packing>
+                <property name="expand">False</property>
+                <property name="fill">True</property>
+                <property name="position">3</property>
               </packing>
             </child>
           </object>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">0</property>
+            <property name="position">1</property>
           </packing>
         </child>
         <child>
@@ -345,7 +361,7 @@ Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -368,7 +384,7 @@ Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
           <packing>
             <property name="expand">True</property>
             <property name="fill">True</property>
-            <property name="position">2</property>
+            <property name="position">4</property>
           </packing>
         </child>
         <child>
@@ -421,7 +437,7 @@ Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
           <packing>
             <property name="expand">False</property>
             <property name="fill">True</property>
-            <property name="position">3</property>
+            <property name="position">5</property>
           </packing>
         </child>
       </object>

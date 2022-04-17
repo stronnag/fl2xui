@@ -22,6 +22,7 @@ public class MyApplication : Gtk.Application {
 	private Gtk.TextView textview;
 	private Gtk.Entry lognames;
 	private Gtk.Entry missionname;
+	private Gtk.Entry outdirname;
 	private Gtk.ProgressBar pbar;
 	private string fileargs;
 
@@ -114,6 +115,7 @@ public class MyApplication : Gtk.Application {
 
 		lognames =  builder.get_object("log_label") as Gtk.Entry;
 		missionname =  builder.get_object("mission_label") as Gtk.Entry;
+		outdirname =  builder.get_object("out_label") as Gtk.Entry;
 		pbar =  builder.get_object("pbar") as Gtk.ProgressBar;
 
 		var gradbox = builder.get_object("grad_box") as Gtk.Box;
@@ -159,6 +161,8 @@ public class MyApplication : Gtk.Application {
 		if (prefs.outdir == null || prefs.outdir == "") {
 			prefs.outdir = od;
 		}
+		if (prefs.outdir != null)
+			outdirname.text = prefs.outdir;
 		if(fileargs !=null && fileargs.length > 0) {
 			lognames.text = fileargs;
 			runbtn.sensitive = true;
@@ -250,6 +254,7 @@ public class MyApplication : Gtk.Application {
 					"_Open", "_Cancel");
 				if (prefs.outdir != null) {
 					chooser.set_filename (prefs.outdir);
+					outdirname.text = prefs.outdir;
 				}
 				var id = chooser.run();
 				if (id == Gtk.ResponseType.ACCEPT || id == Gtk.ResponseType.OK) {
