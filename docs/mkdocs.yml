@@ -2,7 +2,7 @@ site_name: fl2xui
 some_url: https://github.com/stronnag/fl2xui
 site_description: flightlog2kml ui tool
 site_author: Jonathan Hudson
-copyright: Copyright &copy; 2014 - 2022 <a href="https://github.com/stronnag/fl2xui">Jonathan Hudson</a>
+copyright: Copyright &copy; 2020 - 2022 <a href="https://github.com/stronnag/fl2xui">Jonathan Hudson</a>
 
 theme:
   name: material

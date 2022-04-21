@@ -11,7 +11,7 @@ authors:
 
 {{ fl2xui }} provides a consistent user interface across Linux, FreeBSD, MacOS and Windows.
 
-### Linux (dark theme)
+### Linux /FreeBSD (dark theme)
 
 ![Linux](images/linux.png){: width="40%" }
 
@@ -28,11 +28,14 @@ authors:
 * Multiple logs (Blackbox, OTX/ETX CSV)
 * Summary information
 * Easy access to common visualisation options.
+* Save current settings as default
 
 
 ## User Interface
 
-![Linux](images/annotated-ui.png){: width="60%" }
+![Annotated UI](images/annotated-ui.png){: width="40%" }
+
+Note: The image refers to an earlier release; however the general concept is extant.
 
 ### File / index selection area (1)
 
@@ -49,11 +52,14 @@ authors:
 
     On Linux / FreeBSD, you can also drag and drop logs and mission files into this area, at least with the Gnome desktop environment.
 
-* **DMS** : Display positions as degrees / minutes / seconds (`DD:MM:SS.sss`) vice decimal degress (`DD.dddddd`).
+* **DMS** : Display positions as degrees / minutes / seconds (`DD:MM:SS.sss`) vice decimal degrees (`DD.dddddd`).
 * **Extrude** : Extrude flight points the ground.
-* **Efficiency Layer** : Include an efficiency layer in the output.
 * **RSSI as default** : Set the RSSI layer as the default (vice Flight Mode).
 * **KML** : Generate uncompressed KML (vice compressed KMZ).
+* **Efficiency Layer** : Include an efficiency layer in the output.
+* **Elevation Layer** : Include an elevation layer in the output.
+* **Speed Layer** : Include a speed layer in the output.
+* **Battery Layer** : Include a battery (VBAT) layer in the output.
 * **Gradient** : Select the colour gradient for RSSI / Efficiency layer)
     * **Red** - shades of red
     * **Green / Red** - Green (best) to red (worst)
@@ -63,8 +69,9 @@ authors:
 
 * Output Area : Scrolled window showing process or error messages.
 
-### Progress bar and Run button (4)
+### Progress bar / Save Settings / Run button (4)
 
+* Current settings may be saved as defaults
 * Run button is enabled when log files have been selected
 * An oscillating progress bar is displayed when a conversion is in process (after clicking "Run").
 
@@ -96,7 +103,6 @@ See also [flight2kml wiki example](https://github.com/stronnag/bbl2kml/wiki/Samp
 ### Windows
 
 * Win64 Installer file in the [fl2xui release area](https://github.com/stronnag/fl2xui/releases),  creates a desktop shortcut launcher.
-* Win64 Zip file in the [fl2xui release area](https://github.com/stronnag/fl2xui/releases),  provided with shortcut launcher.
 * Can be built from source using Msys2 (as Linux).
 * It is recommended that `blackbox_decode` and `flightlog2kml` are in the `fl2xui\bin` directory (as in the release archive).
 
@@ -120,6 +126,6 @@ If a dark theme is forced, then the Window header bar (by default drawn by the W
 
 ## Author and Licence
 
-(c) 2020 Jonathan Hudson
+(c) Jonathan Hudson
 
 GPL v2 or later.
