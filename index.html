@@ -14,7 +14,7 @@
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-7.3.6">
     
     
       
@@ -235,8 +235,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#linux-dark-theme" class="md-nav__link">
-    Linux (dark theme)
+  <a href="#linux-freebsd-dark-theme" class="md-nav__link">
+    Linux /FreeBSD (dark theme)
   </a>
   
 </li>
@@ -297,8 +297,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#progress-bar-and-run-button-4" class="md-nav__link">
-    Progress bar and Run button (4)
+  <a href="#progress-bar-save-settings-run-button-4" class="md-nav__link">
+    Progress bar / Save Settings / Run button (4)
   </a>
   
 </li>
@@ -413,8 +413,8 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#linux-dark-theme" class="md-nav__link">
-    Linux (dark theme)
+  <a href="#linux-freebsd-dark-theme" class="md-nav__link">
+    Linux /FreeBSD (dark theme)
   </a>
   
 </li>
@@ -475,8 +475,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#progress-bar-and-run-button-4" class="md-nav__link">
-    Progress bar and Run button (4)
+  <a href="#progress-bar-save-settings-run-button-4" class="md-nav__link">
+    Progress bar / Save Settings / Run button (4)
   </a>
   
 </li>
@@ -564,7 +564,7 @@
 <h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">#</a></h2>
 <p><a href="https://github.com/stronnag/fl2xui">fl2xui</a> is a cross-platform  GUI for the <a href="https://github.com/stronnag/bbl2kml">flightlog2kml</a> tool that converts (<a href="https://github.com/iNavFlight/inav">inav</a>) flight logs to beautiful, annotated KML or KMZ files for visualisation in Google Earth.</p>
 <p><a href="https://github.com/stronnag/fl2xui">fl2xui</a> provides a consistent user interface across Linux, FreeBSD, MacOS and Windows.</p>
-<h3 id="linux-dark-theme">Linux (dark theme)<a class="headerlink" href="#linux-dark-theme" title="Permanent link">#</a></h3>
+<h3 id="linux-freebsd-dark-theme">Linux /FreeBSD (dark theme)<a class="headerlink" href="#linux-freebsd-dark-theme" title="Permanent link">#</a></h3>
 <p><img alt="Linux" src="images/linux.png" width="40%" /></p>
 <h3 id="macos">MacOS<a class="headerlink" href="#macos" title="Permanent link">#</a></h3>
 <p><img alt="MacOS" src="images/macos.png" width="40%" /></p>
@@ -575,9 +575,11 @@
 <li>Multiple logs (Blackbox, OTX/ETX CSV)</li>
 <li>Summary information</li>
 <li>Easy access to common visualisation options.</li>
+<li>Save current settings as default</li>
 </ul>
 <h2 id="user-interface">User Interface<a class="headerlink" href="#user-interface" title="Permanent link">#</a></h2>
-<p><img alt="Linux" src="images/annotated-ui.png" width="60%" /></p>
+<p><img alt="Annotated UI" src="images/annotated-ui.png" width="40%" /></p>
+<p>Note: The image refers to an earlier release; however the general concept is extant.</p>
 <h3 id="file-index-selection-area-1">File / index selection area (1)<a class="headerlink" href="#file-index-selection-area-1" title="Permanent link">#</a></h3>
 <ul>
 <li><strong>Log...</strong> : Opens a file chooser to select log files. Multiple files may be selected. The files may be a combination of Blackbox logs or OpenTX / EdgeTX CSV logs.</li>
@@ -595,11 +597,14 @@
 <p>On Linux / FreeBSD, you can also drag and drop logs and mission files into this area, at least with the Gnome desktop environment.</p>
 </div>
 <ul>
-<li><strong>DMS</strong> : Display positions as degrees / minutes / seconds (<code>DD:MM:SS.sss</code>) vice decimal degress (<code>DD.dddddd</code>).</li>
+<li><strong>DMS</strong> : Display positions as degrees / minutes / seconds (<code>DD:MM:SS.sss</code>) vice decimal degrees (<code>DD.dddddd</code>).</li>
 <li><strong>Extrude</strong> : Extrude flight points the ground.</li>
-<li><strong>Efficiency Layer</strong> : Include an efficiency layer in the output.</li>
 <li><strong>RSSI as default</strong> : Set the RSSI layer as the default (vice Flight Mode).</li>
 <li><strong>KML</strong> : Generate uncompressed KML (vice compressed KMZ).</li>
+<li><strong>Efficiency Layer</strong> : Include an efficiency layer in the output.</li>
+<li><strong>Elevation Layer</strong> : Include an elevation layer in the output.</li>
+<li><strong>Speed Layer</strong> : Include a speed layer in the output.</li>
+<li><strong>Battery Layer</strong> : Include a battery (VBAT) layer in the output.</li>
 <li><strong>Gradient</strong> : Select the colour gradient for RSSI / Efficiency layer)<ul>
 <li><strong>Red</strong> - shades of red</li>
 <li><strong>Green / Red</strong> - Green (best) to red (worst)</li>
@@ -611,8 +616,9 @@
 <ul>
 <li>Output Area : Scrolled window showing process or error messages.</li>
 </ul>
-<h3 id="progress-bar-and-run-button-4">Progress bar and Run button (4)<a class="headerlink" href="#progress-bar-and-run-button-4" title="Permanent link">#</a></h3>
+<h3 id="progress-bar-save-settings-run-button-4">Progress bar / Save Settings / Run button (4)<a class="headerlink" href="#progress-bar-save-settings-run-button-4" title="Permanent link">#</a></h3>
 <ul>
+<li>Current settings may be saved as defaults</li>
 <li>Run button is enabled when log files have been selected</li>
 <li>An oscillating progress bar is displayed when a conversion is in process (after clicking "Run").</li>
 </ul>
@@ -641,7 +647,6 @@ meson install -C build
 <h3 id="windows_1">Windows<a class="headerlink" href="#windows_1" title="Permanent link">#</a></h3>
 <ul>
 <li>Win64 Installer file in the <a href="https://github.com/stronnag/fl2xui/releases">fl2xui release area</a>,  creates a desktop shortcut launcher.</li>
-<li>Win64 Zip file in the <a href="https://github.com/stronnag/fl2xui/releases">fl2xui release area</a>,  provided with shortcut launcher.</li>
 <li>Can be built from source using Msys2 (as Linux).</li>
 <li>It is recommended that <code>blackbox_decode</code> and <code>flightlog2kml</code> are in the <code>fl2xui\bin</code> directory (as in the release archive).</li>
 </ul>
@@ -666,7 +671,7 @@ meson install -C build
 <li>Homebrew or similar environment is required to build from source (as Linux).</li>
 </ul>
 <h2 id="author-and-licence">Author and Licence<a class="headerlink" href="#author-and-licence" title="Permanent link">#</a></h2>
-<p>(c) 2020 Jonathan Hudson</p>
+<p>(c) Jonathan Hudson</p>
 <p>GPL v2 or later.</p>
                 
                   
@@ -691,7 +696,7 @@ meson install -C build
       <div class="md-footer-copyright">
         
           <div class="md-footer-copyright__highlight">
-            Copyright &copy; 2014 - 2022 <a href="https://github.com/stronnag/fl2xui">Jonathan Hudson</a>
+            Copyright &copy; 2020 - 2022 <a href="https://github.com/stronnag/fl2xui">Jonathan Hudson</a>
           </div>
         
         
@@ -711,7 +716,7 @@ meson install -C build
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.fcfe8b6d.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": null}</script>
     
     
       <script src="assets/javascripts/bundle.b1047164.min.js"></script>
