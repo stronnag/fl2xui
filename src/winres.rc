@@ -1,10 +1,10 @@
 2 ICON "../data/fl2xui.ico"
 
 1 VERSIONINFO
-FILEVERSION 0,0,0,0
-PRODUCTVERSION 0,0,0,0
+FILEVERSION 1,0,0,0
+FILEVERSION 1,0,0,0
 FILEOS 0x40004
-FILETYPE 0x1
+FILETYPE 1
 {
   BLOCK "StringFileInfo"
   {
@@ -12,17 +12,18 @@ FILETYPE 0x1
     {
       VALUE "CompanyName", "Stronnag MegaCorp"
       VALUE "FileDescription", "Flightlog2kml GUI"
-      VALUE "FileVersion", "1.0.0-rc1-rc5-rc4-rc3-rc2-rc1"
+      VALUE "FileVersion", "1.0.0"
       VALUE "InternalName", "fl2xui"
       VALUE "LegalCopyright", "Copyright (c) 2022 Jonathan Hudson"
       VALUE "OriginalFilename", "fl2xui.exe"
       VALUE "ProductName", "fl2xui"
-      VALUE "ProductVersion", "1.0.0-rc1-rc5-rc4-rc3-rc2-rc1"
+      VALUE "ProductVersion", "1.0.0"
+      VALUE "Comment", "GPL2 flightlog2kml frontend"
     }
   }
 
   BLOCK "VarFileInfo"
   {
-    VALUE "Translation", 0x0000, 0x04B0
+    VALUE "Translation", 0, 0x4b0
   }
 }
