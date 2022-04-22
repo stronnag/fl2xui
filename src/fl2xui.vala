@@ -61,19 +61,31 @@ public class MyApplication : Gtk.Application {
 		return 0;
 	}
 
-	private bool get_app_status(out string bblvers) {
-        bool ok = true;
-        bblvers="";
-        try {
-			var bbl = new Subprocess(SubprocessFlags.STDERR_MERGE|SubprocessFlags.STDOUT_PIPE,
-									 "flightlog2kml", "-version");
-			bbl.communicate_utf8(null, null, out bblvers, null);
-			bbl.wait_check_async.begin();
-        } catch (Error e) {
-			bblvers = e.message;
-			ok = false;
-		}
-        return ok;
+	private void check_version() {
+		string?[] args = {"flightlog2kml", "-version"};
+		var p = new ProcessLauncher();
+		p.result.connect((text) => {
+				bool res = false;
+				if(text != null) {
+					var parts = text.split(" ");
+					if (parts.length == 3) {
+						if (!parts[1].contains("1.0.0-rc1")) {
+							var v1 = parts[1][0];
+							res = (v1 > '0' && v1 <= '9');
+						}
+					}
+				}
+				if (!res) {
+					var sb = new StringBuilder("flightlog2kml ");
+					if (text != null && text != "") {
+						sb.append_printf("too old (%s)\n", text);
+					} else {
+						sb.append("not found\n");
+					}
+					add_textview(sb.str);
+				}
+			});
+		p.run(args);
 	}
 
     protected override void activate () {
@@ -200,32 +212,8 @@ public class MyApplication : Gtk.Application {
 			lognames.text = fileargs;
 			runbtn.sensitive = true;
 		}
-        window.show_all ();
-		Idle.add(() => {
-				string? text=null;
-				var res = get_app_status(out text);
-				if(res) {
-					var parts = text.split(" ");
-					res = false;
-					if (parts.length == 3) {
-						if (!parts[1].contains("1.0.0-rc1")) {
-							var v1 = parts[1][0];
-							res = (v1 > '0' && v1 < '9');
-						}
-					}
-				}
-				if (!res) {
-					var sb = new StringBuilder("flightlog2kml ");
-					if (text != null && text != "") {
-						text = text.chomp();
-						sb.append_printf("too old (%s)\n", text);
-					} else {
-						sb.append("not found\n");
-					}
-					add_textview(sb.str);
-				}
-				return false;
-			});
+		check_version();
+		window.show_all ();
     }
 
 	private void connect_signals() {

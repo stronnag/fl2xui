@@ -2,6 +2,6 @@
 *~
 *.exe
 site/
-/setvers.sh
+/setvers.rb
 /docs/docs/images/annotated-ui.svg
 tools/

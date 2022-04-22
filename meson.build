@@ -42,5 +42,23 @@ executable(
     gui_app: true,
 )
 
+executable(
+    'fl2xui-console',
+    wresources,
+    wguisrcs,
+    dependencies: [
+        dependency('gtk+-3.0'),
+	dependency('gio-2.0'),
+	dependency('json-glib-1.0'),
+	deps,
+        meson.get_compiler('vala').find_library('posix'),
+    ],
+    vala_args : dopts,
+    include_directories : configuration_inc,
+    install: false,
+    build_by_default: false,
+    gui_app: false,
+)
+
 subdir('data')
 meson.add_install_script('meson/post_install.sh')
