@@ -342,6 +342,7 @@ Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
+                    <property name="padding">8</property>
                     <property name="pack-type">end</property>
                     <property name="position">1</property>
                   </packing>
@@ -394,6 +395,7 @@ Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
+                    <property name="padding">8</property>
                     <property name="pack-type">end</property>
                     <property name="position">1</property>
                   </packing>
