@@ -579,7 +579,6 @@
 </ul>
 <h2 id="user-interface">User Interface<a class="headerlink" href="#user-interface" title="Permanent link">#</a></h2>
 <p><img alt="Annotated UI" src="images/annotated-ui.png" width="40%" /></p>
-<p>Note: The image refers to an earlier release; however the general concept is extant.</p>
 <h3 id="file-index-selection-area-1">File / index selection area (1)<a class="headerlink" href="#file-index-selection-area-1" title="Permanent link">#</a></h3>
 <ul>
 <li><strong>Log...</strong> : Opens a file chooser to select log files. Multiple files may be selected. The files may be a combination of Blackbox logs or OpenTX / EdgeTX CSV logs.</li>
@@ -602,9 +601,15 @@
 <li><strong>RSSI as default</strong> : Set the RSSI layer as the default (vice Flight Mode).</li>
 <li><strong>KML</strong> : Generate uncompressed KML (vice compressed KMZ).</li>
 <li><strong>Efficiency Layer</strong> : Include an efficiency layer in the output.</li>
-<li><strong>Elevation Layer</strong> : Include an elevation layer in the output.</li>
-<li><strong>Speed Layer</strong> : Include a speed layer in the output.</li>
 <li><strong>Battery Layer</strong> : Include a battery (VBAT) layer in the output.</li>
+<li><strong>Speed Layer</strong> : Include a speed layer in the output.<ul>
+<li><strong>Fast is red</strong> : Invert the speed colour gradient, so the fastest speed is red</li>
+</ul>
+</li>
+<li><strong>Elevation Layer</strong> : Include an elevation layer in the output.<ul>
+<li><strong>Low is red</strong> : Invert the elevation colour gradient, so the lowest elevation is red</li>
+</ul>
+</li>
 <li><strong>Gradient</strong> : Select the colour gradient for RSSI / Efficiency layer)<ul>
 <li><strong>Red</strong> - shades of red</li>
 <li><strong>Green / Red</strong> - Green (best) to red (worst)</li>
@@ -668,7 +673,7 @@ meson install -C build
 <p>If a dark theme is forced, then the Window header bar (by default drawn by the Windows window manager), is still light. This may be forced to be dark by setting the environment variable <code>GTK_CSD=1</code>. This may be set as a user environment variable from the Windows Control Panel.</p>
 <h3 id="macos_1">MacOS<a class="headerlink" href="#macos_1" title="Permanent link">#</a></h3>
 <ul>
-<li>Homebrew or similar environment is required to build from source (as Linux).</li>
+<li>Homebrew or similar environment is required to build from source (as Linux / FreeBSD).</li>
 </ul>
 <h2 id="author-and-licence">Author and Licence<a class="headerlink" href="#author-and-licence" title="Permanent link">#</a></h2>
 <p>(c) Jonathan Hudson</p>
