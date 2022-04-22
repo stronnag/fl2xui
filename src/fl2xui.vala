@@ -24,6 +24,9 @@ public class MyApplication : Gtk.Application {
 	private Gtk.Entry missionname;
 	private Gtk.Entry outdirname;
 	private Gtk.ProgressBar pbar;
+	private Gtk.Switch fast_is_red;
+	private Gtk.Switch low_is_red;
+
 	private string fileargs;
 
 	private const Gtk.TargetEntry[] targets = {
@@ -56,6 +59,21 @@ public class MyApplication : Gtk.Application {
 		fileargs = string.joinv(",", args[1:args.length]);
 		activate();
 		return 0;
+	}
+
+	private bool get_app_status(out string bblvers) {
+        bool ok = true;
+        bblvers="";
+        try {
+			var bbl = new Subprocess(SubprocessFlags.STDERR_MERGE|SubprocessFlags.STDOUT_PIPE,
+									 "flightlog2kml", "-version");
+			bbl.communicate_utf8(null, null, out bblvers, null);
+			bbl.wait_check_async.begin();
+        } catch (Error e) {
+			bblvers = e.message;
+			ok = false;
+		}
+        return ok;
 	}
 
     protected override void activate () {
@@ -94,6 +112,21 @@ public class MyApplication : Gtk.Application {
 		speed_check.toggled.connect(() => {
 				prefs.speed= speed_check.active;
 			});
+
+		fast_is_red = builder.get_object("fast-is-red") as Gtk.Switch;
+		fast_is_red.active = prefs.fast_is_red;
+		fast_is_red.state_set.connect((x) => {
+				prefs.fast_is_red= fast_is_red.active;
+				return false;
+			});
+
+		low_is_red = builder.get_object("low-is-red") as Gtk.Switch;
+		low_is_red.active = prefs.low_is_red;
+		low_is_red.state_set.connect((x) => {
+				prefs.low_is_red= low_is_red.active;
+				return false;
+			});
+
 		altitude_check = builder.get_object("altitude_check") as Gtk.CheckButton;
 		altitude_check.active = prefs.altitude;
 		altitude_check.toggled.connect(() => {
@@ -168,6 +201,30 @@ public class MyApplication : Gtk.Application {
 			runbtn.sensitive = true;
 		}
         window.show_all ();
+		Idle.add(() => {
+				string? text=null;
+				var res = get_app_status(out text);
+				if(res) {
+					var parts = text.split(" ");
+					res = false;
+					if (parts.length == 3) {
+						if (!parts[1].contains("1.0.0-rc1")) {
+							var v1 = parts[1][0];
+							res = (v1 > '0' && v1 < '9');
+						}
+					}
+				}
+				if (!res) {
+					var sb = new StringBuilder("flightlog2kml ");
+					if (text != null && text != "") {
+						sb.append_printf("too old (%s)\n", text);
+					} else {
+						sb.append("not found\n");
+					}
+					add_textview(sb.str);
+				}
+				return false;
+			});
     }
 
 	private void connect_signals() {
@@ -254,11 +311,11 @@ public class MyApplication : Gtk.Application {
 					"_Open", "_Cancel");
 				if (prefs.outdir != null) {
 					chooser.set_filename (prefs.outdir);
-					outdirname.text = prefs.outdir;
 				}
 				var id = chooser.run();
 				if (id == Gtk.ResponseType.ACCEPT || id == Gtk.ResponseType.OK) {
 					prefs.outdir = chooser.get_filename ();
+					outdirname.text = prefs.outdir;
 				}
 			});
 	}
@@ -311,25 +368,34 @@ public class MyApplication : Gtk.Application {
 	private void run_generator() {
 		string[] args={};
 		args += "flightlog2kml";
+/*
 		args += "-dms=%s".printf(prefs.dms.to_string());
 		args += "-efficiency=%s".printf(prefs.effic.to_string()); // legacy
 		args += "-extrude=%s".printf(prefs.extrude.to_string());
 		args += "-kml=%s".printf(prefs.kml.to_string());
 		args += "-rssi=%s".printf(prefs.rssi.to_string());
 		var astr = Prefs.attr_string(prefs);
-
-		if (astr.length > 0) {
-			args += "-attributes=%s".printf(astr);
-		}
-		args += "-gradient=%s".printf(prefs.gradient);
-		if (missionname.text != null && missionname.text != "") {
-			args += "-mission";
-			args += missionname.text;
-		}
 		if (prefs.outdir != null && prefs.outdir != "") {
 			args += "-outdir";
 			args += prefs.outdir;
 		}
+		if (astr.length > 0) {
+			args += "-attributes=%s".printf(astr);
+		}
+		args += "-gradient=%s".printf(prefs.gradient);
+*/
+		string? tmpnam = null;
+		try {
+			var fd = FileUtils.open_tmp (".fl2xui-XXXXXX", out tmpnam);
+			Posix.close(fd);
+			Prefs.save_prefs(prefs, tmpnam);
+			Environment.set_variable("FL2X_CONFIG_FILE", tmpnam, true);
+		} catch {}
+		if (missionname.text != null && missionname.text != "") {
+			args += "-mission";
+			args += missionname.text;
+		}
+
 		if(idx_entry.text != "" && idx_entry.text != "0") {
 			args += "--index=%s".printf(idx_entry.text);
 		}
@@ -352,6 +418,8 @@ public class MyApplication : Gtk.Application {
 					add_textview("%s".printf(s));
 				}
                 running = false;
+				if (tmpnam != null)
+					Posix.unlink(tmpnam);
 			});
 
 		Timeout.add(100, () => {

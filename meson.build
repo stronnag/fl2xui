@@ -1,4 +1,4 @@
-project('fl2xui', 'vala', 'c', version : '1.0.0')
+project('fl2xui', 'vala', 'c', version : '1.0.0-rc2')
 
 conf_data = configuration_data()
 conf_data.set('version', meson.project_version())

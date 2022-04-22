@@ -39,6 +39,9 @@ namespace Prefs {
 		public bool speed;
 		public bool altitude;
 		public bool battery;
+		public bool fast_is_red;
+		public bool low_is_red;
+
 	}
 
 	private string? have_conf_file(string fn) {
@@ -50,7 +53,7 @@ namespace Prefs {
         }
     }
 
-	public void save_prefs(Prefs p) {
+	public void save_prefs(Prefs p, string? ufn=null) {
 		try {
 			var uc = Environment.get_user_config_dir();
 			var dir = GLib.Path.build_filename(uc,"fl2x");
@@ -58,7 +61,7 @@ namespace Prefs {
 			var s = attr_string(p);
 			Json.Node root;
 
-			if(have_conf_file(fn) != null)	{
+			if(ufn == null && have_conf_file(fn) != null)	{
 				var parser = new Json.Parser ();
 				parser.load_from_file (fn);
 				root = parser.get_root ();
@@ -71,10 +74,16 @@ namespace Prefs {
 				obj.set_boolean_member("rssi", p.rssi);
 				obj.set_boolean_member("kml", p.kml);
 				obj.set_boolean_member("dms", p.dms);
+				obj.set_boolean_member("fast-is-red", p.fast_is_red);
+				obj.set_boolean_member("low-is-red", p.low_is_red);
 			} else {
-				File dpath = File.new_for_path (dir);
-				if (dpath.query_exists () == false) {
-					dpath.make_directory_with_parents ();
+				if (ufn == null) {
+					File dpath = File.new_for_path (dir);
+					if (dpath.query_exists () == false) {
+						dpath.make_directory_with_parents ();
+					}
+				} else {
+					fn = ufn;
 				}
 				Json.Builder builder = new Json.Builder ();
 				builder.begin_object ();
@@ -94,6 +103,10 @@ namespace Prefs {
 				builder.add_boolean_value( p.kml);
 				builder.set_member_name("dms");
 				builder.add_boolean_value( p.dms);
+				builder.set_member_name("fast-is-red");
+				builder.add_boolean_value( p.fast_is_red);
+				builder.set_member_name("low-is-red");
+				builder.add_boolean_value( p.low_is_red);
 				builder.end_object ();
 				root = builder.get_root ();
 			}
@@ -152,6 +165,12 @@ namespace Prefs {
 				}
 				if (obj.has_member("kml")) {
 					p.kml = obj.get_boolean_member("kml");
+				}
+				if (obj.has_member("fast-is-red")) {
+					p.fast_is_red = obj.get_boolean_member("fast-is-red");
+				}
+				if (obj.has_member("low-is-red")) {
+					p.low_is_red = obj.get_boolean_member("low-is-red");
 				}
 				if (obj.has_member("gradient")) {
 						p.gradient = obj.get_string_member("gradient");

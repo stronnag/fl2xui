@@ -296,36 +296,6 @@ Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
               </packing>
             </child>
             <child>
-              <object class="GtkCheckButton" id="speed_check">
-                <property name="label" translatable="yes">Speed Layer</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">False</property>
-                <property name="tooltip-text" translatable="yes">Add a speed layer to the KML/Z</property>
-                <property name="halign">start</property>
-                <property name="draw-indicator">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">1</property>
-                <property name="top-attach">2</property>
-              </packing>
-            </child>
-            <child>
-              <object class="GtkCheckButton" id="altitude_check">
-                <property name="label" translatable="yes">Elevation Layer</property>
-                <property name="visible">True</property>
-                <property name="can-focus">True</property>
-                <property name="receives-default">False</property>
-                <property name="tooltip-text" translatable="yes">Add an elevation layer to the KML/Z</property>
-                <property name="halign">start</property>
-                <property name="draw-indicator">True</property>
-              </object>
-              <packing>
-                <property name="left-attach">0</property>
-                <property name="top-attach">3</property>
-              </packing>
-            </child>
-            <child>
               <object class="GtkBox" id="grad_box">
                 <property name="visible">True</property>
                 <property name="can-focus">False</property>
@@ -343,6 +313,113 @@ Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
               </packing>
             </child>
             <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <child>
+                  <object class="GtkCheckButton" id="altitude_check">
+                    <property name="label" translatable="yes">Elevation Layer</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
+                    <property name="tooltip-text" translatable="yes">Add an elevation layer to the KML/Z</property>
+                    <property name="halign">start</property>
+                    <property name="draw-indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSwitch" id="low-is-red">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="halign">end</property>
+                    <property name="hexpand">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="pack-type">end</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="hexpand">True</property>
+                    <property name="label" translatable="yes">Low is red</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">3</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkBox">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <child>
+                  <object class="GtkCheckButton" id="speed_check">
+                    <property name="label" translatable="yes">Speed Layer</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
+                    <property name="tooltip-text" translatable="yes">Add a speed layer to the KML/Z</property>
+                    <property name="halign">start</property>
+                    <property name="draw-indicator">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="position">0</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkSwitch" id="fast-is-red">
+                    <property name="visible">True</property>
+                    <property name="can-focus">True</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="pack-type">end</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkLabel">
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="halign">end</property>
+                    <property name="hexpand">False</property>
+                    <property name="label" translatable="yes">Fast is red</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="pack-type">end</property>
+                    <property name="position">2</property>
+                  </packing>
+                </child>
+              </object>
+              <packing>
+                <property name="left-attach">1</property>
+                <property name="top-attach">2</property>
+              </packing>
+            </child>
+            <child>
               <object class="GtkCheckButton" id="battery_check">
                 <property name="label" translatable="yes">Battery Layer</property>
                 <property name="visible">True</property>
@@ -353,7 +430,7 @@ Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
                 <property name="draw-indicator">True</property>
               </object>
               <packing>
-                <property name="left-attach">1</property>
+                <property name="left-attach">0</property>
                 <property name="top-attach">3</property>
               </packing>
             </child>
