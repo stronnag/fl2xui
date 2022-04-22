@@ -64,9 +64,18 @@ public class MyApplication : Gtk.Application {
 	private void check_version() {
 		string?[] args = {"flightlog2kml", "-version"};
 		var p = new ProcessLauncher();
+		var sb = new StringBuilder();
 		p.result.connect((text) => {
+				sb.append(text);
+			});
+
+        p.complete.connect((s) => {
+				if (s != null) {
+					sb.append(s);
+				}
+				var text = sb.str;
 				bool res = false;
-				if(text != null) {
+				if (text != null && text != "") {
 					var parts = text.split(" ");
 					if (parts.length == 3) {
 						if (!parts[1].contains("1.0.0-rc1")) {
@@ -76,13 +85,13 @@ public class MyApplication : Gtk.Application {
 					}
 				}
 				if (!res) {
-					var sb = new StringBuilder("flightlog2kml ");
+					var rsb = new StringBuilder("Error: flightlog2kml ");
 					if (text != null && text != "") {
-						sb.append_printf("too old (%s)\n", text);
+						rsb.append_printf("too old (%s)\n", text.chomp());
 					} else {
-						sb.append("not found\n");
+						rsb.append("not found\n");
 					}
-					add_textview(sb.str);
+					add_textview(rsb.str);
 				}
 			});
 		p.run(args);
