@@ -217,6 +217,7 @@ public class MyApplication : Gtk.Application {
 				if (!res) {
 					var sb = new StringBuilder("flightlog2kml ");
 					if (text != null && text != "") {
+						text = text.chomp();
 						sb.append_printf("too old (%s)\n", text);
 					} else {
 						sb.append("not found\n");
