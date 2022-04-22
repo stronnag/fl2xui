@@ -35,8 +35,6 @@ authors:
 
 ![Annotated UI](images/annotated-ui.png){: width="40%" }
 
-Note: The image refers to an earlier release; however the general concept is extant.
-
 ### File / index selection area (1)
 
 * **Log...** : Opens a file chooser to select log files. Multiple files may be selected. The files may be a combination of Blackbox logs or OpenTX / EdgeTX CSV logs.
@@ -57,9 +55,11 @@ Note: The image refers to an earlier release; however the general concept is ext
 * **RSSI as default** : Set the RSSI layer as the default (vice Flight Mode).
 * **KML** : Generate uncompressed KML (vice compressed KMZ).
 * **Efficiency Layer** : Include an efficiency layer in the output.
-* **Elevation Layer** : Include an elevation layer in the output.
-* **Speed Layer** : Include a speed layer in the output.
 * **Battery Layer** : Include a battery (VBAT) layer in the output.
+* **Speed Layer** : Include a speed layer in the output.
+    * **Fast is red** : Invert the speed colour gradient, so the fastest speed is red
+* **Elevation Layer** : Include an elevation layer in the output.
+    * **Low is red** : Invert the elevation colour gradient, so the lowest elevation is red
 * **Gradient** : Select the colour gradient for RSSI / Efficiency layer)
     * **Red** - shades of red
     * **Green / Red** - Green (best) to red (worst)
@@ -122,7 +122,7 @@ If a dark theme is forced, then the Window header bar (by default drawn by the W
 
 ### MacOS
 
-* Homebrew or similar environment is required to build from source (as Linux).
+* Homebrew or similar environment is required to build from source (as Linux / FreeBSD).
 
 ## Author and Licence
 
