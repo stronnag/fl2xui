@@ -338,6 +338,7 @@ Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">False</property>
+                    <property name="tooltip-text" translatable="yes">Toogle the elevation layer colour gradient direction</property>
                     <property name="halign">end</property>
                     <property name="hexpand">False</property>
                     <property name="draw-indicator">True</property>
@@ -382,6 +383,7 @@ Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
                     <property name="receives-default">False</property>
+                    <property name="tooltip-text" translatable="yes">Toogle the speed layer colour gradient direction</property>
                     <property name="halign">end</property>
                     <property name="hexpand">False</property>
                     <property name="draw-indicator">True</property>
