@@ -78,10 +78,12 @@ public class MyApplication : Gtk.Application {
 				if (text != null && text != "") {
 					var parts = text.split(" ");
 					if (parts.length == 3) {
-						if (!parts[1].contains("1.0.0-rc1")) {
-							var v1 = parts[1][0];
-							res = (v1 > '0' && v1 <= '9');
+						int vsum = 0;
+						var vparts = parts[1].split(".");
+						for(var i = 0; i < 3 && i < parts.length; i++) {
+							vsum = int.parse(vparts[i])+ 10*vsum;
 						}
+						res = vsum > 100;
 					}
 				}
 				if (!res) {
