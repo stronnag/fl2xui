@@ -385,7 +385,8 @@ public class MyApplication : Gtk.Application {
 			var fd = FileUtils.open_tmp (".fl2xui-XXXXXX", out tmpnam);
 			Posix.close(fd);
 			Prefs.save_prefs(prefs, tmpnam);
-			Environment.set_variable("FL2X_CONFIG_FILE", tmpnam, true);
+			args += "-config";
+			args += tmpnam;
 		} catch {}
 		if (missionname.text != null && missionname.text != "") {
 			args += "-mission";
