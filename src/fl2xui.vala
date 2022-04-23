@@ -24,8 +24,8 @@ public class MyApplication : Gtk.Application {
 	private Gtk.Entry missionname;
 	private Gtk.Entry outdirname;
 	private Gtk.ProgressBar pbar;
-	private Gtk.Switch fast_is_red;
-	private Gtk.Switch low_is_red;
+	private Gtk.CheckButton fast_is_red;
+	private Gtk.CheckButton low_is_red;
 
 	private string fileargs;
 
@@ -134,18 +134,16 @@ public class MyApplication : Gtk.Application {
 				prefs.speed= speed_check.active;
 			});
 
-		fast_is_red = builder.get_object("fast-is-red") as Gtk.Switch;
+		fast_is_red = builder.get_object("fast-is-red") as Gtk.CheckButton;
 		fast_is_red.active = prefs.fast_is_red;
-		fast_is_red.state_set.connect((x) => {
-				prefs.fast_is_red= fast_is_red.active;
-				return false;
+		fast_is_red.toggled.connect(() => {
+				prefs.fast_is_red = fast_is_red.active;
 			});
 
-		low_is_red = builder.get_object("low-is-red") as Gtk.Switch;
+		low_is_red = builder.get_object("low-is-red") as Gtk.CheckButton;
 		low_is_red.active = prefs.low_is_red;
-		low_is_red.state_set.connect((x) => {
-				prefs.low_is_red= low_is_red.active;
-				return false;
+		low_is_red.toggled.connect(() => {
+				prefs.low_is_red = low_is_red.active;
 			});
 
 		altitude_check = builder.get_object("altitude_check") as Gtk.CheckButton;

@@ -333,32 +333,21 @@ Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkSwitch" id="low-is-red">
+                  <object class="GtkCheckButton" id="low-is-red">
+                    <property name="label" translatable="yes">Low is red</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">end</property>
                     <property name="hexpand">False</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
-                    <property name="padding">8</property>
+                    <property name="padding">4</property>
                     <property name="pack-type">end</property>
                     <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="halign">end</property>
-                    <property name="hexpand">True</property>
-                    <property name="label" translatable="yes">Low is red</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="position">2</property>
                   </packing>
                 </child>
               </object>
@@ -388,31 +377,21 @@ Blackbox, Open/EdgeTX, GCSS, Audupliot</property>
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkSwitch" id="fast-is-red">
+                  <object class="GtkCheckButton" id="fast-is-red">
+                    <property name="label" translatable="yes">Fast is red</property>
                     <property name="visible">True</property>
                     <property name="can-focus">True</property>
-                  </object>
-                  <packing>
-                    <property name="expand">False</property>
-                    <property name="fill">True</property>
-                    <property name="padding">8</property>
-                    <property name="pack-type">end</property>
-                    <property name="position">1</property>
-                  </packing>
-                </child>
-                <child>
-                  <object class="GtkLabel">
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
+                    <property name="receives-default">False</property>
                     <property name="halign">end</property>
                     <property name="hexpand">False</property>
-                    <property name="label" translatable="yes">Fast is red</property>
+                    <property name="draw-indicator">True</property>
                   </object>
                   <packing>
                     <property name="expand">False</property>
                     <property name="fill">True</property>
+                    <property name="padding">4</property>
                     <property name="pack-type">end</property>
-                    <property name="position">2</property>
+                    <property name="position">1</property>
                   </packing>
                 </child>
               </object>
