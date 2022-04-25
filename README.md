@@ -50,4 +50,12 @@ The user guide is [online](https://stronnag.github.io/fl2xui/). The following se
 
 ### MacOS
 
-* Homebrew or similar environment.
+* Use Homebrew:
+    ```
+	# install requirements:
+	brew install meson vala gtk+3 json-glib
+	# Once (setup)
+	meson build --buildtype=release --strip --prefix=~/.local
+	# Build and install to ~/.local/bin (add to PATH if necessary)
+	sudo meson install -C build
+   ```   ... 
