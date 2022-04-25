@@ -316,6 +316,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installation" class="md-nav__link">
     Installation
   </a>
@@ -494,6 +501,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#dependencies" class="md-nav__link">
+    Dependencies
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#installation" class="md-nav__link">
     Installation
   </a>
@@ -634,26 +648,38 @@
 <li><strong>Windows</strong> : %LOCALAPPDATA%\fl2x\config.json</li>
 </ul>
 <p>See also <a href="https://github.com/stronnag/bbl2kml/wiki/Sample-Config-file">flight2kml wiki example</a>.</p>
+<h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">#</a></h2>
+<p><a href="https://github.com/stronnag/fl2xui">fl2xui</a> depends upon the following open source packages:</p>
+<ul>
+<li><a href="https://github.com/stronnag/bbl2kml/">flight2kml</a></li>
+<li><a href="https://github.com/iNavFlight/blackbox-tools">INAV's blackbox_decode</a></li>
+</ul>
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">#</a></h2>
 <h3 id="linux-freebsd">Linux, FreeBSD<a class="headerlink" href="#linux-freebsd" title="Permanent link">#</a></h3>
 <ul>
 <li>Common GTK packages</li>
 <li>Debian package <code>*.deb</code> for Debian / Ubuntu and derivatives in <a href="https://github.com/stronnag/fl2xui/releases">fl2xui release area</a>.</li>
-<li>
-<p>Easily built from source</p>
-<div class="highlight"><pre><span></span><code># Once (setup)
+<li>Easily built from source<pre><code># Once (setup)
 meson build --buildtype=release --strip --prefix=~/.local
 # Build and install to ~/.local/bin (add to PATH if necessary)
 # or specify some other PATH element (/usr/bin, /usr/local/bin, ~/bin)
 meson install -C build
-</code></pre></div>
+</code></pre>
 </li>
 </ul>
 <h3 id="windows_1">Windows<a class="headerlink" href="#windows_1" title="Permanent link">#</a></h3>
 <ul>
 <li>Win64 Installer file in the <a href="https://github.com/stronnag/fl2xui/releases">fl2xui release area</a>,  creates a desktop shortcut launcher.</li>
-<li>Can be built from source using Msys2 (as Linux).</li>
-<li>It is recommended that <code>blackbox_decode</code> and <code>flightlog2kml</code> are in the <code>fl2xui\bin</code> directory (as in the release archive).</li>
+<li>
+<p>Can be built from source using Msys2 (as Linux).</p>
+<pre><code>pacman -Syu
+pacman -S gtk3 vala meson ninja json-glib
+# now follow Linux instructions ...
+</code></pre>
+</li>
+<li>
+<p>It is recommended that <code>blackbox_decode</code> and <code>flightlog2kml</code> are in the <code>fl2xui\bin</code> directory (as in the release archive).</p>
+</li>
 </ul>
 <h4 id="look-and-feel">Look and Feel<a class="headerlink" href="#look-and-feel" title="Permanent link">#</a></h4>
 <p>From <a href="https://github.com/stronnag/fl2xui">fl2xui</a> 0.0.5, the default theme is set to emulate the Windows 10 look and feel. This may be changed by copying the distributed <code>fl2xui\etc\gtk-3.0\settings.ini</code> to <code>%LOCALAPPDATA%\gtk-3.0\settings.ini</code> and editing some settings as required:</p>
@@ -673,7 +699,19 @@ meson install -C build
 <p>If a dark theme is forced, then the Window header bar (by default drawn by the Windows window manager), is still light. This may be forced to be dark by setting the environment variable <code>GTK_CSD=1</code>. This may be set as a user environment variable from the Windows Control Panel.</p>
 <h3 id="macos_1">MacOS<a class="headerlink" href="#macos_1" title="Permanent link">#</a></h3>
 <ul>
-<li>Homebrew or similar environment is required to build from source (as Linux / FreeBSD).</li>
+<li>
+<p>Use Homebrew:</p>
+<pre><code># install requirements:
+brew install meson vala gtk+3 json-glib
+# Once (setup)
+meson build --buildtype=release --strip --prefix=~/.local
+# Build and install to ~/.local/bin (add to PATH if necessary)
+meson install -C build
+</code></pre>
+</li>
+<li>
+<p>If there are missing icons (specifically the +/- for time interval widget), it may be necessary to <code>brew install adwaita-icon-theme</code>.</p>
+</li>
 </ul>
 <h2 id="author-and-licence">Author and Licence<a class="headerlink" href="#author-and-licence" title="Permanent link">#</a></h2>
 <p>(c) Jonathan Hudson</p>
