@@ -52,7 +52,7 @@ The user guide is [online](https://stronnag.github.io/fl2xui/). The following se
 
 * Use Homebrew:
     ```
-	#install requirements:
+	# install requirements:
 	brew install meson vala gtk+3 json-glib
 	# Once (setup)
 	meson build --buildtype=release --strip --prefix=~/.local
