@@ -29,7 +29,7 @@ The user guide is [online](https://stronnag.github.io/fl2xui/). The following se
 
 ### Linux, FreeBSD
 
-* Common GTK packages
+* Common GTK packages (meson (and ninja), vala, gtk+3, json-glib)
 * Easily built from source
     ```
 	# Once (setup)
@@ -46,6 +46,11 @@ The user guide is [online](https://stronnag.github.io/fl2xui/). The following se
 * Multiple files may be selected from the file chooser.
 * Output by default to the user's "Documents" (`C:\Users\USERNAME\Documents`) directory.
 * Can be built from source using Msys2.
+    ```
+	pacman -Syu
+	pacman -S gtk3 vala meson ninja json-glib
+	# now follow Linux instructions ...
+	```
 * Recommended that `blackbox_decode` and `flightlog2kml` are in the `fl2xui\bin` directory (as in the release archive).
 
 ### MacOS
@@ -57,5 +62,6 @@ The user guide is [online](https://stronnag.github.io/fl2xui/). The following se
 	# Once (setup)
 	meson build --buildtype=release --strip --prefix=~/.local
 	# Build and install to ~/.local/bin (add to PATH if necessary)
-	sudo meson install -C build
-   ```   ... 
+	meson install -C build
+   ```
+* If there are missing icons (specifically the +/- for time interval widget), it may be necessary to `brew install adwaita-icon-theme`.
