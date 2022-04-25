@@ -25,6 +25,13 @@ The user guide is [online](https://stronnag.github.io/fl2xui/). The following se
 * Multiple selection of logs from file chooser
 * No drag and drop
 
+## Dependencies
+
+fl2xui depends upon the following open source packages:
+
+* [flight2kml](https://github.com/stronnag/bbl2kml/)
+* [INAV's blackbox_decode](https://github.com/iNavFlight/blackbox-tools)
+
 ## Installation
 
 ### Linux, FreeBSD

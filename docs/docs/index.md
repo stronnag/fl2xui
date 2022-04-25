@@ -30,7 +30,6 @@ authors:
 * Easy access to common visualisation options.
 * Save current settings as default
 
-
 ## User Interface
 
 ![Annotated UI](images/annotated-ui.png){: width="40%" }
@@ -84,6 +83,13 @@ The defaults for run time options are taken from the {{ bbl2kml }} configuration
 
 See also [flight2kml wiki example](https://github.com/stronnag/bbl2kml/wiki/Sample-Config-file).
 
+## Dependencies
+
+{{ fl2xui }} depends upon the following open source packages:
+
+* [flight2kml](https://github.com/stronnag/bbl2kml/)
+* [INAV's blackbox_decode](https://github.com/iNavFlight/blackbox-tools)
+
 ## Installation
 
 ### Linux, FreeBSD
@@ -92,18 +98,21 @@ See also [flight2kml wiki example](https://github.com/stronnag/bbl2kml/wiki/Samp
 * Debian package `*.deb` for Debian / Ubuntu and derivatives in [fl2xui release area](https://github.com/stronnag/fl2xui/releases).
 * Easily built from source
 
-    ```
-    # Once (setup)
-    meson build --buildtype=release --strip --prefix=~/.local
-    # Build and install to ~/.local/bin (add to PATH if necessary)
-	# or specify some other PATH element (/usr/bin, /usr/local/bin, ~/bin)
-    meson install -C build
-    ```
+		# Once (setup)
+    	meson build --buildtype=release --strip --prefix=~/.local
+		# Build and install to ~/.local/bin (add to PATH if necessary)
+    	# or specify some other PATH element (/usr/bin, /usr/local/bin, ~/bin)
+    	meson install -C build
 
 ### Windows
 
 * Win64 Installer file in the [fl2xui release area](https://github.com/stronnag/fl2xui/releases),  creates a desktop shortcut launcher.
 * Can be built from source using Msys2 (as Linux).
+
+    	pacman -Syu
+    	pacman -S gtk3 vala meson ninja json-glib
+    	# now follow Linux instructions ...
+
 * It is recommended that `blackbox_decode` and `flightlog2kml` are in the `fl2xui\bin` directory (as in the release archive).
 
 #### Look and Feel
@@ -122,7 +131,16 @@ If a dark theme is forced, then the Window header bar (by default drawn by the W
 
 ### MacOS
 
-* Homebrew or similar environment is required to build from source (as Linux / FreeBSD).
+* Use Homebrew:
+
+    	# install requirements:
+    	brew install meson vala gtk+3 json-glib
+    	# Once (setup)
+    	meson build --buildtype=release --strip --prefix=~/.local
+    	# Build and install to ~/.local/bin (add to PATH if necessary)
+    	meson install -C build
+
+* If there are missing icons (specifically the +/- for time interval widget), it may be necessary to `brew install adwaita-icon-theme`.
 
 ## Author and Licence
 
