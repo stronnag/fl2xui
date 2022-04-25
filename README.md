@@ -49,7 +49,7 @@ fl2xui depends upon the following open source packages:
 
 ### Windows
 
-* Win64 Zip file (release area)  provided with shortcut.
+* Win64 Installer (release area)
 * Multiple files may be selected from the file chooser.
 * Output by default to the user's "Documents" (`C:\Users\USERNAME\Documents`) directory.
 * Can be built from source using Msys2.
