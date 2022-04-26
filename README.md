@@ -28,7 +28,7 @@ The user guide is [online](https://stronnag.github.io/fl2xui/). The following se
 ### Windows
 
 * Multiple selection of logs from file chooser
-* No drag and drop
+* Drag and drop via Desktop shortcut
 
 ## Dependencies
 
