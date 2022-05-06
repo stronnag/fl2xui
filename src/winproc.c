@@ -20,7 +20,7 @@ HANDLE create_win_process(char *cmd, int *wrout, bool winui) {
      bool bSuccess;
      int opipes[2];
      HANDLE ohandle;
-     if (winui == false) {
+     if (!winui) {
 	  _pipe(opipes, 4096,_O_BINARY);
 	  ohandle = (HANDLE)_get_osfhandle(opipes[1]);
      }
@@ -28,13 +28,17 @@ HANDLE create_win_process(char *cmd, int *wrout, bool winui) {
      memset( &siStartInfo, 0, sizeof(STARTUPINFO) );
      siStartInfo.cb = sizeof(STARTUPINFO);
 
-     if (winui == false) {
+     if (!winui) {
 	  siStartInfo.wShowWindow = SW_HIDE;
 	  siStartInfo.hStdError = ohandle;
 	  siStartInfo.hStdOutput = ohandle;
 	  siStartInfo.dwFlags |= STARTF_USESTDHANDLES|STARTF_USESHOWWINDOW;
      }
 
+
+#ifdef TEST
+     printf("Running %s from %d\n", cmd, winui);
+#endif
      bSuccess = CreateProcess(NULL,
 			      cmd,     // command line
 			      NULL,          // process security attributes
@@ -46,25 +50,31 @@ HANDLE create_win_process(char *cmd, int *wrout, bool winui) {
 			      &siStartInfo,  // STARTUPINFO pointer
 			      &piProcInfo);  // receives PROCESS_INFORMATION
 
-     if (winui == false) {
+     if (!winui) {
 	  *wrout = opipes[0];
 	  close(opipes[1]);
      }
      if (bSuccess ) {
 	  CloseHandle(piProcInfo.hThread);
      } else {
-	  if (winui == false) {
+	  if (!winui) {
 	       close(opipes[0]);
 	  }
      }
+#ifdef TEST
+     printf("Startup %p %d\n", piProcInfo.hProcess, bSuccess);
+#endif
      return piProcInfo.hProcess;
 }
 
 void waitproc(HANDLE h) {
      if(h != NULL) {
 	  WaitForSingleObject(h, INFINITE);
-//	  long unsigned int sts;
-//	  bool res = GetExitCodeProcess(h, &sts);
+#ifdef TEST
+	  long unsigned int sts;
+	  bool res = GetExitCodeProcess(h, &sts);
+	  printf("Ends with %lu, %d\n", sts, res);
+#endif
 	  CloseHandle(h);
     }
 }
@@ -74,23 +84,24 @@ void read_pipes (int  hout) {
      size_t nr;
      char buf[BUFSIZE+1];
 
-   for (;;) {
-	nr = read(hout, buf, BUFSIZE);
-	if(nr <= 0 ) break;
-	buf[nr] = 0;
-	printf("%s", buf);
-   }
+     for (;;) {
+	  nr = read(hout, buf, BUFSIZE);
+	  if(nr <= 0 ) break;
+	  buf[nr] = 0;
+	  printf("%s", buf);
+     }
 }
 
 int main(int argc, char *argv[])
 {
-     int opipe;
-     if (argc < 2) {
-	  fprintf(stderr, "Please specify a command to run.\n");
-	  exit(1);
+     int opipe = -1;
+     char *cmd = "C:\\Program Files\\Google\\Google Earth Pro\\client\\googleearth.exe \"C:\\Users\\win10\\Documents\\KML Logs\\Talon_R9M-2019-05-18.2.kmz\"";
+//     char *winpath = "C:\\Program Files\\Google\\Google Earth Pro\\client";
+     HANDLE h = create_win_process(cmd, &opipe, true);
+     if (opipe != -1) {
+	  read_pipes(opipe);
      }
-     create_win_process(argv[1], &opipe, NULL);
-     read_pipes(opipe);
+     waitproc(h);
      printf("->End of parent execution.\n");
      close(opipe);
      return 0;

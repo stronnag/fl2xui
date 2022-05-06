@@ -378,16 +378,7 @@ public class MyApplication : Gtk.Application {
 			add_textview("Notice  : Unable to spawn additonal GoogleEarth instance\n");
 		} else if (prefs.ge_name != null && prefs.ge_name != "" && genkmz.length > 0) {
 			string[] args={};
-			string? winpath=null;
-			string ge_name;
-			if (is_Windows) {
-				winpath = Path.get_dirname (prefs.ge_name);
-				ge_name = Path.get_basename (prefs.ge_name);
-				Posix.chdir(winpath);
-			} else {
-				ge_name = prefs.ge_name;
-			}
-			args += ge_name;
+			args += prefs.ge_name;
 
 			foreach(var s in genkmz) {
 				args += s;
@@ -397,7 +388,7 @@ public class MyApplication : Gtk.Application {
 			p.complete.connect((s) => {
 					ge_running = false;
 				});
-			p.run(args, true);
+			p.run(args, is_Windows);
 		}
 	}
 
