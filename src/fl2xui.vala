@@ -453,7 +453,7 @@ public class MyApplication : Gtk.Application {
 				if (s.has_prefix("Output   : ")) {
 					//           012345678901
 					// #/tmp/Talon_R9M-2019-05-18.2.kmz
-					genkmz += s[11:].chomp();
+					genkmz += s[11:s.length].chomp();
 				}
 			});
 
