@@ -47,8 +47,8 @@ namespace Prefs {
     private bool exists_on_path(string s)
     {
         int n;
-
         n = Posix.access(s, Posix.X_OK|Posix.R_OK);
+#if !WINDOWSNT
         if (n != 0)
         {
             var ep = Environment.get_variable("PATH");
@@ -64,6 +64,7 @@ namespace Prefs {
                 }
             }
         }
+#endif
         return (n == 0);
     }
 
