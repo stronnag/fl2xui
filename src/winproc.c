@@ -14,13 +14,13 @@ unsigned int get_exe_path(char*buf, unsigned int blen) {
      return GetModuleFileName(NULL, buf, blen);
 }
 
-HANDLE create_win_process(char *cmd, int *wrout, char * winpath) {
+HANDLE create_win_process(char *cmd, int *wrout, bool winui) {
      PROCESS_INFORMATION piProcInfo;
      STARTUPINFO siStartInfo;
      bool bSuccess;
      int opipes[2];
      HANDLE ohandle;
-     if (winpath == NULL) {
+     if (!winui) {
 	  _pipe(opipes, 4096,_O_BINARY);
 	  ohandle = (HANDLE)_get_osfhandle(opipes[1]);
      }
@@ -28,13 +28,17 @@ HANDLE create_win_process(char *cmd, int *wrout, char * winpath) {
      memset( &siStartInfo, 0, sizeof(STARTUPINFO) );
      siStartInfo.cb = sizeof(STARTUPINFO);
 
-     if (winpath == NULL) {
+     if (!winui) {
 	  siStartInfo.wShowWindow = SW_HIDE;
 	  siStartInfo.hStdError = ohandle;
 	  siStartInfo.hStdOutput = ohandle;
 	  siStartInfo.dwFlags |= STARTF_USESTDHANDLES|STARTF_USESHOWWINDOW;
      }
 
+
+#ifdef TEST
+     printf("Running %s from %d\n", cmd, winui);
+#endif
      bSuccess = CreateProcess(NULL,
 			      cmd,     // command line
 			      NULL,          // process security attributes
@@ -46,14 +50,14 @@ HANDLE create_win_process(char *cmd, int *wrout, char * winpath) {
 			      &siStartInfo,  // STARTUPINFO pointer
 			      &piProcInfo);  // receives PROCESS_INFORMATION
 
-     if (winpath == NULL) {
+     if (!winui) {
 	  *wrout = opipes[0];
 	  close(opipes[1]);
      }
      if (bSuccess ) {
 	  CloseHandle(piProcInfo.hThread);
      } else {
-	  if (winpath == NULL) {
+	  if (!winui) {
 	       close(opipes[0]);
 	  }
      }
@@ -91,9 +95,9 @@ void read_pipes (int  hout) {
 int main(int argc, char *argv[])
 {
      int opipe = -1;
-     char *cmd = "C:\\Program Files\\Google\\Google Earth Pro\\client\\googleearth.exe";
-     char *winpath = "C:\\Program Files\\Google\\Google Earth Pro\\client";
-     HANDLE h = create_win_process(cmd, &opipe, winpath);
+     char *cmd = "C:\\Program Files\\Google\\Google Earth Pro\\client\\googleearth.exe \"C:\\Users\\win10\\Documents\\KML Logs\\Talon_R9M-2019-05-18.2.kmz\"";
+//     char *winpath = "C:\\Program Files\\Google\\Google Earth Pro\\client";
+     HANDLE h = create_win_process(cmd, &opipe, true);
      if (opipe != -1) {
 	  read_pipes(opipe);
      }

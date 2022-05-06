@@ -1,4 +1,4 @@
-extern void *create_win_process(char *cmd, int *opipe, string? winpath);
+extern void *create_win_process(char *cmd, int *opipe, bool winui);
 extern uint get_exe_path(char *buf, uint blen);
 extern void waitproc(void *h);
 
@@ -16,7 +16,7 @@ class ProcessLauncher : Object {
 		}
 	}
 
-	public bool run(string[]? argv, string? wpath=null) {
+	public bool run(string[]? argv, bool winui=false) {
 		var sb = new StringBuilder();
 		foreach(var a in argv) {
 			if(a.contains(" ")) {
@@ -31,7 +31,7 @@ class ProcessLauncher : Object {
 		var cmd = sb.str.strip();
 		opipe=-1;
 
-		var res = create_win_process(cmd, &opipe, wpath);
+		var res = create_win_process(cmd, &opipe, winui);
 		if (res != null) {
 			ThreadFunc<bool>  wrun = () => {
 				waitproc(res);
