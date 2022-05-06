@@ -3,7 +3,7 @@ class ProcessLauncher : Object {
 	public signal void result(string? d);
 	public signal void complete(string? d);
 
-	public bool run(string[]? argv, string? winpath=null) {
+	public bool run(string[]? argv, bool winui = false) {
 		try {
 			var p = new Subprocess.newv(argv, SubprocessFlags.STDOUT_PIPE|SubprocessFlags.STDERR_MERGE);
 			var std1 = p.get_stdout_pipe();
