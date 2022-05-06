@@ -14,22 +14,26 @@ unsigned int get_exe_path(char*buf, unsigned int blen) {
      return GetModuleFileName(NULL, buf, blen);
 }
 
-HANDLE create_win_process(char *cmd, int *wrout) {
+HANDLE create_win_process(char *cmd, int *wrout, bool winui) {
      PROCESS_INFORMATION piProcInfo;
      STARTUPINFO siStartInfo;
      bool bSuccess;
      int opipes[2];
-
-     _pipe(opipes, 4096,_O_BINARY);
-
-     HANDLE ohandle = (HANDLE)_get_osfhandle(opipes[1]);
+     HANDLE ohandle;
+     if (winui == false) {
+	  _pipe(opipes, 4096,_O_BINARY);
+	  ohandle = (HANDLE)_get_osfhandle(opipes[1]);
+     }
      memset(&piProcInfo, 0, sizeof(PROCESS_INFORMATION) );
      memset( &siStartInfo, 0, sizeof(STARTUPINFO) );
      siStartInfo.cb = sizeof(STARTUPINFO);
-     siStartInfo.hStdError = ohandle;
-     siStartInfo.hStdOutput = ohandle;
-     siStartInfo.dwFlags |= STARTF_USESTDHANDLES|STARTF_USESHOWWINDOW;
-     siStartInfo.wShowWindow = SW_HIDE;
+
+     if (winui == false) {
+	  siStartInfo.wShowWindow = SW_HIDE;
+	  siStartInfo.hStdError = ohandle;
+	  siStartInfo.hStdOutput = ohandle;
+	  siStartInfo.dwFlags |= STARTF_USESTDHANDLES|STARTF_USESHOWWINDOW;
+     }
 
      bSuccess = CreateProcess(NULL,
 			      cmd,     // command line
@@ -38,16 +42,20 @@ HANDLE create_win_process(char *cmd, int *wrout) {
 			      TRUE,          // handles are inherited
 			      0,             // creation flags
 			      NULL,          // use parent's environment
-			      NULL,          // use parent's current directory
+			      NULL,          // current directory
 			      &siStartInfo,  // STARTUPINFO pointer
 			      &piProcInfo);  // receives PROCESS_INFORMATION
 
-     *wrout = opipes[0];
-     close(opipes[1]);
+     if (winui == false) {
+	  *wrout = opipes[0];
+	  close(opipes[1]);
+     }
      if (bSuccess ) {
 	  CloseHandle(piProcInfo.hThread);
      } else {
-	  close(opipes[0]);
+	  if (winui == false) {
+	       close(opipes[0]);
+	  }
      }
      return piProcInfo.hProcess;
 }
@@ -55,6 +63,8 @@ HANDLE create_win_process(char *cmd, int *wrout) {
 void waitproc(HANDLE h) {
      if(h != NULL) {
 	  WaitForSingleObject(h, INFINITE);
+//	  long unsigned int sts;
+//	  bool res = GetExitCodeProcess(h, &sts);
 	  CloseHandle(h);
     }
 }
@@ -79,7 +89,7 @@ int main(int argc, char *argv[])
 	  fprintf(stderr, "Please specify a command to run.\n");
 	  exit(1);
      }
-     create_win_process(argv[1], &opipe);
+     create_win_process(argv[1], &opipe, NULL);
      read_pipes(opipe);
      printf("->End of parent execution.\n");
      close(opipe);

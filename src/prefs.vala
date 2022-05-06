@@ -41,7 +41,7 @@ namespace Prefs {
 		public bool battery;
 		public bool fast_is_red;
 		public bool low_is_red;
-
+		public string ge_name;
 	}
 
 	private string? have_conf_file(string fn) {
@@ -189,6 +189,9 @@ namespace Prefs {
 				}
 				if (obj.has_member("outdir")) {
 					p.outdir = obj.get_string_member("outdir");
+				}
+				if (obj.has_member("ge-name")) {
+					p.ge_name = obj.get_string_member("ge-name");
 				}
 			}
 		} catch (Error e) {

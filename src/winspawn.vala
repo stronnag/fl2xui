@@ -1,8 +1,6 @@
-extern void *create_win_process(char *cmd, int *opipe);
+extern void *create_win_process(char *cmd, int *opipe, bool winpath);
 extern uint get_exe_path(char *buf, uint blen);
 extern void waitproc(void *h);
-
-
 
 class ProcessLauncher : Object {
 	public signal void result(string? d);
@@ -18,7 +16,7 @@ class ProcessLauncher : Object {
 		}
 	}
 
-	public bool run(string[]? argv) {
+	public bool run(string[]? argv, bool wpath=false) {
 		var sb = new StringBuilder();
 		foreach(var a in argv) {
 			if(a.contains(" ")) {
@@ -32,7 +30,8 @@ class ProcessLauncher : Object {
 		}
 		var cmd = sb.str.strip();
 		opipe=-1;
-		var res = create_win_process(cmd, &opipe);
+
+		var res = create_win_process(cmd, &opipe, wpath);
 		if (res != null) {
 			ThreadFunc<bool>  wrun = () => {
 				waitproc(res);
@@ -40,19 +39,20 @@ class ProcessLauncher : Object {
 				return true;
 			};
 			new Thread<bool>("wrun", (owned)wrun);
-
-			ThreadFunc<bool>  trun = () => {
-				size_t nr;
-				uchar buf[1024];
-				while((nr = Posix.read(opipe, buf, 1023)) > 0) {
-					buf[nr] = 0;
-					var s = (string)buf;
-					Idle.add(() => { result(s); return false; });
-				}
-				Posix.close(opipe);
-				return true;
-			};
-			new Thread<bool>("trun", (owned)trun);
+			if(opipe != -1) {
+				ThreadFunc<bool>  trun = () => {
+					size_t nr;
+					uchar buf[1024];
+					while((nr = Posix.read(opipe, buf, 1023)) > 0) {
+						buf[nr] = 0;
+						var s = (string)buf;
+						Idle.add(() => { result(s); return false; });
+					}
+					Posix.close(opipe);
+					return true;
+				};
+				new Thread<bool>("trun", (owned)trun);
+			}
 		}
 		return (res != null);
 	}
@@ -60,6 +60,10 @@ class ProcessLauncher : Object {
 	private void windone(string? s=null) {
 		Idle.add(() => {
 				complete(s);
+				string? xwd = null;
+				if( (xwd = ProcessLauncher.get_exe_dir()) != null) {
+					Posix.chdir(xwd);
+				}
 				return false;
 			});
 	}
@@ -69,13 +73,11 @@ class ProcessLauncher : Object {
 
 extern  unowned string  __progname;
 static int main(string[]? args) {
-	print("I'm %s\n", __progname);
-	print("I'm here %s\n", Environment.get_current_dir ());
-	print("I'm on %s\n", Environment.get_os_info(OsInfoKey.NAME));
-	print("I'm aka %s\n", Environment.get_os_info(OsInfoKey.PRETTY_NAME));
 
 	if (args.length < 2)
 		return 0;
+
+	var winpath = Environment.get_variable("WINPATH");
 
 	var p = new ProcessLauncher();
 	var m = new MainLoop();
@@ -94,7 +96,7 @@ static int main(string[]? args) {
 		});
 
 	Idle.add(() => {
-			if (p.run(args[1:]) == false) {
+			if (p.run(args[1:], winpath) == false) {
 				m.quit();
 			}
 			return false;

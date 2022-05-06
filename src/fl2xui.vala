@@ -26,8 +26,10 @@ public class MyApplication : Gtk.Application {
 	private Gtk.ProgressBar pbar;
 	private Gtk.CheckButton fast_is_red;
 	private Gtk.CheckButton low_is_red;
-
+	private string[] genkmz;
 	private string fileargs;
+	private bool is_Windows;
+	private bool ge_running;
 
 	private const Gtk.TargetEntry[] targets = {
 		{"text/uri-list",0,0},
@@ -197,6 +199,13 @@ public class MyApplication : Gtk.Application {
 				Prefs.save_prefs(prefs);
 			});
 
+		var ag = new Gtk.AccelGroup();
+        ag.connect('l', Gdk.ModifierType.CONTROL_MASK, 0, (a,o,k,m) => {
+                launch_ge();
+				return true;
+            });
+        window.add_accel_group(ag);
+
 		handle_dnd(window);
         window.destroy.connect( () => {
                 quit();
@@ -212,6 +221,7 @@ public class MyApplication : Gtk.Application {
 		runbtn.sensitive = false;
 		connect_signals();
 		var od  = Init.setup();
+		is_Windows = (od != null);
 		if (prefs.outdir == null || prefs.outdir == "") {
 			prefs.outdir = od;
 		}
@@ -363,8 +373,37 @@ public class MyApplication : Gtk.Application {
 			});
 	}
 
+	private void launch_ge() {
+		if (ge_running) {
+			add_textview("Notice  : Unable to spawn additonal GoogleEarth instance\n");
+		} else if (prefs.ge_name != null && prefs.ge_name != "" && genkmz.length > 0) {
+			string[] args={};
+			string? winpath=null;
+			string ge_name;
+			if (is_Windows) {
+				winpath = Path.get_dirname (prefs.ge_name);
+				ge_name = Path.get_basename (prefs.ge_name);
+				Posix.chdir(winpath);
+			} else {
+				ge_name = prefs.ge_name;
+			}
+			args += ge_name;
+
+			foreach(var s in genkmz) {
+				args += s;
+			}
+			var p = new ProcessLauncher();
+			ge_running = true;
+			p.complete.connect((s) => {
+					ge_running = false;
+				});
+			p.run(args, true);
+		}
+	}
+
 	private void run_generator() {
 		string[] args={};
+		genkmz={};
 		args += "flightlog2kml";
 /*
 		args += "-dms=%s".printf(prefs.dms.to_string());
@@ -390,6 +429,7 @@ public class MyApplication : Gtk.Application {
 			args += "-config";
 			args += tmpnam;
 		} catch {}
+
 		if (missionname.text != null && missionname.text != "") {
 			args += "-mission";
 			args += missionname.text;
@@ -410,6 +450,11 @@ public class MyApplication : Gtk.Application {
 		bool running = true;
 		p.result.connect((s) => {
 				add_textview("%s".printf(s));
+				if (s.has_prefix("Output   : ")) {
+					//           012345678901
+					// #/tmp/Talon_R9M-2019-05-18.2.kmz
+					genkmz += s[11:].chomp();
+				}
 			});
 
         p.complete.connect((s) => {
