@@ -16,7 +16,7 @@ class ProcessLauncher : Object {
 		}
 	}
 
-	public bool run(string[]? argv, bool wpath=false) {
+	public bool run(string[]? argv, string wpath=null) {
 		var sb = new StringBuilder();
 		foreach(var a in argv) {
 			if(a.contains(" ")) {
@@ -60,10 +60,6 @@ class ProcessLauncher : Object {
 	private void windone(string? s=null) {
 		Idle.add(() => {
 				complete(s);
-				string? xwd = null;
-				if( (xwd = ProcessLauncher.get_exe_dir()) != null) {
-					Posix.chdir(xwd);
-				}
 				return false;
 			});
 	}

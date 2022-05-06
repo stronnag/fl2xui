@@ -383,7 +383,6 @@ public class MyApplication : Gtk.Application {
 			if (is_Windows) {
 				winpath = Path.get_dirname (prefs.ge_name);
 				ge_name = Path.get_basename (prefs.ge_name);
-				Posix.chdir(winpath);
 			} else {
 				ge_name = prefs.ge_name;
 			}
@@ -397,7 +396,7 @@ public class MyApplication : Gtk.Application {
 			p.complete.connect((s) => {
 					ge_running = false;
 				});
-			p.run(args, true);
+			p.run(args, winpath);
 		}
 	}
 
