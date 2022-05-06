@@ -389,6 +389,8 @@ public class MyApplication : Gtk.Application {
 					ge_running = false;
 				});
 			p.run(args, is_Windows);
+		} else {
+			add_textview("Notice  : Not spwaning GoogleEarth (not configured, or no KML/Z available)\n");
 		}
 	}
 
