@@ -219,8 +219,8 @@ namespace Prefs {
 				} else {
 
 #if WINDOWSNT
-					if(exists_on_path("C:\\Program Files\\Google\Google Earth Pro\\client\\googleearth.exe")) {
-						p.ge_name = "C:\\Program Files\\Google\Google Earth Pro\\client\\googleearth.exe";
+					if(exists_on_path("C:\\Program Files\\Google\\Google Earth Pro\\client\\googleearth.exe")) {
+						p.ge_name = "C:\\Program Files\\Google\\Google Earth Pro\\client\\googleearth.exe";
 					}
 #else
 					if(exists_on_path("google-earth-pro")) {
