@@ -44,6 +44,13 @@ namespace Prefs {
 		public string ge_name;
 	}
 
+	private const string EARTH_APP=
+#if !WINDOWSNT
+		"google-earth-pro";
+#else
+	    """C:\Program Files\Google\Google Earth Pro\client\googleearth.exe""";
+#endif
+
     private bool exists_on_path(string s)
     {
         int n;
@@ -219,12 +226,12 @@ namespace Prefs {
 				} else {
 
 #if WINDOWSNT
-					if(exists_on_path("""C:\Program Files\Google\Google Earth Pro\client\googleearth.exe""")) {
-						p.ge_name = """C:\Program Files\Google\Google Earth Pro\client\googleearth.exe""";
+					if(exists_on_path(EARTH_APP)) {
+						p.ge_name = EARTH_APP;
 					}
 #else
-					if(exists_on_path("google-earth-pro")) {
-						p.ge_name = "google-earth-pro";
+					if(exists_on_path(EARTH_APP)) {
+						p.ge_name = EARTH_APP;
 					}
 #endif
 				}
