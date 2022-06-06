@@ -25,7 +25,7 @@ authors:
 
 ### Features
 
-* Multiple logs (Blackbox, OTX/ETX CSV)
+* Multiple logs (Blackbox, OTX/ETX CSV, BulletGCCS)
 * Summary information
 * Easy access to common visualisation options.
 * Save current settings as default
@@ -36,11 +36,11 @@ authors:
 
 ### File / index selection area (1)
 
-* **Log...** : Opens a file chooser to select log files. Multiple files may be selected. The files may be a combination of Blackbox logs or OpenTX / EdgeTX CSV logs.
+* **Log...** : Opens a file chooser to select log files. Multiple files may be selected. The files may be a combination of Blackbox logs, OpenTX / EdgeTX CSV or BulletGCSS logs.
 * **Output...** : Opens a file chooser to select the output directory. The defaults (no selection) are:
     * Linux, FreeBSD, MacOS : Current (working) directory, typically `$HOME` when launched from a desktop environment.
 	* Windows : "Documents" (e.g. `C:\Users\USERNAME\Documents`).
- * **Mission...** : Optional mission file (single selection). MW XML format (e.g. from {{ mwp }} or {{ inav }} configurator.
+ * **Mission...** : Optional mission file (single selection). MW XML format (e.g. from {{ mwp }} or {{ inav }} configurator).
  * **Index** : If 0 (default), processes all logs in (each) file; if non zero, processes a single log at the specified index.
 
 ### Visualisation Options (2)
@@ -95,7 +95,7 @@ See also [flight2kml wiki example](https://github.com/stronnag/bbl2kml/wiki/Samp
 ### Linux, FreeBSD
 
 * Common GTK packages
-* Debian package `*.deb` for Debian / Ubuntu and derivatives in [fl2xui release area](https://github.com/stronnag/fl2xui/releases).
+* Debian package `*.deb` for Debian / Ubuntu and derivatives in [fl2xui release area](https://github.com/stronnag/fl2xui/releases). You need to install `flightlog2kml` and `blackbox_decode`.
 * Easily built from source
 
 		# Once (setup)
