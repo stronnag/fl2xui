@@ -586,7 +586,7 @@
 <p><img alt="Windows" src="images/windows.png" width="40%" /></p>
 <h3 id="features">Features<a class="headerlink" href="#features" title="Permanent link">#</a></h3>
 <ul>
-<li>Multiple logs (Blackbox, OTX/ETX CSV)</li>
+<li>Multiple logs (Blackbox, OTX/ETX CSV, BulletGCCS)</li>
 <li>Summary information</li>
 <li>Easy access to common visualisation options.</li>
 <li>Save current settings as default</li>
@@ -595,13 +595,13 @@
 <p><img alt="Annotated UI" src="images/annotated-ui.png" width="40%" /></p>
 <h3 id="file-index-selection-area-1">File / index selection area (1)<a class="headerlink" href="#file-index-selection-area-1" title="Permanent link">#</a></h3>
 <ul>
-<li><strong>Log...</strong> : Opens a file chooser to select log files. Multiple files may be selected. The files may be a combination of Blackbox logs or OpenTX / EdgeTX CSV logs.</li>
+<li><strong>Log...</strong> : Opens a file chooser to select log files. Multiple files may be selected. The files may be a combination of Blackbox logs, OpenTX / EdgeTX CSV or BulletGCSS logs.</li>
 <li><strong>Output...</strong> : Opens a file chooser to select the output directory. The defaults (no selection) are:<ul>
 <li>Linux, FreeBSD, MacOS : Current (working) directory, typically <code>$HOME</code> when launched from a desktop environment.</li>
 <li>Windows : "Documents" (e.g. <code>C:\Users\USERNAME\Documents</code>).</li>
 </ul>
 </li>
-<li><strong>Mission...</strong> : Optional mission file (single selection). MW XML format (e.g. from <a href="https://github.com/stronnag/mwptools">mwp</a> or <a href="https://github.com/iNavFlight/inav">inav</a> configurator.</li>
+<li><strong>Mission...</strong> : Optional mission file (single selection). MW XML format (e.g. from <a href="https://github.com/stronnag/mwptools">mwp</a> or <a href="https://github.com/iNavFlight/inav">inav</a> configurator).</li>
 <li><strong>Index</strong> : If 0 (default), processes all logs in (each) file; if non zero, processes a single log at the specified index.</li>
 </ul>
 <h3 id="visualisation-options-2">Visualisation Options (2)<a class="headerlink" href="#visualisation-options-2" title="Permanent link">#</a></h3>
@@ -658,7 +658,7 @@
 <h3 id="linux-freebsd">Linux, FreeBSD<a class="headerlink" href="#linux-freebsd" title="Permanent link">#</a></h3>
 <ul>
 <li>Common GTK packages</li>
-<li>Debian package <code>*.deb</code> for Debian / Ubuntu and derivatives in <a href="https://github.com/stronnag/fl2xui/releases">fl2xui release area</a>.</li>
+<li>Debian package <code>*.deb</code> for Debian / Ubuntu and derivatives in <a href="https://github.com/stronnag/fl2xui/releases">fl2xui release area</a>. You need to install <code>flightlog2kml</code> and <code>blackbox_decode</code>.</li>
 <li>Easily built from source<pre><code># Once (setup)
 meson build --buildtype=release --strip --prefix=~/.local
 # Build and install to ~/.local/bin (add to PATH if necessary)
