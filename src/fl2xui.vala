@@ -14,6 +14,7 @@ public class MyApplication : Gtk.Application {
 	private Gtk.ComboBox grad_combo;
 	private Gtk.Entry idx_entry;
 	private Gtk.Button runbtn;
+	private Gtk.Button earthbtn;
 	private Gtk.Button savebtn;
 	private Gtk.Button outbtn;
 	private Gtk.Button logbtn;
@@ -165,6 +166,8 @@ public class MyApplication : Gtk.Application {
 		runbtn = builder.get_object("runbtn") as Gtk.Button;
 		outbtn = builder.get_object("out_btn") as Gtk.Button;
 		logbtn = builder.get_object("log_btn") as Gtk.Button;
+		earthbtn = builder.get_object("ge_launch") as Gtk.Button;
+
 		missionbtn = builder.get_object("mission_btn") as Gtk.Button;
 		textview = builder.get_object("textview") as Gtk.TextView;
 		intspin = builder.get_object("intspin") as Gtk.SpinButton;
@@ -219,6 +222,7 @@ public class MyApplication : Gtk.Application {
 			window.set_icon_name("fl2xui");
 		}
 		runbtn.sensitive = false;
+		earthbtn.sensitive = false;
 		connect_signals();
 		var od  = Init.setup();
 		is_Windows = (od != null);
@@ -240,6 +244,12 @@ public class MyApplication : Gtk.Application {
 				runbtn.sensitive = false;
 				run_generator();
 			});
+
+		earthbtn.clicked.connect(() => {
+				earthbtn.sensitive = false;
+				launch_ge();
+			});
+
 		logbtn.clicked.connect (() => {
 				var chooser = new Gtk.FileChooserNative (
 					"Log file", window, Gtk.FileChooserAction.OPEN,
@@ -387,33 +397,20 @@ public class MyApplication : Gtk.Application {
 			ge_running = true;
 			p.complete.connect((s) => {
 					ge_running = false;
+					earthbtn.sensitive = true;
 				});
 			p.run(args, is_Windows);
 		} else {
 			add_textview("Notice  : Not spwaning GoogleEarth (not configured, or no KML/Z available)\n");
 		}
+		earthbtn.sensitive = false;
+
 	}
 
 	private void run_generator() {
 		string[] args={};
 		genkmz={};
 		args += "flightlog2kml";
-/*
-		args += "-dms=%s".printf(prefs.dms.to_string());
-		args += "-efficiency=%s".printf(prefs.effic.to_string()); // legacy
-		args += "-extrude=%s".printf(prefs.extrude.to_string());
-		args += "-kml=%s".printf(prefs.kml.to_string());
-		args += "-rssi=%s".printf(prefs.rssi.to_string());
-		var astr = Prefs.attr_string(prefs);
-		if (prefs.outdir != null && prefs.outdir != "") {
-			args += "-outdir";
-			args += prefs.outdir;
-		}
-		if (astr.length > 0) {
-			args += "-attributes=%s".printf(astr);
-		}
-		args += "-gradient=%s".printf(prefs.gradient);
-*/
 		string? tmpnam = null;
 		try {
 			var fd = FileUtils.open_tmp (".fl2xui-XXXXXX", out tmpnam);
@@ -447,6 +444,7 @@ public class MyApplication : Gtk.Application {
 					//           012345678901
 					// #/tmp/Talon_R9M-2019-05-18.2.kmz
 					genkmz += s[11:s.length].chomp();
+					earthbtn.sensitive = true;
 				}
 			});
 
