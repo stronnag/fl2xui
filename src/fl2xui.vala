@@ -383,6 +383,11 @@ public class MyApplication : Gtk.Application {
 			});
 	}
 
+
+	private bool get_ge_status() {
+		return (!ge_running && prefs.ge_name != null && prefs.ge_name != "" && genkmz.length > 0);
+	}
+
 	private void launch_ge() {
 		if (ge_running) {
 			add_textview("Notice  : Unable to spawn additonal GoogleEarth instance\n");
@@ -444,7 +449,6 @@ public class MyApplication : Gtk.Application {
 					//           012345678901
 					// #/tmp/Talon_R9M-2019-05-18.2.kmz
 					genkmz += s[11:s.length].chomp();
-					earthbtn.sensitive = true;
 				}
 			});
 
@@ -453,6 +457,7 @@ public class MyApplication : Gtk.Application {
 					add_textview("%s".printf(s));
 				}
                 running = false;
+				earthbtn.sensitive = get_ge_status();
 				if (tmpnam != null)
 					Posix.unlink(tmpnam);
 			});
