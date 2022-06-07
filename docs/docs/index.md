@@ -71,7 +71,8 @@ authors:
 ### Progress bar / Save Settings / Run button (4)
 
 * Current settings may be saved as defaults
-* Run button is enabled when log files have been selected
+* "Run" button is enabled when log files have been selected
+* (not shown) The "Earth" button is enabled when a KMZ/L is available and Google Earth is not running. This button launches Google Earth, with the last generated KML/Zs (on MacOS it appears not possible to load the KML/Z files). This function may also be invoked with CTRL-L.
 * An oscillating progress bar is displayed when a conversion is in process (after clicking "Run").
 
 ## Defaults
