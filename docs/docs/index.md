@@ -68,11 +68,11 @@ authors:
 
 * Output Area : Scrolled window showing process or error messages.
 
-### Progress bar / Save Settings / Run button (4)
+### Progress bar / Save Settings / Run / Earth buttons (4)
 
 * Current settings may be saved as defaults
 * "Run" button is enabled when log files have been selected
-* (not shown) The "Earth" button is enabled when a KMZ/L is available and Google Earth is not running. This button launches Google Earth, with the last generated KML/Zs (on MacOS it appears not possible to load the KML/Z files). This function may also be invoked with CTRL-L.
+* "Earth" button is enabled when a KMZ/L is available and Google Earth was not launched by fl2xui. This button launches Google Earth, with the last generated KML/Zs (on MacOS it appears not possible to load the KML/Z files). This function may also be invoked with CTRL-L.
 * An oscillating progress bar is displayed when a conversion is in process (after clicking "Run").
 
 ## Defaults
@@ -82,7 +82,7 @@ The defaults for run time options are taken from the {{ bbl2kml }} configuration
 * **POSIX OS** : ~/.config/fl2x/config.json
 * **Windows** : %LOCALAPPDATA%\fl2x\config.json
 
-See also [flight2kml wiki example](https://github.com/stronnag/bbl2kml/wiki/Sample-Config-file).
+See also [flight2kml wiki example](https://github.com/stronnag/bbl2kml/wiki/Sample-Config-file) and [Earth definition](#google-earth-launcher) if Google Earth is not automatically detected for launch.
 
 ## Dependencies
 
@@ -142,6 +142,24 @@ If a dark theme is forced, then the Window header bar (by default drawn by the W
     	meson install -C build
 
 * If there are missing icons (specifically the +/- for time interval widget), it may be necessary to `brew install adwaita-icon-theme`.
+
+## Google Earth launcher
+
+fl2xui Attempts to detect the presence of Google Earth. Only if this fails is it necessary to add the name of the Google Earth executable in the configuration file:
+
+* On (non-macOS) POSIX (Linux, FreeBSD) platforms, where Google Earth is customarily on PATH, just the executable name is required, for example:
+
+        "ge-name" : "google-earth-pro"
+
+* On Windows, the full path is required, for example (note back-slashes have to be escaped):
+
+        "ge-name" : "C:\\Program Files\\Google\\Google Earth Pro\\client\\googleearth.exe"
+
+* On macOS,  Google Earth is not auto-detected, so needs an entry like:
+
+        "ge-name" :  "/Applications/Google Earth Pro.app/Contents/MacOS/Google Earth"
+
+  It is also unlikely that it will actually load your files, MacOS appears not to behave as other OS. Advice on how to resolve this would be appreciated.
 
 ## Author and Licence
 
