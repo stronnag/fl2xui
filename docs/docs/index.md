@@ -159,7 +159,7 @@ fl2xui Attempts to detect the presence of Google Earth. Only if this fails is it
 
         "ge-name" :  "/Applications/Google Earth Pro.app/Contents/MacOS/Google Earth"
 
-  It is also unlikely that it will actually load your files, MacOS appears not to behave as other OS. Advice on how to resolve this would be appreciated.
+    It is also unlikely that macOS will actually load your files into Earth. Advice on how to resolve this would be appreciated.
 
 ## Author and Licence
 
