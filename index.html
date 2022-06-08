@@ -297,8 +297,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#progress-bar-save-settings-run-button-4" class="md-nav__link">
-    Progress bar / Save Settings / Run button (4)
+  <a href="#progress-bar-save-settings-run-earth-buttons-4" class="md-nav__link">
+    Progress bar / Save Settings / Run / Earth buttons (4)
   </a>
   
 </li>
@@ -366,6 +366,13 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#google-earth-launcher" class="md-nav__link">
+    Google Earth launcher
+  </a>
   
 </li>
       
@@ -482,8 +489,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#progress-bar-save-settings-run-button-4" class="md-nav__link">
-    Progress bar / Save Settings / Run button (4)
+  <a href="#progress-bar-save-settings-run-earth-buttons-4" class="md-nav__link">
+    Progress bar / Save Settings / Run / Earth buttons (4)
   </a>
   
 </li>
@@ -551,6 +558,13 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#google-earth-launcher" class="md-nav__link">
+    Google Earth launcher
+  </a>
   
 </li>
       
@@ -635,10 +649,11 @@
 <ul>
 <li>Output Area : Scrolled window showing process or error messages.</li>
 </ul>
-<h3 id="progress-bar-save-settings-run-button-4">Progress bar / Save Settings / Run button (4)<a class="headerlink" href="#progress-bar-save-settings-run-button-4" title="Permanent link">#</a></h3>
+<h3 id="progress-bar-save-settings-run-earth-buttons-4">Progress bar / Save Settings / Run / Earth buttons (4)<a class="headerlink" href="#progress-bar-save-settings-run-earth-buttons-4" title="Permanent link">#</a></h3>
 <ul>
 <li>Current settings may be saved as defaults</li>
-<li>Run button is enabled when log files have been selected</li>
+<li>"Run" button is enabled when log files have been selected</li>
+<li>"Earth" button is enabled when a KMZ/L is available and Google Earth was not launched by fl2xui. This button launches Google Earth, with the last generated KML/Zs (on MacOS it appears not possible to load the KML/Z files). This function may also be invoked with CTRL-L.</li>
 <li>An oscillating progress bar is displayed when a conversion is in process (after clicking "Run").</li>
 </ul>
 <h2 id="defaults">Defaults<a class="headerlink" href="#defaults" title="Permanent link">#</a></h2>
@@ -647,7 +662,7 @@
 <li><strong>POSIX OS</strong> : ~/.config/fl2x/config.json</li>
 <li><strong>Windows</strong> : %LOCALAPPDATA%\fl2x\config.json</li>
 </ul>
-<p>See also <a href="https://github.com/stronnag/bbl2kml/wiki/Sample-Config-file">flight2kml wiki example</a>.</p>
+<p>See also <a href="https://github.com/stronnag/bbl2kml/wiki/Sample-Config-file">flight2kml wiki example</a> and <a href="#google-earth-launcher">Earth definition</a> if Google Earth is not automatically detected for launch.</p>
 <h2 id="dependencies">Dependencies<a class="headerlink" href="#dependencies" title="Permanent link">#</a></h2>
 <p><a href="https://github.com/stronnag/fl2xui">fl2xui</a> depends upon the following open source packages:</p>
 <ul>
@@ -711,6 +726,26 @@ meson install -C build
 </li>
 <li>
 <p>If there are missing icons (specifically the +/- for time interval widget), it may be necessary to <code>brew install adwaita-icon-theme</code>.</p>
+</li>
+</ul>
+<h2 id="google-earth-launcher">Google Earth launcher<a class="headerlink" href="#google-earth-launcher" title="Permanent link">#</a></h2>
+<p>fl2xui Attempts to detect the presence of Google Earth. Only if this fails is it necessary to add the name of the Google Earth executable in the configuration file:</p>
+<ul>
+<li>
+<p>On (non-macOS) POSIX (Linux, FreeBSD) platforms, where Google Earth is customarily on PATH, just the executable name is required, for example:</p>
+<pre><code>"ge-name" : "google-earth-pro"
+</code></pre>
+</li>
+<li>
+<p>On Windows, the full path is required, for example (note back-slashes have to be escaped):</p>
+<pre><code>"ge-name" : "C:\\Program Files\\Google\\Google Earth Pro\\client\\googleearth.exe"
+</code></pre>
+</li>
+<li>
+<p>On macOS,  Google Earth is not auto-detected, so needs an entry like:</p>
+<pre><code>"ge-name" :  "/Applications/Google Earth Pro.app/Contents/MacOS/Google Earth"
+</code></pre>
+<p>It is also unlikely that macOS will actually load your files into Earth. Advice on how to resolve this would be appreciated.</p>
 </li>
 </ul>
 <h2 id="author-and-licence">Author and Licence<a class="headerlink" href="#author-and-licence" title="Permanent link">#</a></h2>
