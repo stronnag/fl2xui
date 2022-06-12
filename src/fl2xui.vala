@@ -320,6 +320,7 @@ public class MyApplication : Gtk.Application {
 				if (id == Gtk.ResponseType.ACCEPT || id == Gtk.ResponseType.OK) {
 					var fns = chooser.get_filenames ();
 					missionname.text = fns.nth_data(0);
+					runbtn.sensitive = true;
 				}
 			});
 
