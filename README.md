@@ -41,7 +41,7 @@ fl2xui depends upon the following open source packages:
 
 ### Linux, FreeBSD
 
-* Common GTK packages (meson (and ninja), vala, gtk+3, json-glib)
+* Common GTK packages (meson (and ninja), vala, gtk4 / lib-gtk-4-dev, json-glib, desktop-file-utils)
 * Easily built from source
     ```
 	# Once (setup)
@@ -59,6 +59,7 @@ fl2xui depends upon the following open source packages:
 * Output by default to the user's "Documents" (`C:\Users\USERNAME\Documents`) directory.
 * Can be built from source using Msys2.
     ```
+	git checkout legacy
 	pacman -Syu
 	pacman -S gtk3 vala meson ninja json-glib
 	# now follow Linux instructions ...
@@ -70,10 +71,14 @@ fl2xui depends upon the following open source packages:
 * Use Homebrew:
     ```
 	# install requirements:
-	brew install meson vala gtk+3 json-glib
+	brew install meson vala gtk4 json-glib
 	# Once (setup)
 	meson build --buildtype=release --strip --prefix=~/.local
 	# Build and install to ~/.local/bin (add to PATH if necessary)
 	meson install -C build
    ```
 * If there are missing icons (specifically the +/- for time interval widget), it may be necessary to `brew install adwaita-icon-theme`.
+
+### All platforms
+
+You can build a `gtk3` version from the `legacy` branch (see Windows build).

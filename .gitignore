@@ -3,5 +3,5 @@
 *.exe
 site/
 /setvers.rb
-/docs/docs/images/annotated-ui.svg
 tools/
+/subprojects/blueprint-compiler

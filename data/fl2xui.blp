@@ -1,0 +1,229 @@
+using Gtk 4.0;
+
+Gtk.ApplicationWindow appwin {
+  icon-name: "fl2xui";
+  Gtk.Box {
+    orientation: vertical;
+    Gtk.Box {
+      orientation: horizontal;
+      Gtk.Button log_btn {
+	label: "Log ...";
+        tooltip-text: "Log files. Multiple files may be specified/ Blackbox, Open/EdgeTX, BulletGCSS, Audupliot";
+      }
+      Gtk.Entry log_label {
+	halign: fill;
+        hexpand: true;
+	placeholder-text: "Required unless mission file is supplied";
+      }
+      Gtk.Label {
+	label: "Index:";
+      }
+      Gtk.Entry idx_entry {
+        tooltip-text: "Log index in log file (0 == all entries";
+	input-purpose: digits;
+	halign: fill;
+        hexpand: false;
+      }
+    }
+    Gtk.Box {
+      orientation: horizontal;
+      Gtk.Button mission_btn {
+        label: "Mission ...";
+        tooltip-text: "Optional mission file (*.mission)";
+	halign: fill;
+        hexpand: false;
+      }
+      Gtk.Entry mission_label {
+        tooltip-text: "Optional mission file (*.mission)";
+	hexpand: true;
+	halign: fill;
+	editable: false;
+	placeholder-text: "Optional";
+      }
+       Gtk.Button out_btn {
+        label: "Output ...";
+        tooltip-text: "Output directory";
+	halign: fill;
+        hexpand: false;
+      }
+      Gtk.Entry out_label {
+	tooltip-text: "Output directory";
+	hexpand: true;
+	halign: fill;
+	editable: false;
+	placeholder-text: "default";
+      }
+    }
+    Gtk.Grid {
+      hexpand: true;
+      halign: fill;
+      row-spacing: 2;
+      column-spacing: 8;
+      Gtk.CheckButton dms_check {
+        layout {
+          row: 0;
+          column: 0;
+        }
+	active: true;
+	label: "DMS";
+	tooltip-text: "Display positions as DD:MM:SS (vice DD.dddddd)";
+      }
+      Gtk.CheckButton extrude_check {
+        layout {
+          column: 0;
+          row: 1;
+        }
+	active: true;
+	label: "Extrude";
+	tooltip-text: "Extrude points to the ground start";
+      }
+      Gtk.CheckButton rssi_check {
+        layout {
+          column: 1;
+          row: 0;
+        }
+	active: true;
+	label: "RSSI as default";
+	tooltip-text: "Set the RSSI layer as the defailt (vice flight mode)";
+      }
+      Gtk.CheckButton kml_check {
+        layout {
+          column: 1;
+          row: 1;
+        }
+	active: true;
+	label: "KML";
+	tooltip-text: "Save as KML (vice KMZ)";
+      }
+
+      Gtk.CheckButton effic_check {
+        layout {
+          column: 0;
+          row: 2;
+        }
+	active: true;
+	label: "Efficiency Layer";
+	tooltip-text: "Add an efficiency layer (if data available) to the KML/Z";
+      }
+      Gtk.Box {
+        layout {
+          column: 1;
+          row: 2;
+        }
+	Gtk.CheckButton speed_check {
+	  active: true;
+	  label: "Speed Layer";
+          hexpand: true;
+	  halign: fill;
+	  tooltip-text:	"Add a speed layer to the KML/Z";
+        }
+	[End]
+        Gtk.CheckButton fast-is-red {
+          active: true;
+	  label: "Fast is red";
+   	  halign: end;
+          hexpand: true;
+          tooltip-text: "Toogle the speed layer colour gradient range";
+        }
+      }
+      Gtk.CheckButton battery_check {
+        layout {
+          column: 0;
+          row: 3;
+        }
+	active: true;
+	label: "Battery Layer";
+	tooltip-text: "Add a VBAT layer to the KML/Z";
+      }
+      Gtk.Box {
+        layout {
+          column: 1;
+          row: 3;
+        }
+        Gtk.CheckButton altitude_check {
+  	  active: true;
+	  label: "Elevation Layer";
+	tooltip-text: "Add an elevation layer to the KML/Z";
+        }
+	[End]
+	Gtk.CheckButton low-is-red {
+	  active: true;
+	  label: "Low is red";
+   	  halign: end;
+          hexpand: true;
+	  tooltip-text: "Toogle the elevation layer colour gradient range";
+        }
+      }
+      Gtk.Box {
+        layout {
+          column: 0;
+          row: 4;
+        }
+        Gtk.Label {
+	  label: "Sampling Interval";
+        }
+	Gtk.SpinButton intspin {
+           numeric: true;
+           adjustment: adjustment1;
+	   digits: 2;
+	   tooltip-text: "Set the sampling interval in fractional seconds (0.1s - 10s)";
+        }
+	Gtk.Label {
+           label: "sec";
+        }
+      }
+      Gtk.Box grad_box {
+        layout {
+          column: 1;
+          row: 4;
+        }
+      }
+    }
+    Gtk.Box {
+     orientation: vertical;
+     [Start]
+     Gtk.Box swin {
+	tooltip-text: "Output information here\nDrop target for Logs and Mission files";
+    }
+
+    Gtk.Box {
+     orientation: horizontal;
+     Gtk.Button save_prefs {
+	label: "Save Settings";
+	tooltip-text: "Save the current settings, overwriting any previously stored values";
+     }
+     Gtk.ProgressBar pbar {
+      hexpand: true;
+      halign: fill;
+     }
+     Gtk.Button runbtn {
+      label: "Run";
+      tooltip-text: "Run the log conversion";
+     }
+     Gtk.Button ge_launch {
+      label: "Earth";
+      tooltip-text: "Launches Google Earth with the last processed KML/Z";
+     }
+    }
+   }
+  }
+  Gtk.ShortcutController {
+    scope: managed;
+    Gtk.Shortcut {
+      trigger: "<Ctrl>l";
+      action: "action(win.launch)";
+    }
+    Gtk.Shortcut {
+      trigger: "<Ctrl>c";
+      action: "action(win.clear)";
+    }
+  }
+}
+
+Gtk.Adjustment adjustment1 {
+ lower: 0.1;
+ upper: 10;
+ value: 1;
+ step-increment: 0.01;
+ page-increment: 10;
+}

@@ -1,6 +1,6 @@
 using Gtk;
 
-public class MyApplication : Gtk.Application {
+public class Flx2Ui : Gtk.Application {
     private Gtk.ApplicationWindow window;
 	private Prefs.Prefs prefs;
 	private Gtk.CheckButton dms_check;
@@ -20,7 +20,6 @@ public class MyApplication : Gtk.Application {
 	private Gtk.Button logbtn;
 	private Gtk.Button missionbtn;
 	private Gtk.SpinButton intspin;
-	private Gtk.TextView textview;
 	private Gtk.Entry lognames;
 	private Gtk.Entry missionname;
 	private Gtk.Entry outdirname;
@@ -28,16 +27,12 @@ public class MyApplication : Gtk.Application {
 	private Gtk.CheckButton fast_is_red;
 	private Gtk.CheckButton low_is_red;
 	private string[] genkmz;
-	private string fileargs;
+	private string[] fileargs;
 	private bool is_Windows;
 	private bool ge_running;
+	private ScrollView sw;
 
-	private const Gtk.TargetEntry[] targets = {
-		{"text/uri-list",0,0},
-		{"STRING",0,1},
-	};
-
-	public MyApplication () {
+	public Flx2Ui () {
 		Object(application_id: "org.stronnag.fl2xui",
 			   flags: ApplicationFlags.HANDLES_OPEN|ApplicationFlags.HANDLES_COMMAND_LINE);
 
@@ -45,6 +40,7 @@ public class MyApplication : Gtk.Application {
 			{ "version", 'v', 0, OptionArg.NONE, null, "show version", null},
 			{null} };
 
+		fileargs={};
 		add_main_option_entries(options);
 		handle_local_options.connect(do_handle_local_options);
 	}
@@ -59,7 +55,7 @@ public class MyApplication : Gtk.Application {
 
     private int _command_line (ApplicationCommandLine command_line) {
 		string[] args = command_line.get_arguments ();
-		fileargs = string.joinv(",", args[1:args.length]);
+		fileargs = args[1:args.length];
 		activate();
 		return 0;
 	}
@@ -103,10 +99,11 @@ public class MyApplication : Gtk.Application {
 	}
 
     protected override void activate () {
-        Builder builder;
-        builder = new Builder.from_resource("/org/stronnag/fl2xui/fl2xui.ui");
+
+		sw = new ScrollView();
+
+		var builder = new Builder.from_resource("/org/stronnag/fl2xui/fl2xui.ui");
 		prefs = Prefs.read_prefs();
-		builder.connect_signals (null);
         window = builder.get_object ("appwin") as Gtk.ApplicationWindow;
 		dms_check = builder.get_object("dms_check") as Gtk.CheckButton;
 		dms_check.active = prefs.dms;
@@ -167,9 +164,10 @@ public class MyApplication : Gtk.Application {
 		outbtn = builder.get_object("out_btn") as Gtk.Button;
 		logbtn = builder.get_object("log_btn") as Gtk.Button;
 		earthbtn = builder.get_object("ge_launch") as Gtk.Button;
+		earthbtn.set_action_name("win.launch");
+
 
 		missionbtn = builder.get_object("mission_btn") as Gtk.Button;
-		textview = builder.get_object("textview") as Gtk.TextView;
 		intspin = builder.get_object("intspin") as Gtk.SpinButton;
 
 		lognames =  builder.get_object("log_label") as Gtk.Entry;
@@ -180,8 +178,12 @@ public class MyApplication : Gtk.Application {
 		var gradbox = builder.get_object("grad_box") as Gtk.Box;
 		var gradlabel = new Gtk.Label("Gradient:");
 		grad_combo=FlCombo.build_grad_combo();
-		gradbox.pack_start (gradlabel, false);
-        gradbox.pack_start (grad_combo, false);
+		gradbox.append (gradlabel);
+        gradbox.append (grad_combo);
+
+
+		var swin = builder.get_object("swin") as Gtk.Box;
+		swin.append(sw.sw);
 
 		window.set_title("fl2xui %s".printf(FL2XUI_VERSION_STRING));
 		this.add_window (window);
@@ -202,25 +204,28 @@ public class MyApplication : Gtk.Application {
 				Prefs.save_prefs(prefs);
 			});
 
-		var ag = new Gtk.AccelGroup();
-        ag.connect('l', Gdk.ModifierType.CONTROL_MASK, 0, (a,o,k,m) => {
+		var saq = new GLib.SimpleAction("launch",null);
+        saq.activate.connect(() => {
+				earthbtn.sensitive = false;
                 launch_ge();
+            });
+		window.add_action(saq);
+
+		saq = new GLib.SimpleAction("clear",null);
+        saq.activate.connect(() => {
+				runbtn.sensitive = false;
+				lognames.text = "";
+				missionname.text = "";
+            });
+		window.add_action(saq);
+
+        window.close_request.connect( () => {
+                quit();
 				return true;
             });
-        window.add_accel_group(ag);
 
-		handle_dnd(window);
-        window.destroy.connect( () => {
-                quit();
-            });
+		window.set_icon_name("fl2xui");
 
-		try {
-			var pix =  new Gdk.Pixbuf.from_resource("/org/stronnag/fl2xui/fl2xui.svg");
-			window.set_icon(pix);
-		} catch (Error e) {
-		stderr.printf("failed to set icon %s\n", e.message);
-			window.set_icon_name("fl2xui");
-		}
 		runbtn.sensitive = false;
 		earthbtn.sensitive = false;
 		connect_signals();
@@ -232,12 +237,85 @@ public class MyApplication : Gtk.Application {
 		if (prefs.outdir != null)
 			outdirname.text = prefs.outdir;
 		if(fileargs !=null && fileargs.length > 0) {
-			lognames.text = fileargs;
-			runbtn.sensitive = true;
+			runbtn.sensitive = handle_fileargs();
 		}
 		check_version();
-		window.show_all ();
+		var droptgt = new Gtk.DropTarget(typeof (Gdk.FileList), Gdk.DragAction.COPY);
+		droptgt.on_drop.connect((tgt, value, x, y) => {
+				fileargs = {};
+				if(value.type() == typeof (Gdk.FileList)) {
+					var flist = ((Gdk.FileList)value).get_files();
+					foreach(var u in flist) {
+						fileargs += u.get_path();
+					}
+				}
+				runbtn.sensitive = handle_fileargs();
+				return runbtn.sensitive;
+			});
+		sw.sw.add_controller((EventController)droptgt);
+		window.present ();
     }
+
+	private bool handle_fileargs() {
+		string[] items = {};
+		var handled = false;
+		foreach(var u in fileargs) {
+			string fn;
+			var mtype = guess_content_type(u, out fn);
+			switch(mtype) {
+			case 1:
+				missionname.text = fn;
+				handled = true;
+				break;
+			case 2,3:
+				items += fn;
+				handled = true;
+				break;
+			default:
+				break;
+			}
+		}
+		 if(items.length > 0) {
+			 var s = lognames.text;
+			 foreach(var p in s.split(",")) {
+				 items += p;
+			 }
+			 lognames.text = string.joinv(",", items);
+		 }
+		 fileargs={};
+		 return handled;
+	}
+
+	private int guess_content_type(string uri, out string? fn) {
+		fn = null;
+		int mt = 0;
+		try {
+			if (uri.has_prefix("file://")) {
+				fn = Filename.from_uri(uri);
+			} else {
+				fn = uri;
+			}
+			uint8 buf[1024]={0};
+			var fs = FileStream.open (fn, "r");
+			if (fs != null) {
+				if(fs.read (buf) > 0) {
+					if(((string)buf).has_prefix("H Product:Blackbox")) {
+						mt = 2;
+					} else if (((string)buf).has_prefix("{\"missions\":")) {
+						mt = 1 ;
+					} else if (((string)buf).has_prefix
+								("<?xml version=\"1.0\" encoding=")) {
+						if (((string)buf).contains("<mission>") || ((string)buf).contains("<MISSION>")) {
+							mt = 1;
+						}
+					} else if (((string)buf).has_prefix("Date,Time,"))  {
+						mt = 3;
+					}
+				}
+			}
+		} catch {}
+		return mt;
+	}
 
 	private void connect_signals() {
 		runbtn.clicked.connect(() => {
@@ -245,15 +323,14 @@ public class MyApplication : Gtk.Application {
 				run_generator();
 			});
 
-		earthbtn.clicked.connect(() => {
-				earthbtn.sensitive = false;
-				launch_ge();
-			});
-
 		logbtn.clicked.connect (() => {
-				var chooser = new Gtk.FileChooserNative (
-					"Log file", window, Gtk.FileChooserAction.OPEN,
-					"_Open", "_Cancel");
+				var chooser = new Gtk.FileChooserDialog (
+					"Log file",
+					window,
+					Gtk.FileChooserAction.OPEN,
+					"_Cancel", Gtk.ResponseType.CANCEL,
+					"_Open", Gtk.ResponseType.ACCEPT);
+
 				Gtk.FileFilter filter = new Gtk.FileFilter ();
 				filter.set_filter_name("All Logs");
 				filter.add_pattern("*.bbl");
@@ -283,27 +360,30 @@ public class MyApplication : Gtk.Application {
 				filter.add_pattern("*");
 				chooser.add_filter(filter);
 				chooser.select_multiple = true;
-
-				var id = chooser.run();
-				if (id == Gtk.ResponseType.ACCEPT || id == Gtk.ResponseType.OK) {
-					var fns = chooser.get_filenames ();
-					var sb = new StringBuilder();
-					var j = 0;
-					fns.@foreach((s) => {
-							if (j != 0)
-								sb.append(",");
-							sb.append(s);
-							j++;
-						});
-					lognames.text = sb.str;
-					runbtn.sensitive = true;
-				}
+				chooser.modal = true;
+				chooser.present();
+				chooser.response.connect((id) => {
+						if (id == Gtk.ResponseType.ACCEPT || id == Gtk.ResponseType.OK) {
+							var fns = chooser.get_files ();
+							var sb = new StringBuilder();
+							for(var j = 0; j < fns.get_n_items (); j++) {
+								if (j != 0)
+									sb.append(",");
+								var s = fns.get_item(j) as File;
+								sb.append(s.get_path ());
+							}
+							lognames.text = sb.str;
+							runbtn.sensitive = true;
+						}
+						chooser.close();
+					});
 			});
 
 		missionbtn.clicked.connect (() => {
-				var chooser = new Gtk.FileChooserNative (
+				var chooser = new Gtk.FileChooserDialog (
 					"Mission file", window, Gtk.FileChooserAction.OPEN,
-					"_Open", "_Cancel");
+					"_Cancel", Gtk.ResponseType.CANCEL,
+					"_Open", Gtk.ResponseType.ACCEPT);
 
 				Gtk.FileFilter filter = new Gtk.FileFilter ();
 				filter.set_filter_name("inav missions");
@@ -315,30 +395,40 @@ public class MyApplication : Gtk.Application {
 				filter.add_pattern("*");
 				chooser.add_filter(filter);
 				chooser.select_multiple = false;
-
-				var id = chooser.run();
-				if (id == Gtk.ResponseType.ACCEPT || id == Gtk.ResponseType.OK) {
-					var fns = chooser.get_filenames ();
-					missionname.text = fns.nth_data(0);
-					runbtn.sensitive = true;
-				}
+				chooser.modal = true;
+				chooser.present();
+				chooser.response.connect((id) => {
+						if (id == Gtk.ResponseType.ACCEPT || id == Gtk.ResponseType.OK) {
+							var fns = chooser.get_files ();
+							missionname.text = ((File)fns.get_item(0)).get_path();
+							runbtn.sensitive = true;
+						}
+						chooser.close();
+					});
 			});
 
 		outbtn.clicked.connect (() => {
-				var chooser = new Gtk.FileChooserNative (
+				var chooser = new Gtk.FileChooserDialog (
 					"Output Directory", window, Gtk.FileChooserAction.SELECT_FOLDER,
-					"_Open", "_Cancel");
+					"_Cancel", Gtk.ResponseType.CANCEL,
+					"_Open", Gtk.ResponseType.ACCEPT);
 				if (prefs.outdir != null) {
-					chooser.set_filename (prefs.outdir);
+					try {
+						chooser.set_file (File.new_for_path(prefs.outdir));
+					} catch {}
 				}
-				var id = chooser.run();
-				if (id == Gtk.ResponseType.ACCEPT || id == Gtk.ResponseType.OK) {
-					prefs.outdir = chooser.get_filename ();
-					outdirname.text = prefs.outdir;
-				}
+				chooser.modal = true;
+				chooser.present();
+				chooser.response.connect((id) => {
+						if (id == Gtk.ResponseType.ACCEPT || id == Gtk.ResponseType.OK) {
+							prefs.outdir = chooser.get_file ().get_path();
+							outdirname.text = prefs.outdir;
+						}
+						chooser.close();
+					});
 			});
 	}
-
+/*
 	private void handle_dnd (Gtk.Widget w) {
 		Gtk.drag_dest_set (w, Gtk.DestDefaults.ALL, targets, Gdk.DragAction.COPY);
 		w.drag_data_received.connect((ctx, x, y, data, info, time) => {
@@ -383,7 +473,7 @@ public class MyApplication : Gtk.Application {
 				}
 			});
 	}
-
+*/
 
 	private bool get_ge_status() {
 		return (!ge_running && prefs.ge_name != null && prefs.ge_name != "" && genkmz.length > 0);
@@ -476,11 +566,7 @@ public class MyApplication : Gtk.Application {
 	}
 
 	private void add_textview(string s) {
-		var textbuf = textview.get_buffer();
-		Gtk.TextIter iter;
-		textbuf.get_end_iter(out iter);
-		textbuf.insert(ref iter, s, -1);
-		textview.scroll_to_iter(iter, 0.0, true, 0.0, 1.0);
+		sw.add_text(s);
 	}
 
 	public override int command_line (ApplicationCommandLine command_line) {
@@ -491,7 +577,7 @@ public class MyApplication : Gtk.Application {
     }
 
 	public static int main (string[] args) {
-        MyApplication app = new MyApplication ();
+        var app = new Flx2Ui ();
         return app.run (args);
     }
 }

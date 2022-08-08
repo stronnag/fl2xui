@@ -1,4 +1,4 @@
-project('fl2xui', 'vala', 'c', version : '1.0.2')
+project('fl2xui', 'vala', 'c', version : '1.0.3')
 
 conf_data = configuration_data()
 conf_data.set('version', meson.project_version())
@@ -6,13 +6,6 @@ conf_data.set('version', meson.project_version())
 app = 'fl2xui'
 
 gnome = import('gnome')
-
-wresources = gnome.compile_resources(
-    'f-resources',
-    join_paths('data', app + '.gresource.xml'),
-    source_dir: 'data',
-    c_name: 'f'
-)
 
 deps = []
 dopts = []
@@ -25,12 +18,14 @@ configure_file(
 configuration_inc = include_directories('build')
 
 subdir('src')
+subdir('data')
+
 executable(
     meson.project_name(),
-    wresources,
+    fresources,
     wguisrcs,
     dependencies: [
-        dependency('gtk+-3.0'),
+        dependency('gtk4'),
 	dependency('gio-2.0'),
 	dependency('json-glib-1.0'),
 	deps,
@@ -44,10 +39,10 @@ executable(
 
 executable(
     'fl2xui-console',
-    wresources,
+    fresources,
     wguisrcs,
     dependencies: [
-        dependency('gtk+-3.0'),
+        dependency('gtk4'),
 	dependency('gio-2.0'),
 	dependency('json-glib-1.0'),
 	deps,
@@ -60,5 +55,18 @@ executable(
     gui_app: false,
 )
 
-subdir('data')
+if host_machine.system() == 'darwin'
+gnome.post_install(
+  gtk_update_icon_cache: true,
+)
+else
+ if host_machine.system() == 'windows'
+  #
+ else
+  gnome.post_install(
+    gtk_update_icon_cache: true,
+    update_desktop_database: true,
+  )
+ endif
+endif
 meson.add_install_script('meson/post_install.sh')

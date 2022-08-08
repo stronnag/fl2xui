@@ -1,12 +1,6 @@
 #!/bin/sh
 
-ICON_CACHE=${MESON_INSTALL_PREFIX}/share/icons/hicolor
-
-if [ -z "$DESTDIR" ]; then
- echo "Updating gtk icon cache ..."
- if [ "$(uname)" == "Darwin" ] ; then
-   gtk3-update-icon-cache -qtf $ICON_CACHE
- else
-   gtk-update-icon-cache -qtf $ICON_CACHE
- fi
+if type update-mime-database 2>&1 >/dev/null ; then
+  echo >&2 Updating mime database ...
+  update-mime-database $MESON_INSTALL_PREFIX/share/mime
 fi
