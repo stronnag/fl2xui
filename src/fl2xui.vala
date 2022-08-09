@@ -331,12 +331,11 @@ public class Flx2Ui : Gtk.Application {
 			});
 
 		logbtn.clicked.connect (() => {
-				var chooser = new Gtk.FileChooserDialog (
+				var chooser = new Gtk.FileChooserNative (
 					"Log file",
 					window,
 					Gtk.FileChooserAction.OPEN,
-					"_Cancel", Gtk.ResponseType.CANCEL,
-					"_Open", Gtk.ResponseType.ACCEPT);
+					"_Open", "_Cancel");
 
 				Gtk.FileFilter filter = new Gtk.FileFilter ();
 				filter.set_filter_name("All Logs");
@@ -368,7 +367,7 @@ public class Flx2Ui : Gtk.Application {
 				chooser.add_filter(filter);
 				chooser.select_multiple = true;
 				chooser.modal = true;
-				chooser.present();
+				chooser.show();
 				chooser.response.connect((id) => {
 						if (id == Gtk.ResponseType.ACCEPT || id == Gtk.ResponseType.OK) {
 							var fns = chooser.get_files ();
@@ -382,15 +381,14 @@ public class Flx2Ui : Gtk.Application {
 							lognames.text = sb.str;
 							runbtn.sensitive = true;
 						}
-						chooser.close();
+						chooser.dispose();
 					});
 			});
 
 		missionbtn.clicked.connect (() => {
-				var chooser = new Gtk.FileChooserDialog (
+				var chooser = new Gtk.FileChooserNative (
 					"Mission file", window, Gtk.FileChooserAction.OPEN,
-					"_Cancel", Gtk.ResponseType.CANCEL,
-					"_Open", Gtk.ResponseType.ACCEPT);
+					"_Open", "_Cancel");
 
 				Gtk.FileFilter filter = new Gtk.FileFilter ();
 				filter.set_filter_name("inav missions");
@@ -403,84 +401,37 @@ public class Flx2Ui : Gtk.Application {
 				chooser.add_filter(filter);
 				chooser.select_multiple = false;
 				chooser.modal = true;
-				chooser.present();
+				chooser.show();
 				chooser.response.connect((id) => {
 						if (id == Gtk.ResponseType.ACCEPT || id == Gtk.ResponseType.OK) {
 							var fns = chooser.get_files ();
 							missionname.text = ((File)fns.get_item(0)).get_path();
 							runbtn.sensitive = true;
 						}
-						chooser.close();
+						chooser.dispose();
 					});
 			});
 
 		outbtn.clicked.connect (() => {
-				var chooser = new Gtk.FileChooserDialog (
+				var chooser = new Gtk.FileChooserNative (
 					"Output Directory", window, Gtk.FileChooserAction.SELECT_FOLDER,
-					"_Cancel", Gtk.ResponseType.CANCEL,
-					"_Open", Gtk.ResponseType.ACCEPT);
+					"_Open", "_Cancel");
 				if (prefs.outdir != null) {
 					try {
 						chooser.set_file (File.new_for_path(prefs.outdir));
 					} catch {}
 				}
 				chooser.modal = true;
-				chooser.present();
+				chooser.show();
 				chooser.response.connect((id) => {
 						if (id == Gtk.ResponseType.ACCEPT || id == Gtk.ResponseType.OK) {
 							prefs.outdir = chooser.get_file ().get_path();
 							outdirname.text = prefs.outdir;
 						}
-						chooser.close();
+						chooser.dispose();
 					});
 			});
 	}
-/*
-	private void handle_dnd (Gtk.Widget w) {
-		Gtk.drag_dest_set (w, Gtk.DestDefaults.ALL, targets, Gdk.DragAction.COPY);
-		w.drag_data_received.connect((ctx, x, y, data, info, time) => {
-				string mf = null; // mission
-				string[] items = {};
-				if (info == 0) {
-					uint8 buf[1024];
-					foreach(var uri in data.get_uris ()) {
-						try {
-							var f = Filename.from_uri(uri);
-							var fs = FileStream.open (f, "r");
-							var nr =  fs.read (buf);
-							if (nr > 128) {
-								if(buf[0] == '<') {
-									buf[nr-1] = 0;
-									if( ((string)buf).contains("<MISSION>") || ((string)buf).contains("<mission>"))
-										mf = f;
-								} else if(buf[0] == '{' && buf[1] == '\n') {
-									mf = f;
-								} else if(buf[0] == 'H' && buf[1] == ' ') {
-									items +=  f;
-								} else if (((string)buf).has_prefix("Date,Time,")) {
-									items +=  f;
-								}
-							}
-						} catch (Error e) {
-							stderr.printf("dnd: %s\n", e.message);
-						}
-					}
-				}
-				Gtk.drag_finish (ctx, true, false, time);
-				if(mf != null) {
-					missionname.text = mf;
-				}
-				if(items.length > 0) {
-					var s = lognames.text;
-					foreach(var p in s.split(",")) {
-						items += p;
-					}
-					lognames.text = string.joinv(",", items);
-					runbtn.sensitive = true;
-				}
-			});
-	}
-*/
 
 	private bool get_ge_status() {
 		return (!ge_running && prefs.ge_name != null && prefs.ge_name != "" && genkmz.length > 0);
