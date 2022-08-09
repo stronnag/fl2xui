@@ -34,7 +34,7 @@ public class Flx2Ui : Gtk.Application {
 
 	public Flx2Ui () {
 		Object(application_id: "org.stronnag.fl2xui",
-			   flags: ApplicationFlags.HANDLES_OPEN|ApplicationFlags.HANDLES_COMMAND_LINE);
+			   flags: /*ApplicationFlags.HANDLES_OPEN|*/ApplicationFlags.HANDLES_COMMAND_LINE);
 
 		const OptionEntry[] options = {
 			{ "version", 'v', 0, OptionArg.NONE, null, "show version", null},
@@ -99,12 +99,18 @@ public class Flx2Ui : Gtk.Application {
 	}
 
     protected override void activate () {
+		if(active_window == null) {
+			present_main_window();
+		} else {
+			handle_fileargs();
+		}
+	}
 
+	private void present_main_window() {
 		sw = new ScrollView();
-
 		var builder = new Builder.from_resource("/org/stronnag/fl2xui/fl2xui.ui");
 		prefs = Prefs.read_prefs();
-        window = builder.get_object ("appwin") as Gtk.ApplicationWindow;
+		window = builder.get_object ("appwin") as Gtk.ApplicationWindow;
 		dms_check = builder.get_object("dms_check") as Gtk.CheckButton;
 		dms_check.active = prefs.dms;
 		dms_check.toggled.connect(() => {
@@ -166,7 +172,6 @@ public class Flx2Ui : Gtk.Application {
 		earthbtn = builder.get_object("ge_launch") as Gtk.Button;
 		earthbtn.set_action_name("win.launch");
 
-
 		missionbtn = builder.get_object("mission_btn") as Gtk.Button;
 		intspin = builder.get_object("intspin") as Gtk.SpinButton;
 
@@ -179,15 +184,14 @@ public class Flx2Ui : Gtk.Application {
 		var gradlabel = new Gtk.Label("Gradient:");
 		grad_combo=FlCombo.build_grad_combo();
 		gradbox.append (gradlabel);
-        gradbox.append (grad_combo);
-
+		gradbox.append (grad_combo);
 
 		var swin = builder.get_object("swin") as Gtk.Box;
 		swin.append(sw.sw);
 
 		window.set_title("fl2xui %s".printf(FL2XUI_VERSION_STRING));
 		this.add_window (window);
-        window.set_application (this);
+		window.set_application (this);
 		window.set_default_size(600,480);
 
 		if(prefs.gradient != null) {
@@ -205,24 +209,24 @@ public class Flx2Ui : Gtk.Application {
 			});
 
 		var saq = new GLib.SimpleAction("launch",null);
-        saq.activate.connect(() => {
+		saq.activate.connect(() => {
 				earthbtn.sensitive = false;
-                launch_ge();
-            });
+				launch_ge();
+			});
 		window.add_action(saq);
 
 		saq = new GLib.SimpleAction("clear",null);
-        saq.activate.connect(() => {
+		saq.activate.connect(() => {
 				runbtn.sensitive = false;
 				lognames.text = "";
 				missionname.text = "";
-            });
+			});
 		window.add_action(saq);
 
-        window.close_request.connect( () => {
-                quit();
+		window.close_request.connect( () => {
+				remove_window(window);
 				return true;
-            });
+			});
 
 		window.set_icon_name("fl2xui");
 
@@ -254,7 +258,7 @@ public class Flx2Ui : Gtk.Application {
 			});
 		sw.sw.add_controller((EventController)droptgt);
 		window.present ();
-    }
+	}
 
 	private bool handle_fileargs() {
 		string[] items = {};
@@ -275,15 +279,18 @@ public class Flx2Ui : Gtk.Application {
 				break;
 			}
 		}
-		 if(items.length > 0) {
-			 var s = lognames.text;
-			 foreach(var p in s.split(",")) {
-				 items += p;
-			 }
-			 lognames.text = string.joinv(",", items);
-		 }
-		 fileargs={};
-		 return handled;
+		if(items.length > 0) {
+			var s = lognames.text;
+			var sb = new StringBuilder(s);
+			foreach (var i in items) {
+				if(sb.len > 0)
+					sb.append_c(',');
+				sb.append(i);
+			}
+			lognames.text = sb.str;
+		}
+		fileargs={};
+		return handled;
 	}
 
 	private int guess_content_type(string uri, out string? fn) {
