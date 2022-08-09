@@ -69,4 +69,4 @@ else
   )
  endif
 endif
-meson.add_install_script('meson/post_install.sh')
+#meson.add_install_script('meson/post_install.sh')
