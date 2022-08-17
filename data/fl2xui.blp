@@ -13,6 +13,7 @@ Gtk.ApplicationWindow appwin {
       Gtk.Entry log_label {
 	halign: fill;
         hexpand: true;
+	editable: true;
 	placeholder-text: "Required unless mission file is supplied";
       }
       Gtk.Label {
@@ -37,7 +38,7 @@ Gtk.ApplicationWindow appwin {
         tooltip-text: "Optional mission file (*.mission)";
 	hexpand: true;
 	halign: fill;
-	editable: false;
+	editable: true;
 	placeholder-text: "Optional";
       }
        Gtk.Button out_btn {
