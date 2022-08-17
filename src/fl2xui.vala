@@ -30,7 +30,7 @@ public class Flx2Ui : Gtk.Application {
 	private string[] fileargs;
 	private bool is_Windows;
 	private bool ge_running;
-	private ScrollView sw;
+	private ScrolledView sv;
 
 	public Flx2Ui () {
 		Object(application_id: "org.stronnag.fl2xui",
@@ -107,7 +107,7 @@ public class Flx2Ui : Gtk.Application {
 	}
 
 	private void present_main_window() {
-		sw = new ScrollView();
+		sv = new ScrolledView();
 		var builder = new Builder.from_resource("/org/stronnag/fl2xui/fl2xui.ui");
 		prefs = Prefs.read_prefs();
 		window = builder.get_object ("appwin") as Gtk.ApplicationWindow;
@@ -187,7 +187,7 @@ public class Flx2Ui : Gtk.Application {
 		gradbox.append (grad_combo);
 
 		var swin = builder.get_object("swin") as Gtk.Box;
-		swin.append(sw.sw);
+		swin.append(sv.get_window());
 
 		window.set_title("fl2xui %s".printf(FL2XUI_VERSION_STRING));
 		this.add_window (window);
@@ -244,6 +244,16 @@ public class Flx2Ui : Gtk.Application {
 			runbtn.sensitive = handle_fileargs();
 		}
 		check_version();
+		setup_dnd();
+		window.present ();
+	}
+
+#if OS_windows
+	void setup_dnd() {
+	}
+#else
+#if !OS_freebsd
+	void setup_dnd() {
 		var droptgt = new Gtk.DropTarget(typeof (Gdk.FileList), Gdk.DragAction.COPY);
 		droptgt.on_drop.connect((tgt, value, x, y) => {
 				fileargs = {};
@@ -253,12 +263,45 @@ public class Flx2Ui : Gtk.Application {
 						fileargs += u.get_path();
 					}
 				}
+				sv.set_target(false);
 				runbtn.sensitive = handle_fileargs();
 				return runbtn.sensitive;
 			});
-		sw.sw.add_controller((EventController)droptgt);
-		window.present ();
+		droptgt.accept.connect((d) => {
+				sv.set_target(true);
+				return true;
+			});
+		droptgt.leave.connect(() => {
+				sv.set_target(false);
+			});
+		sv.get_view().add_controller((EventController)droptgt);
 	}
+#else
+	void setup_dnd() {
+		var droptgt = new Gtk.DropTarget(typeof (string), Gdk.DragAction.COPY);
+		droptgt.on_drop.connect((tgt, value, x, y) => {
+				if(value.type() == typeof (string)) {
+					foreach(var u in ((string)value).split( "\r\n")) {
+						if (u!= null && u.length > 0) {
+							fileargs += u;
+						}
+					}
+				}
+				runbtn.sensitive = handle_fileargs();
+				return runbtn.sensitive;
+			});
+		droptgt.accept.connect((d) => {
+				sv.set_target(true);
+				return true;
+			});
+		droptgt.leave.connect(() => {
+				sv.set_target(false);
+			});
+		sv.get_view().add_controller((EventController)droptgt);
+	}
+
+#endif
+#endif
 
 	private bool handle_fileargs() {
 		string[] items = {};
@@ -524,7 +567,7 @@ public class Flx2Ui : Gtk.Application {
 	}
 
 	private void add_textview(string s) {
-		sw.add_text(s);
+		sv.add_text(s);
 	}
 
 	public override int command_line (ApplicationCommandLine command_line) {

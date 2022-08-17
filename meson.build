@@ -37,7 +37,8 @@ executable(
     gui_app: true,
 )
 
-executable(
+if host_machine.system() == 'windows'
+  executable(
     'fl2xui-console',
     fresources,
     wguisrcs,
@@ -54,19 +55,14 @@ executable(
     build_by_default: false,
     gui_app: false,
 )
-
-if host_machine.system() == 'darwin'
+elif host_machine.system() == 'darwin'
 gnome.post_install(
   gtk_update_icon_cache: true,
 )
 else
- if host_machine.system() == 'windows'
-  #
- else
   gnome.post_install(
     gtk_update_icon_cache: true,
     update_desktop_database: true,
   )
- endif
 endif
 #meson.add_install_script('meson/post_install.sh')

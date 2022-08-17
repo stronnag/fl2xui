@@ -45,7 +45,7 @@ namespace Prefs {
 	}
 
 	private const string EARTH_APP=
-#if !WINDOWSNT
+#if !OS_windows
 		"google-earth-pro";
 #else
 	    """C:\Program Files\Google\Google Earth Pro\client\googleearth.exe""";
@@ -55,7 +55,7 @@ namespace Prefs {
     {
         int n;
         n = Posix.access(s, Posix.X_OK|Posix.R_OK);
-#if !WINDOWSNT
+#if !OS_windows
         if (n != 0)
         {
             var ep = Environment.get_variable("PATH");
@@ -225,7 +225,7 @@ namespace Prefs {
 					p.ge_name = obj.get_string_member("ge-name");
 				} else {
 
-#if WINDOWSNT
+#if OS_windows
 					if(exists_on_path(EARTH_APP)) {
 						p.ge_name = EARTH_APP;
 					}
@@ -245,7 +245,7 @@ namespace Prefs {
 
 namespace Init {
 	public string? setup () {
-#if WINDOWSNT
+#if OS_windows
     var homed = Environment.get_home_dir ();
 	var epath= ProcessLauncher.get_exe_dir();
 	if (epath != null) {
