@@ -248,10 +248,6 @@ public class Flx2Ui : Gtk.Application {
 		window.present ();
 	}
 
-#if OS_windows
-	void setup_dnd() {
-	}
-#else
 #if !OS_freebsd
 	void setup_dnd() {
 		var droptgt = new Gtk.DropTarget(typeof (Gdk.FileList), Gdk.DragAction.COPY);
@@ -300,7 +296,6 @@ public class Flx2Ui : Gtk.Application {
 		sv.get_view().add_controller((EventController)droptgt);
 	}
 
-#endif
 #endif
 
 	private bool handle_fileargs() {
