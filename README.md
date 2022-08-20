@@ -59,10 +59,11 @@ fl2xui depends upon the following open source packages:
 * Output by default to the user's "Documents" (`C:\Users\USERNAME\Documents`) directory.
 * Can be built from source using Msys2.
     ```
-	git checkout legacy
 	pacman -Syu
-	pacman -S gtk3 vala meson ninja json-glib
-	# now follow Linux instructions ...
+	pacman -S gtk4 vala meson ninja json-glib
+	meson build --buildtype=release --strip --prefix=~/.local
+	# Note, need to say where the gir files are for blueprint-compiler
+    XDG_DATA_DIRS=/mingw64/share meson -C build install
 	```
 * Recommended that `blackbox_decode` and `flightlog2kml` are in the `fl2xui\bin` directory (as in the release archive).
 
@@ -81,4 +82,4 @@ fl2xui depends upon the following open source packages:
 
 ### All platforms
 
-You can build a `gtk3` version from the `legacy` branch (see Windows build).
+You can build a `gtk3` version from the `legacy` branch.
