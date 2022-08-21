@@ -1,11 +1,34 @@
 
+
+blueprints_src = [  join_paths( app + '.blp'), ]
+
+blueprints_ui = []
+blueprints_vala = []
+foreach b : blueprints_src
+        blueprints_ui += b.replace('.blp', '.ui')
+        blueprints_vala += b + '.vala'
+endforeach
+
+
 blueprints = custom_target('blueprints',
-  input: files(
-    'fl2xui.blp',
-  ),
-  output: '.',
-  command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
+  input: blueprints_src,
+  output: blueprints_ui,
+  command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTDIR@', '@CURRENT_SOURCE_DIR@', '@INPUT@'],
 )
+
+blueprints_hack = custom_target('blueprints_hack',
+        input: blueprints,
+        output: blueprints_vala,
+        command: [find_program('touch'), '@OUTPUT@'],
+)
+
+#blueprints = custom_target('blueprints',
+#  input: files(
+#    'fl2xui.blp',
+#  ),
+#  output: '.',
+#  command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_D#IR@', '@INPUT@'],
+#)
 
 fresources = gnome.compile_resources(
     'f-resources',
