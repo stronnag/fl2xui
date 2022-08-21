@@ -45,10 +45,6 @@ authors:
 
 ### Visualisation Options (2)
 
-!!! info "Drag and drop"
-
-    On Linux / FreeBSD, you can also drag and drop logs and mission files into this area, at least with the Gnome desktop environment.
-
 * **DMS** : Display positions as degrees / minutes / seconds (`DD:MM:SS.sss`) vice decimal degrees (`DD.dddddd`).
 * **Extrude** : Extrude flight points the ground.
 * **RSSI as default** : Set the RSSI layer as the default (vice Flight Mode).
@@ -66,7 +62,7 @@ authors:
 
 ### Output Area (3)
 
-* Output Area : Scrolled window showing process or error messages.
+* Output Area : Scrolled window showing process or error messages. You can also drag and drop log and mission files into this area.
 
 ### Progress bar / Save Settings / Run / Earth buttons (4)
 
@@ -79,7 +75,7 @@ authors:
 
 The defaults for run time options are taken from the {{ bbl2kml }} configuration file:
 
-* **POSIX OS** : ~/.config/fl2x/config.json
+* **All POSIX OS** : ~/.config/fl2x/config.json
 * **Windows** : %LOCALAPPDATA%\fl2x\config.json
 
 See also [flight2kml wiki example](https://github.com/stronnag/bbl2kml/wiki/Sample-Config-file) and [Earth definition](#google-earth-launcher) if Google Earth is not automatically detected for launch.
@@ -91,15 +87,24 @@ See also [flight2kml wiki example](https://github.com/stronnag/bbl2kml/wiki/Samp
 * [flight2kml](https://github.com/stronnag/bbl2kml/)
 * [INAV's blackbox_decode](https://github.com/iNavFlight/blackbox-tools)
 
+Unless you're using the Windows installer, you need to install [flight2kml](https://github.com/stronnag/bbl2kml/) and [INAV's blackbox_decode](https://github.com/iNavFlight/blackbox-tools) from their respective repositories.
+
 ## Installation
+
+Debian (and derivatives) and Windows have binary installers in the  [fl2xui release area](https://github.com/stronnag/fl2xui/releases).
+
+### UI Component
+
+* The `master` branch is based on gtk4. There is a `legacy` branch based on gtk3, which is no longer actively maintained. The `legacy` branch is intended for older Linux distros that do not offer gtk4.
+* The `master` branch requires the `blueprint-compiler`, if your distro cannot provide this, a local copy will be downloaded when the build is first configured.
 
 ### Linux, FreeBSD
 
-* Common GTK packages
-* Debian package `*.deb` for Debian / Ubuntu and derivatives in [fl2xui release area](https://github.com/stronnag/fl2xui/releases). You need to install `flightlog2kml` and `blackbox_decode`.
+* Debian package `*.deb` for Debian / Ubuntu and derivatives in [fl2xui release area](https://github.com/stronnag/fl2xui/releases).
 * Easily built from source
 
-		# Once (setup)
+        Common GTK development packages for gtk4 vala meson ninja json-glib
+        # Once (setup)
     	meson build --buildtype=release --strip --prefix=~/.local
 		# Build and install to ~/.local/bin (add to PATH if necessary)
     	# or specify some other PATH element (/usr/bin, /usr/local/bin, ~/bin)
@@ -108,17 +113,19 @@ See also [flight2kml wiki example](https://github.com/stronnag/bbl2kml/wiki/Samp
 ### Windows
 
 * Win64 Installer file in the [fl2xui release area](https://github.com/stronnag/fl2xui/releases),  creates a desktop shortcut launcher.
-* Can be built from source using Msys2 (as Linux).
+* Can be built from source using Msys2.
 
     	pacman -Syu
-    	pacman -S gtk3 vala meson ninja json-glib
+    	pacman -S gtk4 vala meson ninja json-glib
+		# export the msys2 expression of /usr/share, such as
+		export XDG_DATA_DIRS=$XDG_DATA_DIRS:/mingw64/share
     	# now follow Linux instructions ...
 
 * It is recommended that `blackbox_decode` and `flightlog2kml` are in the `fl2xui\bin` directory (as in the release archive).
 
 #### Look and Feel
 
-From {{ fl2xui}} 0.0.5, the default theme is set to emulate the Windows 10 look and feel. This may be changed by copying the distributed `fl2xui\etc\gtk-3.0\settings.ini` to `%LOCALAPPDATA%\gtk-3.0\settings.ini` and editing some settings as required:
+From {{ fl2xui}} 0.0.5, the default theme is set to emulate the Windows 10 look and feel. This may be changed by copying the distributed  `fl2xui\etc\gtk-4.0\settings.ini` (or `fl2xui\etc\gtk-3.0\settings.ini` for gtk3) to `%LOCALAPPDATA%\gtk-4.0\settings.ini` (`%LOCALAPPDATA%\gtk-3.0\settings.ini`) and editing some settings as required:
 
 * `gtk-theme-name` : sets the theme name
     * `Windows10` : Windows 10 theme emulation
@@ -128,14 +135,15 @@ From {{ fl2xui}} 0.0.5, the default theme is set to emulate the Windows 10 look 
     * `0` light theme
 	* `1` dark theme
 
-If a dark theme is forced, then the Window header bar (by default drawn by the Windows window manager), is still light. This may be forced to be dark by setting the environment variable `GTK_CSD=1`. This may be set as a user environment variable from the Windows Control Panel.
+The Window header bar (may be drawn by either the Windows window manager or the application).
+This is controlled by the environment variable `GTK_CSD`, (0=Native, 1=GTK). This may be set as a user environment variable from the Windows Control Panel.
 
 ### MacOS
 
 * Use Homebrew:
 
     	# install requirements:
-    	brew install meson vala gtk+3 json-glib
+    	brew install meson vala gtk4 json-glib
     	# Once (setup)
     	meson build --buildtype=release --strip --prefix=~/.local
     	# Build and install to ~/.local/bin (add to PATH if necessary)
