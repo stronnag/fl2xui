@@ -7,8 +7,17 @@ Gtk.ApplicationWindow appwin {
     Gtk.Box {
       orientation: horizontal;
       Gtk.Button log_btn {
-	label: "Log ...";
-        tooltip-text: "Log files. Multiple files may be specified/ Blackbox, Open/EdgeTX, BulletGCSS, Audupliot";
+        Gtk.Box {
+          spacing: 4;
+          [start]
+            Gtk.Image {
+             icon-name: "document-open-symbolic";
+            }
+            Gtk.Label {
+             label: "Logs";
+             tooltip-text: "Log files. Multiple files may be specified/ Blackbox, Open/EdgeTX, BulletGCSS, Audupliot";
+	    }
+	 }
       }
       Gtk.Entry log_label {
 	halign: fill;
@@ -29,10 +38,19 @@ Gtk.ApplicationWindow appwin {
     Gtk.Box {
       orientation: horizontal;
       Gtk.Button mission_btn {
-        label: "Mission ...";
-        tooltip-text: "Optional mission file (*.mission)";
-	halign: fill;
+       	halign: fill;
         hexpand: false;
+        Gtk.Box {
+          spacing: 4;
+          [start]
+            Gtk.Image {
+             icon-name: "document-open-symbolic";
+            }
+            Gtk.Label {
+	      label: "Mission";
+	      tooltip-text: "Optional mission file (*.mission)";
+	    }
+	}
       }
       Gtk.Entry mission_label {
         tooltip-text: "Optional mission file (*.mission)";
@@ -42,10 +60,19 @@ Gtk.ApplicationWindow appwin {
 	placeholder-text: "Optional";
       }
        Gtk.Button out_btn {
-        label: "Output ...";
-        tooltip-text: "Output directory";
-	halign: fill;
+       	halign: fill;
         hexpand: false;
+	Gtk.Box {
+          spacing: 4;
+          [start]
+            Gtk.Image {
+             icon-name: "folder-open-symbolic";
+            }
+            Gtk.Label {
+	      label: "Output";
+              tooltip-text: "Output directory";
+	    }
+	 }
       }
       Gtk.Entry out_label {
 	tooltip-text: "Output directory";
