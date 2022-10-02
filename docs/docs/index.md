@@ -87,11 +87,11 @@ See also [flight2kml wiki example](https://github.com/stronnag/bbl2kml/wiki/Samp
 * [flight2kml](https://github.com/stronnag/bbl2kml/)
 * [INAV's blackbox_decode](https://github.com/iNavFlight/blackbox-tools)
 
-Unless you're using the Windows installer, you need to install [flight2kml](https://github.com/stronnag/bbl2kml/) and [INAV's blackbox_decode](https://github.com/iNavFlight/blackbox-tools) from their respective repositories.
+You also need to install [flight2kml](https://github.com/stronnag/bbl2kml/) and [INAV's blackbox_decode](https://github.com/iNavFlight/blackbox-tools) from their respective repositories.
 
 ## Installation
 
-Debian (and derivatives) and Windows have binary installers in the  [fl2xui release area](https://github.com/stronnag/fl2xui/releases).
+Debian (and derivatives) have a binary installer in the  [fl2xui release area](https://github.com/stronnag/fl2xui/releases).
 
 ### UI Component
 
@@ -112,7 +112,6 @@ Debian (and derivatives) and Windows have binary installers in the  [fl2xui rele
 
 ### Windows
 
-* Win64 Installer file in the [fl2xui release area](https://github.com/stronnag/fl2xui/releases),  creates a desktop shortcut launcher.
 * Can be built from source using Msys2.
 
     	pacman -Syu
