@@ -120,7 +120,7 @@ Debian (and derivatives) have a binary installer in the  [fl2xui release area](h
 		export XDG_DATA_DIRS=$XDG_DATA_DIRS:/mingw64/share
     	# now follow Linux instructions ...
 
-* It is recommended that `blackbox_decode` and `flightlog2kml` are in the `fl2xui\bin` directory (as in the release archive).
+* It is recommended that `blackbox_decode` and `flightlog2kml` are in the `fl2xui\bin` directory.
 
 #### Look and Feel
 
