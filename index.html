@@ -14,7 +14,7 @@
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-7.3.6">
+      <meta name="generator" content="mkdocs-1.4.1, mkdocs-material-7.3.6">
     
     
       
@@ -331,6 +331,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#ui-component" class="md-nav__link">
+    UI Component
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#linux-freebsd" class="md-nav__link">
     Linux, FreeBSD
   </a>
@@ -523,6 +530,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#ui-component" class="md-nav__link">
+    UI Component
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#linux-freebsd" class="md-nav__link">
     Linux, FreeBSD
   </a>
@@ -619,10 +633,6 @@
 <li><strong>Index</strong> : If 0 (default), processes all logs in (each) file; if non zero, processes a single log at the specified index.</li>
 </ul>
 <h3 id="visualisation-options-2">Visualisation Options (2)<a class="headerlink" href="#visualisation-options-2" title="Permanent link">#</a></h3>
-<div class="admonition info">
-<p class="admonition-title">Drag and drop</p>
-<p>On Linux / FreeBSD, you can also drag and drop logs and mission files into this area, at least with the Gnome desktop environment.</p>
-</div>
 <ul>
 <li><strong>DMS</strong> : Display positions as degrees / minutes / seconds (<code>DD:MM:SS.sss</code>) vice decimal degrees (<code>DD.dddddd</code>).</li>
 <li><strong>Extrude</strong> : Extrude flight points the ground.</li>
@@ -647,7 +657,7 @@
 </ul>
 <h3 id="output-area-3">Output Area (3)<a class="headerlink" href="#output-area-3" title="Permanent link">#</a></h3>
 <ul>
-<li>Output Area : Scrolled window showing process or error messages.</li>
+<li>Output Area : Scrolled window showing process or error messages. You can also drag and drop log and mission files into this area.</li>
 </ul>
 <h3 id="progress-bar-save-settings-run-earth-buttons-4">Progress bar / Save Settings / Run / Earth buttons (4)<a class="headerlink" href="#progress-bar-save-settings-run-earth-buttons-4" title="Permanent link">#</a></h3>
 <ul>
@@ -659,7 +669,7 @@
 <h2 id="defaults">Defaults<a class="headerlink" href="#defaults" title="Permanent link">#</a></h2>
 <p>The defaults for run time options are taken from the <a href="https://github.com/stronnag/bbl2kml">flightlog2kml</a> configuration file:</p>
 <ul>
-<li><strong>POSIX OS</strong> : ~/.config/fl2x/config.json</li>
+<li><strong>All POSIX OS</strong> : ~/.config/fl2x/config.json</li>
 <li><strong>Windows</strong> : %LOCALAPPDATA%\fl2x\config.json</li>
 </ul>
 <p>See also <a href="https://github.com/stronnag/bbl2kml/wiki/Sample-Config-file">flight2kml wiki example</a> and <a href="#google-earth-launcher">Earth definition</a> if Google Earth is not automatically detected for launch.</p>
@@ -669,12 +679,19 @@
 <li><a href="https://github.com/stronnag/bbl2kml/">flight2kml</a></li>
 <li><a href="https://github.com/iNavFlight/blackbox-tools">INAV's blackbox_decode</a></li>
 </ul>
+<p>You also need to install <a href="https://github.com/stronnag/bbl2kml/">flight2kml</a> and <a href="https://github.com/iNavFlight/blackbox-tools">INAV's blackbox_decode</a> from their respective repositories.</p>
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">#</a></h2>
+<p>Debian (and derivatives) have a binary installer in the  <a href="https://github.com/stronnag/fl2xui/releases">fl2xui release area</a>.</p>
+<h3 id="ui-component">UI Component<a class="headerlink" href="#ui-component" title="Permanent link">#</a></h3>
+<ul>
+<li>The <code>master</code> branch is based on gtk4. There is a <code>legacy</code> branch based on gtk3, which is no longer actively maintained. The <code>legacy</code> branch is intended for older Linux distros that do not offer gtk4.</li>
+<li>The <code>master</code> branch requires the <code>blueprint-compiler</code>, if your distro cannot provide this, a local copy will be downloaded when the build is first configured.</li>
+</ul>
 <h3 id="linux-freebsd">Linux, FreeBSD<a class="headerlink" href="#linux-freebsd" title="Permanent link">#</a></h3>
 <ul>
-<li>Common GTK packages</li>
-<li>Debian package <code>*.deb</code> for Debian / Ubuntu and derivatives in <a href="https://github.com/stronnag/fl2xui/releases">fl2xui release area</a>. You need to install <code>flightlog2kml</code> and <code>blackbox_decode</code>.</li>
-<li>Easily built from source<pre><code># Once (setup)
+<li>Debian package <code>*.deb</code> for Debian / Ubuntu and derivatives in <a href="https://github.com/stronnag/fl2xui/releases">fl2xui release area</a>.</li>
+<li>Easily built from source<pre><code>Common GTK development packages for gtk4 vala meson ninja json-glib
+# Once (setup)
 meson build --buildtype=release --strip --prefix=~/.local
 # Build and install to ~/.local/bin (add to PATH if necessary)
 # or specify some other PATH element (/usr/bin, /usr/local/bin, ~/bin)
@@ -684,20 +701,21 @@ meson install -C build
 </ul>
 <h3 id="windows_1">Windows<a class="headerlink" href="#windows_1" title="Permanent link">#</a></h3>
 <ul>
-<li>Win64 Installer file in the <a href="https://github.com/stronnag/fl2xui/releases">fl2xui release area</a>,  creates a desktop shortcut launcher.</li>
 <li>
-<p>Can be built from source using Msys2 (as Linux).</p>
+<p>Can be built from source using Msys2.</p>
 <pre><code>pacman -Syu
-pacman -S gtk3 vala meson ninja json-glib
+pacman -S gtk4 vala meson ninja json-glib
+# export the msys2 expression of /usr/share, such as
+export XDG_DATA_DIRS=$XDG_DATA_DIRS:/mingw64/share
 # now follow Linux instructions ...
 </code></pre>
 </li>
 <li>
-<p>It is recommended that <code>blackbox_decode</code> and <code>flightlog2kml</code> are in the <code>fl2xui\bin</code> directory (as in the release archive).</p>
+<p>It is recommended that <code>blackbox_decode</code> and <code>flightlog2kml</code> are in the <code>fl2xui\bin</code> directory.</p>
 </li>
 </ul>
 <h4 id="look-and-feel">Look and Feel<a class="headerlink" href="#look-and-feel" title="Permanent link">#</a></h4>
-<p>From <a href="https://github.com/stronnag/fl2xui">fl2xui</a> 0.0.5, the default theme is set to emulate the Windows 10 look and feel. This may be changed by copying the distributed <code>fl2xui\etc\gtk-3.0\settings.ini</code> to <code>%LOCALAPPDATA%\gtk-3.0\settings.ini</code> and editing some settings as required:</p>
+<p>From <a href="https://github.com/stronnag/fl2xui">fl2xui</a> 0.0.5, the default theme is set to emulate the Windows 10 look and feel. This may be changed by copying the distributed  <code>fl2xui\etc\gtk-4.0\settings.ini</code> (or <code>fl2xui\etc\gtk-3.0\settings.ini</code> for gtk3) to <code>%LOCALAPPDATA%\gtk-4.0\settings.ini</code> (<code>%LOCALAPPDATA%\gtk-3.0\settings.ini</code>) and editing some settings as required:</p>
 <ul>
 <li><code>gtk-theme-name</code> : sets the theme name<ul>
 <li><code>Windows10</code> : Windows 10 theme emulation</li>
@@ -711,13 +729,14 @@ pacman -S gtk3 vala meson ninja json-glib
 </ul>
 </li>
 </ul>
-<p>If a dark theme is forced, then the Window header bar (by default drawn by the Windows window manager), is still light. This may be forced to be dark by setting the environment variable <code>GTK_CSD=1</code>. This may be set as a user environment variable from the Windows Control Panel.</p>
+<p>The Window header bar (may be drawn by either the Windows window manager or the application).
+This is controlled by the environment variable <code>GTK_CSD</code>, (0=Native, 1=GTK). This may be set as a user environment variable from the Windows Control Panel.</p>
 <h3 id="macos_1">MacOS<a class="headerlink" href="#macos_1" title="Permanent link">#</a></h3>
 <ul>
 <li>
 <p>Use Homebrew:</p>
 <pre><code># install requirements:
-brew install meson vala gtk+3 json-glib
+brew install meson vala gtk4 json-glib
 # Once (setup)
 meson build --buildtype=release --strip --prefix=~/.local
 # Build and install to ~/.local/bin (add to PATH if necessary)
