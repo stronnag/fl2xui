@@ -14,7 +14,7 @@
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.1, mkdocs-material-7.3.6">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-7.3.6">
     
     
       
@@ -686,11 +686,13 @@
 <ul>
 <li>The <code>master</code> branch is based on gtk4. There is a <code>legacy</code> branch based on gtk3, which is no longer actively maintained. The <code>legacy</code> branch is intended for older Linux distros that do not offer gtk4.</li>
 <li>The <code>master</code> branch requires the <code>blueprint-compiler</code>, if your distro cannot provide this, a local copy will be downloaded when the build is first configured.</li>
+<li>You will also require <code>gobject-introspection</code> which may not (or may) be installed as a prior dependency. There is no harm in explicitly installing it.</li>
 </ul>
 <h3 id="linux-freebsd">Linux, FreeBSD<a class="headerlink" href="#linux-freebsd" title="Permanent link">#</a></h3>
 <ul>
 <li>Debian package <code>*.deb</code> for Debian / Ubuntu and derivatives in <a href="https://github.com/stronnag/fl2xui/releases">fl2xui release area</a>.</li>
-<li>Easily built from source<pre><code>Common GTK development packages for gtk4 vala meson ninja json-glib
+<li>Easily built from source<pre><code># Common GTK development packages for gtk4 vala meson ninja json-glib
+#                                       gobject-introspection
 # Once (setup)
 meson build --buildtype=release --strip --prefix=~/.local
 # Build and install to ~/.local/bin (add to PATH if necessary)
@@ -704,7 +706,7 @@ meson install -C build
 <li>
 <p>Can be built from source using Msys2.</p>
 <pre><code>pacman -Syu
-pacman -S gtk4 vala meson ninja json-glib
+pacman -S gtk4 vala meson ninja json-glib gobject-introspection
 # export the msys2 expression of /usr/share, such as
 export XDG_DATA_DIRS=$XDG_DATA_DIRS:/mingw64/share
 # now follow Linux instructions ...
@@ -736,7 +738,7 @@ This is controlled by the environment variable <code>GTK_CSD</code>, (0=Native, 
 <li>
 <p>Use Homebrew:</p>
 <pre><code># install requirements:
-brew install meson vala gtk4 json-glib
+brew install meson vala gtk4 gobject-introspection json-glib
 # Once (setup)
 meson build --buildtype=release --strip --prefix=~/.local
 # Build and install to ~/.local/bin (add to PATH if necessary)
@@ -747,6 +749,9 @@ meson install -C build
 <p>If there are missing icons (specifically the +/- for time interval widget), it may be necessary to <code>brew install adwaita-icon-theme</code>.</p>
 </li>
 </ul>
+<p>It may (or not) be necessary to set:</p>
+<pre><code>export XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/local/share
+</code></pre>
 <h2 id="google-earth-launcher">Google Earth launcher<a class="headerlink" href="#google-earth-launcher" title="Permanent link">#</a></h2>
 <p>fl2xui Attempts to detect the presence of Google Earth. Only if this fails is it necessary to add the name of the Google Earth executable in the configuration file:</p>
 <ul>
