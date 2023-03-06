@@ -29,4 +29,4 @@ fl2xui requires components from the following open source packages:
 
 Binary packages in the [release area](https://github.com/stronnag/fl2xui/releases) for Debian based Linux distros.
 
-Easily built from source for other Linux, FreeBSD, Windows and MacOS. Build instructions in the [user guide](https://stronnag.github.io/fl2xui/).
+Easily built from source for other Linux, FreeBSD and Windows. Build instructions in the [user guide](https://stronnag.github.io/fl2xui/).

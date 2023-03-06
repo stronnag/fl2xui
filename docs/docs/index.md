@@ -97,13 +97,15 @@ Debian (and derivatives) have a binary installer in the  [fl2xui release area](h
 
 * The `master` branch is based on gtk4. There is a `legacy` branch based on gtk3, which is no longer actively maintained. The `legacy` branch is intended for older Linux distros that do not offer gtk4.
 * The `master` branch requires the `blueprint-compiler`, if your distro cannot provide this, a local copy will be downloaded when the build is first configured.
+* You will also require `gobject-introspection` which may not (or may) be installed as a prior dependency. There is no harm in explicitly installing it.
 
 ### Linux, FreeBSD
 
 * Debian package `*.deb` for Debian / Ubuntu and derivatives in [fl2xui release area](https://github.com/stronnag/fl2xui/releases).
 * Easily built from source
 
-        Common GTK development packages for gtk4 vala meson ninja json-glib
+        # Common GTK development packages for gtk4 vala meson ninja json-glib
+		#                                       gobject-introspection
         # Once (setup)
     	meson build --buildtype=release --strip --prefix=~/.local
 		# Build and install to ~/.local/bin (add to PATH if necessary)
@@ -115,7 +117,7 @@ Debian (and derivatives) have a binary installer in the  [fl2xui release area](h
 * Can be built from source using Msys2.
 
     	pacman -Syu
-    	pacman -S gtk4 vala meson ninja json-glib
+    	pacman -S gtk4 vala meson ninja json-glib gobject-introspection
 		# export the msys2 expression of /usr/share, such as
 		export XDG_DATA_DIRS=$XDG_DATA_DIRS:/mingw64/share
     	# now follow Linux instructions ...
@@ -139,16 +141,7 @@ This is controlled by the environment variable `GTK_CSD`, (0=Native, 1=GTK). Thi
 
 ### MacOS
 
-* Use Homebrew:
-
-    	# install requirements:
-    	brew install meson vala gtk4 json-glib
-    	# Once (setup)
-    	meson build --buildtype=release --strip --prefix=~/.local
-    	# Build and install to ~/.local/bin (add to PATH if necessary)
-    	meson install -C build
-
-* If there are missing icons (specifically the +/- for time interval widget), it may be necessary to `brew install adwaita-icon-theme`.
+Not supported. Using `brew` may help (or not).
 
 ## Google Earth launcher
 
