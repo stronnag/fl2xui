@@ -734,24 +734,7 @@ export XDG_DATA_DIRS=$XDG_DATA_DIRS:/mingw64/share
 <p>The Window header bar (may be drawn by either the Windows window manager or the application).
 This is controlled by the environment variable <code>GTK_CSD</code>, (0=Native, 1=GTK). This may be set as a user environment variable from the Windows Control Panel.</p>
 <h3 id="macos_1">MacOS<a class="headerlink" href="#macos_1" title="Permanent link">#</a></h3>
-<ul>
-<li>
-<p>Use Homebrew:</p>
-<pre><code># install requirements:
-brew install meson vala gtk4 gobject-introspection json-glib
-# Once (setup)
-meson build --buildtype=release --strip --prefix=~/.local
-# Build and install to ~/.local/bin (add to PATH if necessary)
-meson install -C build
-</code></pre>
-</li>
-<li>
-<p>If there are missing icons (specifically the +/- for time interval widget), it may be necessary to <code>brew install adwaita-icon-theme</code>.</p>
-</li>
-</ul>
-<p>It may (or not) be necessary to set:</p>
-<pre><code>export XDG_DATA_DIRS=$XDG_DATA_DIRS:/usr/local/share
-</code></pre>
+<p>Not supported. Using <code>brew</code> may help (or not).</p>
 <h2 id="google-earth-launcher">Google Earth launcher<a class="headerlink" href="#google-earth-launcher" title="Permanent link">#</a></h2>
 <p>fl2xui Attempts to detect the presence of Google Earth. Only if this fails is it necessary to add the name of the Google Earth executable in the configuration file:</p>
 <ul>
