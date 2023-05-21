@@ -1,4 +1,8 @@
-project('fl2xui', 'vala', 'c', version : '1.1.0')
+project('fl2xui', 'vala', 'c', version : '1.1.1')
+
+# For now, as some replacements are not  well defined.
+add_project_arguments('-Wno-deprecated-declarations', language : 'c')
+add_project_arguments('--enable-deprecated', language : 'vala')
 
 conf_data = configuration_data()
 conf_data.set('version', meson.project_version())
@@ -15,7 +19,7 @@ configure_file(
   output : 'fl2xui-config.h',
   configuration : conf_data
 )
-configuration_inc = include_directories('build')
+configuration_inc = include_directories('.')
 
 subdir('src')
 subdir('data')
