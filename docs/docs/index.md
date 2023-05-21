@@ -141,7 +141,15 @@ This is controlled by the environment variable `GTK_CSD`, (0=Native, 1=GTK). Thi
 
 ### MacOS
 
-Not supported. Using `brew` may help (or not).
+Not supported, reported not working but _works for me_   . Using `brew` may help (or not).
+
+
+    # install requirements *at least* :
+	brew install meson vala gtk4 json-glib
+	# Once (setup)
+	meson setup build --buildtype=release --strip --prefix=~/.local
+	# Build and install to ~/.local/bin (add to PATH if necessary)
+	meson install -C build
 
 ## Google Earth launcher
 
