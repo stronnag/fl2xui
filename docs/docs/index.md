@@ -123,6 +123,7 @@ Debian (and derivatives) have a binary installer in the  [fl2xui release area](h
     	# now follow Linux instructions ...
 
 * It is recommended that `blackbox_decode` and `flightlog2kml` are in the `fl2xui\bin` directory.
+* There may be a Windows installer in the [fl2xui release area](https://github.com/stronnag/fl2xui/releases).
 
 #### Look and Feel
 
@@ -141,7 +142,7 @@ This is controlled by the environment variable `GTK_CSD`, (0=Native, 1=GTK). Thi
 
 ### MacOS
 
-Not supported, reported not working but _works for me_   . Using `brew` may help (or not).
+Not supported, reported not working but _"works for me"_   . Using `brew` may help (or not).
 
 
     # install requirements *at least* :
