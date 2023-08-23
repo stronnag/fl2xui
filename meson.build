@@ -1,8 +1,11 @@
-project('fl2xui', 'vala', 'c', version : '1.1.1')
+project('fl2xui', 'vala', 'c', version : '1.1.2')
+show_deprecated = get_option('deprecations')
 
-# For now, as some replacements are not  well defined.
-add_project_arguments('-Wno-deprecated-declarations', language : 'c')
-add_project_arguments('--enable-deprecated', language : 'vala')
+if show_deprecated  == false
+  # For now, as some replacements are not  well defined.
+  add_project_arguments('-Wno-deprecated-declarations', language : 'c')
+  add_project_arguments('--enable-deprecated', language : 'vala')
+endif
 
 conf_data = configuration_data()
 conf_data.set('version', meson.project_version())
@@ -23,6 +26,15 @@ configuration_inc = include_directories('.')
 
 subdir('src')
 subdir('data')
+
+r = run_command('pkg-config', '--modversion', 'gtk4',  check: true)
+if r.returncode() != 0
+  error('failed to get champlain version')
+endif
+gtkvers = r.stdout().strip()
+if gtkvers.version_compare('<4.12.0')
+  dopts += '--define=CSS_USE_LOAD_DATA'
+endif
 
 executable(
     meson.project_name(),

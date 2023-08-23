@@ -41,7 +41,11 @@ public class ScrolledView : Object {
 			css =  "textview{ border-style: none; }";
 		}
 		var provider = new CssProvider();
-		provider.load_from_data(css.data);
+#if CSS_USE_LOAD_DATA
+        provider.load_from_data(css,-1);
+#else
+        provider.load_from_string(css);
+#endif
 		var stylec = tv.get_style_context();
 		stylec.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_USER);
 	}
