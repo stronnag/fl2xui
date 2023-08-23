@@ -16,6 +16,7 @@ gnome = import('gnome')
 
 deps = []
 dopts = []
+vopts = []
 
 configure_file(
   input : 'src/fl2xui-config.h.in',
@@ -24,17 +25,9 @@ configure_file(
 )
 configuration_inc = include_directories('.')
 
+subdir('meson')
 subdir('src')
 subdir('data')
-
-r = run_command('pkg-config', '--modversion', 'gtk4',  check: true)
-if r.returncode() != 0
-  error('failed to get champlain version')
-endif
-gtkvers = r.stdout().strip()
-if gtkvers.version_compare('<4.12.0')
-  dopts += '--define=CSS_USE_LOAD_DATA'
-endif
 
 executable(
     meson.project_name(),
@@ -47,7 +40,7 @@ executable(
 	deps,
         meson.get_compiler('vala').find_library('posix'),
     ],
-    vala_args : dopts,
+    vala_args : [dopts,vopts],
     include_directories : configuration_inc,
     install: true,
     gui_app: true,
@@ -65,7 +58,7 @@ if host_machine.system() == 'windows'
 	deps,
         meson.get_compiler('vala').find_library('posix'),
     ],
-    vala_args : dopts,
+    vala_args : [dopts,vopts],
     include_directories : configuration_inc,
     install: false,
     build_by_default: false,
