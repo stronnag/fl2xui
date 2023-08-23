@@ -42,7 +42,7 @@ public class ScrolledView : Object {
 		}
 		var provider = new CssProvider();
 #if CSS_USE_LOAD_DATA
-        provider.load_from_data(css,-1);
+        provider.load_from_data(css.data);
 #else
         provider.load_from_string(css);
 #endif
