@@ -14,6 +14,7 @@ public class ScrolledView : Object {
 		tv.hexpand = true;
 		tv.halign = Gtk.Align.FILL;
 		sw.set_child (tv);
+		init_css();
 	}
 
 	public ScrolledWindow get_window() {
@@ -34,16 +35,17 @@ public class ScrolledView : Object {
 	}
 
 	public void set_target(bool active) {
-		string css;
-		if (active) {
-			css =  "textview { border-style: dotted; border-color: @borders; border-width: 5px; }";
-		} else {
-			css =  "textview{ border-style: none; }";
-		}
-		var provider = new CssProvider();
+		tv.set_name(active ? "borderattn" : "bordernone");
+	}
+
+	private void init_css() {
+       	string css = """
+#borderattn { border-style: dotted; border-color: @borders; border-width: 5px; }
+#bordernone textview{ border-style: none; }
+""";
+		var provider = new Gtk.CssProvider ();
 		Utils.load_provider_string(ref provider, css);
-		var stylec = tv.get_style_context();
-		stylec.add_provider(provider, Gtk.STYLE_PROVIDER_PRIORITY_USER);
+		Gtk.StyleContext.add_provider_for_display (Gdk.Display.get_default(), provider, Gtk.STYLE_PROVIDER_PRIORITY_USER);
 	}
 }
 

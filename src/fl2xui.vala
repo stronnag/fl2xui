@@ -11,7 +11,7 @@ public class Flx2Ui : Gtk.Application {
 	private Gtk.CheckButton speed_check;
 	private Gtk.CheckButton altitude_check;
 	private Gtk.CheckButton battery_check;
-	private Gtk.ComboBox grad_combo;
+	private Gtk.DropDown grad_combo;
 	private Gtk.Entry idx_entry;
 	private Gtk.Button runbtn;
 	private Gtk.Button earthbtn;
@@ -196,15 +196,11 @@ public class Flx2Ui : Gtk.Application {
 
 		if(prefs.gradient != null) {
 			var id = FlCombo.get_id(prefs.gradient);
-			grad_combo.active = id;
+			grad_combo.selected = id;
 		}
-
-		grad_combo.changed.connect(() => {
-				var name = FlCombo.get_name(grad_combo.active);
-				prefs.gradient = name;
-			});
-
 		savebtn.clicked.connect( () => {
+				var name = FlCombo.get_name(grad_combo.selected);
+				prefs.gradient = name;
 				Prefs.save_prefs(prefs);
 			});
 
@@ -251,7 +247,7 @@ public class Flx2Ui : Gtk.Application {
 #if !OS_freebsd
 	void setup_dnd() {
 		var droptgt = new Gtk.DropTarget(typeof (Gdk.FileList), Gdk.DragAction.COPY);
-		droptgt.on_drop.connect((tgt, value, x, y) => {
+		droptgt.drop.connect((tgt, value, x, y) => {
 				fileargs = {};
 				if(value.type() == typeof (Gdk.FileList)) {
 					var flist = ((Gdk.FileList)value).get_files();
@@ -369,12 +365,9 @@ public class Flx2Ui : Gtk.Application {
 			});
 
 		logbtn.clicked.connect (() => {
-				var chooser = new Gtk.FileChooserNative (
-					"Log file",
-					window,
-					Gtk.FileChooserAction.OPEN,
-					"_Open", "_Cancel");
-
+				var fd = new Gtk.FileDialog ();
+				fd.title = "Log File";
+				var ls = new GLib.ListStore(typeof(Gtk.FileFilter));
 				Gtk.FileFilter filter = new Gtk.FileFilter ();
 				filter.set_filter_name("All Logs");
 				filter.add_pattern("*.bbl");
@@ -383,7 +376,7 @@ public class Flx2Ui : Gtk.Application {
 				filter.add_pattern("*.txt");
 				filter.add_pattern("*.csv");
 				filter.add_pattern("*.CSV");
-				chooser.add_filter(filter);
+				ls.append(filter);
 
 				filter = new Gtk.FileFilter ();
 				filter.set_filter_name("BBox Logs");
@@ -391,24 +384,23 @@ public class Flx2Ui : Gtk.Application {
 				filter.add_pattern("*.BBL");
 				filter.add_pattern("*.TXT");
 				filter.add_pattern("*.txt");
-				chooser.add_filter(filter);
+				ls.append(filter);
 
 				filter = new Gtk.FileFilter ();
 				filter.set_filter_name("OTX/ETX Logs");
 				filter.add_pattern("*.csv");
 				filter.add_pattern("*.CSV");
-				chooser.add_filter(filter);
+				ls.append(filter);
 
 				filter = new Gtk.FileFilter ();
 				filter.set_filter_name("All files");
 				filter.add_pattern("*");
-				chooser.add_filter(filter);
-				chooser.select_multiple = true;
-				chooser.modal = true;
-				chooser.show();
-				chooser.response.connect((id) => {
-						if (id == Gtk.ResponseType.ACCEPT || id == Gtk.ResponseType.OK) {
-							var fns = chooser.get_files ();
+				ls.append(filter);
+                fd.set_filters(ls);
+
+				fd.open_multiple.begin (window, null, (o,r) => {
+						try {
+							var fns = fd.open_multiple.end(r);
 							var sb = new StringBuilder();
 							for(var j = 0; j < fns.get_n_items (); j++) {
 								if (j != 0)
@@ -418,55 +410,46 @@ public class Flx2Ui : Gtk.Application {
 							}
 							lognames.text = sb.str;
 							runbtn.sensitive = true;
-						}
-						chooser.dispose();
+						} catch {}
 					});
 			});
 
 		missionbtn.clicked.connect (() => {
-				var chooser = new Gtk.FileChooserNative (
-					"Mission file", window, Gtk.FileChooserAction.OPEN,
-					"_Open", "_Cancel");
-
+				var fd = new Gtk.FileDialog ();
+				fd.title = "Mission File";
+				var ls = new GLib.ListStore(typeof(Gtk.FileFilter));
 				Gtk.FileFilter filter = new Gtk.FileFilter ();
 				filter.set_filter_name("inav missions");
 				filter.add_pattern("*.mission");
 				filter.add_pattern("*.json");
-				chooser.add_filter(filter);
+				ls.append(filter);
 				filter = new Gtk.FileFilter ();
 				filter.set_filter_name("All files");
 				filter.add_pattern("*");
-				chooser.add_filter(filter);
-				chooser.select_multiple = false;
-				chooser.modal = true;
-				chooser.show();
-				chooser.response.connect((id) => {
-						if (id == Gtk.ResponseType.ACCEPT || id == Gtk.ResponseType.OK) {
-							var fns = chooser.get_files ();
-							missionname.text = ((File)fns.get_item(0)).get_path();
+				ls.append(filter);
+
+				fd.open.begin (window, null, (o,r) => {
+						try {
+							var fh = fd.open.end(r);
+							missionname.text = fh.get_path();
 							runbtn.sensitive = true;
-						}
-						chooser.dispose();
+						} catch {}
 					});
 			});
 
 		outbtn.clicked.connect (() => {
-				var chooser = new Gtk.FileChooserNative (
-					"Output Directory", window, Gtk.FileChooserAction.SELECT_FOLDER,
-					"_Open", "_Cancel");
-				if (prefs.outdir != null) {
-					try {
-						chooser.set_file (File.new_for_path(prefs.outdir));
-					} catch {}
-				}
-				chooser.modal = true;
-				chooser.show();
-				chooser.response.connect((id) => {
-						if (id == Gtk.ResponseType.ACCEPT || id == Gtk.ResponseType.OK) {
-							prefs.outdir = chooser.get_file ().get_path();
-							outdirname.text = prefs.outdir;
-						}
-						chooser.dispose();
+				var fd = new  Gtk.FileDialog ();
+				var dir = File.new_for_path(prefs.outdir);
+				fd.initial_folder = dir;
+				fd.initial_file = dir;
+				fd.title = "Output Directory";
+
+				fd.select_folder.begin(window, null, (o,r) => {
+				try {
+					var fh =  fd.select_folder.end(r);
+					prefs.outdir = fh.get_path();
+					outdirname.text = prefs.outdir;
+				} catch {}
 					});
 			});
 	}
@@ -507,6 +490,8 @@ public class Flx2Ui : Gtk.Application {
 		try {
 			var fd = FileUtils.open_tmp (".fl2xui-XXXXXX", out tmpnam);
 			Posix.close(fd);
+			var name = FlCombo.get_name(grad_combo.selected);
+			prefs.gradient = name;
 			Prefs.save_prefs(prefs, tmpnam);
 			args += "-config";
 			args += tmpnam;

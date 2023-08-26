@@ -1,4 +1,4 @@
-project('fl2xui', 'vala', 'c', version : '1.1.2')
+project('fl2xui', 'vala', 'c', version : '1.2.0')
 show_deprecated = get_option('deprecations')
 
 if show_deprecated  == false
@@ -34,7 +34,7 @@ executable(
     fresources,
     wguisrcs,
     dependencies: [
-        dependency('gtk4'),
+        dependency('gtk4', version: '>=4.10'),
 	dependency('gio-2.0'),
 	dependency('json-glib-1.0'),
 	deps,
