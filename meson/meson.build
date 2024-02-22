@@ -12,5 +12,9 @@ if gtkvers.version_compare('<4.12.0')
     vopts += '--define=CSS_USE_LOAD_DATA_STR_LEN'
   endif
 else
-  vopts += '--define=CSS_USE_LOAD_STR'
+  if compiler.version().version_compare('<0.56.11')
+    vopts += '--define=CSS_USE_LOAD_DATA'
+  else
+    vopts += '--define=CSS_USE_LOAD_STR'
+  endif
 endif

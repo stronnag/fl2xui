@@ -19,9 +19,11 @@ public class Flx2Ui : Gtk.Application {
 	private Gtk.Button outbtn;
 	private Gtk.Button logbtn;
 	private Gtk.Button missionbtn;
+	private Gtk.Button clibtn;
 	private Gtk.SpinButton intspin;
 	private Gtk.Entry lognames;
 	private Gtk.Entry missionname;
+	private Gtk.Entry cliname;
 	private Gtk.Entry outdirname;
 	private Gtk.ProgressBar pbar;
 	private Gtk.CheckButton fast_is_red;
@@ -173,10 +175,13 @@ public class Flx2Ui : Gtk.Application {
 		earthbtn.set_action_name("win.launch");
 
 		missionbtn = builder.get_object("mission_btn") as Gtk.Button;
+		clibtn = builder.get_object("cli_btn") as Gtk.Button;
+
 		intspin = builder.get_object("intspin") as Gtk.SpinButton;
 
 		lognames =  builder.get_object("log_label") as Gtk.Entry;
 		missionname =  builder.get_object("mission_label") as Gtk.Entry;
+		cliname =  builder.get_object("cli_label") as Gtk.Entry;
 		outdirname =  builder.get_object("out_label") as Gtk.Entry;
 		pbar =  builder.get_object("pbar") as Gtk.ProgressBar;
 
@@ -220,6 +225,7 @@ public class Flx2Ui : Gtk.Application {
 				runbtn.sensitive = false;
 				lognames.text = "";
 				missionname.text = "";
+				cliname.text = "";
 			});
 		window.add_action(saq);
 
@@ -313,6 +319,9 @@ public class Flx2Ui : Gtk.Application {
 				items += fn;
 				handled = true;
 				break;
+			case 4:
+				cliname.text = fn;
+				break;
 			default:
 				break;
 			}
@@ -355,6 +364,8 @@ public class Flx2Ui : Gtk.Application {
 						}
 					} else if (((string)buf).has_prefix("Date,Time,"))  {
 						mt = 3;
+					} else if (((string)buf).contains("safehome")) {
+						mt = 4;
 					}
 				}
 			}
@@ -449,6 +460,31 @@ public class Flx2Ui : Gtk.Application {
 						chooser.dispose();
 					});
 			});
+		clibtn.clicked.connect (() => {
+				var chooser = new Gtk.FileChooserNative (
+					"CLI file", window, Gtk.FileChooserAction.OPEN,
+					"_Open", "_Cancel");
+
+				Gtk.FileFilter filter = new Gtk.FileFilter ();
+				filter.set_filter_name("CLI Files");
+				filter.add_pattern("*.txt");
+				chooser.add_filter(filter);
+				filter = new Gtk.FileFilter ();
+				filter.set_filter_name("All files");
+				filter.add_pattern("*");
+				chooser.add_filter(filter);
+				chooser.select_multiple = false;
+				chooser.modal = true;
+				chooser.show();
+				chooser.response.connect((id) => {
+						if (id == Gtk.ResponseType.ACCEPT || id == Gtk.ResponseType.OK) {
+							var fns = chooser.get_files ();
+							cliname.text = ((File)fns.get_item(0)).get_path();
+							runbtn.sensitive = true;
+						}
+						chooser.dispose();
+					});
+			});
 
 		outbtn.clicked.connect (() => {
 				var chooser = new Gtk.FileChooserNative (
@@ -515,6 +551,11 @@ public class Flx2Ui : Gtk.Application {
 		if (missionname.text != null && missionname.text != "") {
 			args += "-mission";
 			args += missionname.text;
+		}
+
+		if (cliname.text != null && cliname.text != "") {
+			args += "-cli";
+			args += cliname.text;
 		}
 
 		if(idx_entry.text != "" && idx_entry.text != "0") {
