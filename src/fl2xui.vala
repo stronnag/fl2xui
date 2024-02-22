@@ -19,9 +19,12 @@ public class Flx2Ui : Gtk.Application {
 	private Gtk.Button outbtn;
 	private Gtk.Button logbtn;
 	private Gtk.Button missionbtn;
+	private Gtk.Button clibtn;
+
 	private Gtk.SpinButton intspin;
 	private Gtk.Entry lognames;
 	private Gtk.Entry missionname;
+	private Gtk.Entry cliname;
 	private Gtk.Entry outdirname;
 	private Gtk.ProgressBar pbar;
 	private Gtk.CheckButton fast_is_red;
@@ -80,9 +83,9 @@ public class Flx2Ui : Gtk.Application {
 						int vsum = 0;
 						var vparts = parts[1].split(".");
 						for(var i = 0; i < 3 && i < parts.length; i++) {
-							vsum = int.parse(vparts[i])+ 10*vsum;
+							vsum = int.parse(vparts[i])+ 100*vsum;
 						}
-						res = vsum > 100;
+						res = vsum >= 100*100+15;
 					}
 				}
 				if (!res) {
@@ -173,10 +176,13 @@ public class Flx2Ui : Gtk.Application {
 		earthbtn.set_action_name("win.launch");
 
 		missionbtn = builder.get_object("mission_btn") as Gtk.Button;
+		clibtn = builder.get_object("cli_btn") as Gtk.Button;
+
 		intspin = builder.get_object("intspin") as Gtk.SpinButton;
 
 		lognames =  builder.get_object("log_label") as Gtk.Entry;
 		missionname =  builder.get_object("mission_label") as Gtk.Entry;
+		cliname =  builder.get_object("cli_label") as Gtk.Entry;
 		outdirname =  builder.get_object("out_label") as Gtk.Entry;
 		pbar =  builder.get_object("pbar") as Gtk.ProgressBar;
 
@@ -216,6 +222,7 @@ public class Flx2Ui : Gtk.Application {
 				runbtn.sensitive = false;
 				lognames.text = "";
 				missionname.text = "";
+				cliname.text = "";
 			});
 		window.add_action(saq);
 
@@ -309,6 +316,9 @@ public class Flx2Ui : Gtk.Application {
 				items += fn;
 				handled = true;
 				break;
+			case 4:
+				cliname.text = fn;
+				break;
 			default:
 				break;
 			}
@@ -351,6 +361,8 @@ public class Flx2Ui : Gtk.Application {
 						}
 					} else if (((string)buf).has_prefix("Date,Time,"))  {
 						mt = 3;
+					} else if (((string)buf).contains("safehome")) {
+						mt = 4;
 					}
 				}
 			}
@@ -436,6 +448,27 @@ public class Flx2Ui : Gtk.Application {
 						} catch {}
 					});
 			});
+		clibtn.clicked.connect (() => {
+				var fd = new Gtk.FileDialog ();
+				fd.title = "CLI File";
+				var ls = new GLib.ListStore(typeof(Gtk.FileFilter));
+				Gtk.FileFilter filter = new Gtk.FileFilter ();
+				filter.set_filter_name("CLI Files");
+				filter.add_pattern("*.txt");
+				ls.append(filter);
+				filter = new Gtk.FileFilter ();
+				filter.set_filter_name("All files");
+				filter.add_pattern("*");
+				ls.append(filter);
+
+				fd.open.begin (window, null, (o,r) => {
+						try {
+							var fh = fd.open.end(r);
+							cliname.text = fh.get_path();
+							runbtn.sensitive = true;
+						} catch {}
+					});
+			});
 
 		outbtn.clicked.connect (() => {
 				var fd = new  Gtk.FileDialog ();
@@ -500,6 +533,11 @@ public class Flx2Ui : Gtk.Application {
 		if (missionname.text != null && missionname.text != "") {
 			args += "-mission";
 			args += missionname.text;
+		}
+
+		if (cliname.text != null && cliname.text != "") {
+			args += "-cli";
+			args += cliname.text;
 		}
 
 		if(idx_entry.text != "" && idx_entry.text != "0") {

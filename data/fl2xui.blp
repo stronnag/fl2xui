@@ -82,6 +82,32 @@ Gtk.ApplicationWindow appwin {
 	placeholder-text: "default";
       }
     }
+
+    Gtk.Box {
+      orientation: horizontal;
+      Gtk.Button cli_btn {
+       	halign: fill;
+        hexpand: false;
+        Gtk.Box {
+          spacing: 4;
+          [start]
+            Gtk.Image {
+             icon-name: "document-open-symbolic";
+            }
+            Gtk.Label {
+	      label: "CLI File";
+	      tooltip-text: "Optional CLI file (*.txt)";
+	    }
+	}
+      }
+      Gtk.Entry cli_label {
+        tooltip-text: "Optional CLI file (*.txt)";
+	hexpand: true;
+	halign: fill;
+	editable: true;
+	placeholder-text: "Optional";
+      }
+    }
     Gtk.Grid {
       hexpand: true;
       halign: fill;
