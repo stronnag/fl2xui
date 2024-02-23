@@ -15,6 +15,8 @@ authors:
 
 ![Linux](images/linux.png){: width="40%" }
 
+Note: This is the latest version. Other images are from older versions without the `CLI` option.
+
 ### MacOS
 
 ![MacOS](images/macos.png){: width="40%" }
@@ -40,8 +42,9 @@ authors:
 * **Output...** : Opens a file chooser to select the output directory. The defaults (no selection) are:
     * Linux, FreeBSD, MacOS : Current (working) directory, typically `$HOME` when launched from a desktop environment.
 	* Windows : "Documents" (e.g. `C:\Users\USERNAME\Documents`).
- * **Mission...** : Optional mission file (single selection). MW XML format (e.g. from {{ mwp }} or {{ inav }} configurator).
+ * **Mission...** : Optional mission file (single selection). MW XML format (e.g. from {{ mwp }} or {{ inav }} configurator). The mission segments (and optional `fwapproach`) will be included in the KML.
  * **Index** : If 0 (default), processes all logs in (each) file; if non zero, processes a single log at the specified index.
+ * **CLI File** : Optional CLI (diff/dump format) file (single selection). If it contains `safehome` directives (and optionally, associated `fwapproach` directives), these will be included in the generated KML.
 
 ### Visualisation Options (2)
 
@@ -124,6 +127,7 @@ Debian (and derivatives) have a binary installer in the  [fl2xui release area](h
 
 * It is recommended that `blackbox_decode` and `flightlog2kml` are in the `fl2xui\bin` directory.
 * There may be a Windows installer in the [fl2xui release area](https://github.com/stronnag/fl2xui/releases).
+* If run in a VM, it may be necessary to set the environment variable `GSK_RENDERER` to the value `CAIRO`.
 
 #### Look and Feel
 
