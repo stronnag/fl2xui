@@ -96,6 +96,8 @@ public class Flx2Ui : Gtk.Application {
 						rsb.append("not found\n");
 					}
 					add_textview(rsb.str);
+				} else {
+					add_textview(sb.str);
 				}
 			});
 		p.run(args);
@@ -195,7 +197,7 @@ public class Flx2Ui : Gtk.Application {
 		var swin = builder.get_object("swin") as Gtk.Box;
 		swin.append(sv.get_window());
 
-		window.set_title("fl2xui %s".printf(FL2XUI_VERSION_STRING));
+		//		window.set_title("fl2xui %s".printf(FL2XUI_VERSION_STRING));
 		this.add_window (window);
 		window.set_application (this);
 		window.set_default_size(600,480);
@@ -248,6 +250,13 @@ public class Flx2Ui : Gtk.Application {
 		}
 		check_version();
 		setup_dnd();
+
+		var header_bar = new Gtk.HeaderBar ();
+		header_bar.decoration_layout = "icon:menu,minimize,maximize,close";
+		header_bar.set_title_widget (new Gtk.Label("fl2xui %s".printf(FL2XUI_VERSION_STRING)));
+		header_bar.set_show_title_buttons(true);
+		window.set_titlebar (header_bar);
+
 		window.present ();
 	}
 
