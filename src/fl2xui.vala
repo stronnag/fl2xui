@@ -82,9 +82,9 @@ public class Flx2Ui : Gtk.Application {
 						int vsum = 0;
 						var vparts = parts[1].split(".");
 						for(var i = 0; i < 3 && i < parts.length; i++) {
-							vsum = int.parse(vparts[i])+ 10*vsum;
+							vsum = int.parse(vparts[i])+ 100*vsum;
 						}
-						res = vsum > 100;
+						res = vsum > 10014;
 					}
 				}
 				if (!res) {
@@ -95,6 +95,8 @@ public class Flx2Ui : Gtk.Application {
 						rsb.append("not found\n");
 					}
 					add_textview(rsb.str);
+				} else {
+					add_textview(sb.str);
 				}
 			});
 		p.run(args);
