@@ -85,7 +85,7 @@ public class Flx2Ui : Gtk.Application {
 						for(var i = 0; i < 3 && i < parts.length; i++) {
 							vsum = int.parse(vparts[i])+ 100*vsum;
 						}
-						res = vsum >= 100*100+15;
+						res = vsum > 10014;
 					}
 				}
 				if (!res) {
