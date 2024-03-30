@@ -483,7 +483,7 @@ public class Flx2Ui : Gtk.Application {
 				var fd = new  Gtk.FileDialog ();
 				var dir = File.new_for_path(prefs.outdir);
 				fd.initial_folder = dir;
-				fd.initial_file = dir;
+				//				fd.initial_file = dir;
 				fd.title = "Output Directory";
 
 				fd.select_folder.begin(window, null, (o,r) => {
@@ -605,7 +605,13 @@ public class Flx2Ui : Gtk.Application {
     }
 
 	public static int main (string[] args) {
-        var app = new Flx2Ui ();
+		if(Environment.get_variable("GSK_RENDERER") == null) {
+			var u = Posix.utsname();
+			if(!u.release.contains("microsoft-standard-WSL2")) {
+				Environment.set_variable("GSK_RENDERER", "cairo" ,true);
+			}
+		}
+		var app = new Flx2Ui ();
         return app.run (args);
     }
 }

@@ -1,4 +1,4 @@
-project('fl2xui', 'vala', 'c', version : '1.2.1')
+project('fl2xui', 'vala', 'c', version : '1.2.2')
 show_deprecated = get_option('deprecations')
 
 if show_deprecated  == false
