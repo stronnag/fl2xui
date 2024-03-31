@@ -1,4 +1,4 @@
-project('fl2xui', 'vala', 'c', version : '1.2.0')
+project('fl2xui', 'vala', 'c', version : '1.2.2')
 show_deprecated = get_option('deprecations')
 
 if show_deprecated  == false
@@ -25,6 +25,7 @@ configure_file(
 )
 configuration_inc = include_directories('.')
 
+subdir('valaopts')
 subdir('meson')
 subdir('src')
 subdir('data')
@@ -41,6 +42,7 @@ executable(
         meson.get_compiler('vala').find_library('posix'),
     ],
     vala_args : [dopts,vopts],
+    c_args : vcargs,
     include_directories : configuration_inc,
     install: true,
     gui_app: true,
@@ -59,6 +61,7 @@ if host_machine.system() == 'windows'
         meson.get_compiler('vala').find_library('posix'),
     ],
     vala_args : [dopts,vopts],
+    c_args : vcargs,
     include_directories : configuration_inc,
     install: false,
     build_by_default: false,

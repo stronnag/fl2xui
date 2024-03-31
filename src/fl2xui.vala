@@ -616,6 +616,12 @@ public class Flx2Ui : Gtk.Application {
     }
 
 	public static int main (string[] args) {
+		if(Environment.get_variable("GSK_RENDERER") == null) {
+			var u = Posix.utsname();
+			if(!u.release.contains("microsoft-standard-WSL2")) {
+				Environment.set_variable("GSK_RENDERER", "cairo" ,true);
+			}
+		}
         var app = new Flx2Ui ();
         return app.run (args);
     }
