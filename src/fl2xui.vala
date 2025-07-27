@@ -35,6 +35,15 @@ public class Flx2Ui : Gtk.Application {
 	private bool ge_running;
 	private ScrolledView sv;
 
+	private enum Ftype {
+		UNKNOWN = 0,
+		MISSION = 1,
+		BBOX = 2,
+		OTX = 3,
+		MWPJ = 4,
+		SAFEH = 5
+	}
+
 	public Flx2Ui () {
 		Object(application_id: "org.stronnag.fl2xui",
 			   flags: /*ApplicationFlags.HANDLES_OPEN|*/ApplicationFlags.HANDLES_COMMAND_LINE);
@@ -260,7 +269,6 @@ public class Flx2Ui : Gtk.Application {
 		window.present ();
 	}
 
-#if !OS_freebsd
 	void setup_dnd() {
 		var droptgt = new Gtk.DropTarget(typeof (Gdk.FileList), Gdk.DragAction.COPY);
 		droptgt.drop.connect((tgt, value, x, y) => {
@@ -284,31 +292,6 @@ public class Flx2Ui : Gtk.Application {
 			});
 		sv.get_view().add_controller((EventController)droptgt);
 	}
-#else
-	void setup_dnd() {
-		var droptgt = new Gtk.DropTarget(typeof (string), Gdk.DragAction.COPY);
-		droptgt.on_drop.connect((tgt, value, x, y) => {
-				if(value.type() == typeof (string)) {
-					foreach(var u in ((string)value).split( "\r\n")) {
-						if (u!= null && u.length > 0) {
-							fileargs += u;
-						}
-					}
-				}
-				runbtn.sensitive = handle_fileargs();
-				return runbtn.sensitive;
-			});
-		droptgt.accept.connect((d) => {
-				sv.set_target(true);
-				return true;
-			});
-		droptgt.leave.connect(() => {
-				sv.set_target(false);
-			});
-		sv.get_view().add_controller((EventController)droptgt);
-	}
-
-#endif
 
 	private bool handle_fileargs() {
 		string[] items = {};
@@ -317,15 +300,15 @@ public class Flx2Ui : Gtk.Application {
 			string fn;
 			var mtype = guess_content_type(u, out fn);
 			switch(mtype) {
-			case 1:
+			case Ftype.MISSION:
 				missionname.text = fn;
 				handled = true;
 				break;
-			case 2,3:
+			case Ftype.BBOX, Ftype.OTX, Ftype.MWPJ:
 				items += fn;
 				handled = true;
 				break;
-			case 4:
+			case Ftype.SAFEH:
 				cliname.text = fn;
 				break;
 			default:
@@ -346,9 +329,10 @@ public class Flx2Ui : Gtk.Application {
 		return handled;
 	}
 
-	private int guess_content_type(string uri, out string? fn) {
+
+	private Ftype guess_content_type(string uri, out string? fn) {
 		fn = null;
-		int mt = 0;
+		Ftype mt = Ftype.UNKNOWN;
 		try {
 			if (uri.has_prefix("file://")) {
 				fn = Filename.from_uri(uri);
@@ -360,18 +344,20 @@ public class Flx2Ui : Gtk.Application {
 			if (fs != null) {
 				if(fs.read (buf) > 0) {
 					if(((string)buf).has_prefix("H Product:Blackbox")) {
-						mt = 2;
+						mt = Ftype.BBOX;
 					} else if (((string)buf).has_prefix("{\"missions\":")) {
-						mt = 1 ;
+						mt = Ftype.MISSION;
 					} else if (((string)buf).has_prefix
 								("<?xml version=\"1.0\" encoding=")) {
 						if (((string)buf).contains("<mission>") || ((string)buf).contains("<MISSION>")) {
-							mt = 1;
+							mt = Ftype.MISSION;
 						}
 					} else if (((string)buf).has_prefix("Date,Time,"))  {
-						mt = 3;
+						mt = Ftype.OTX;
 					} else if (((string)buf).contains("safehome")) {
-						mt = 4;
+						mt = Ftype.SAFEH;
+					} else if (((string)buf).contains("{\"type\":")) {
+						mt = Ftype.MWPJ;
 					}
 				}
 			}
@@ -397,6 +383,7 @@ public class Flx2Ui : Gtk.Application {
 				filter.add_pattern("*.txt");
 				filter.add_pattern("*.csv");
 				filter.add_pattern("*.CSV");
+				filter.add_pattern("*.log");
 				ls.append(filter);
 
 				filter = new Gtk.FileFilter ();
@@ -411,6 +398,11 @@ public class Flx2Ui : Gtk.Application {
 				filter.set_filter_name("OTX/ETX Logs");
 				filter.add_pattern("*.csv");
 				filter.add_pattern("*.CSV");
+				ls.append(filter);
+
+				filter = new Gtk.FileFilter ();
+				filter.set_filter_name("mwp JSON Logs");
+				filter.add_pattern("*.log");
 				ls.append(filter);
 
 				filter = new Gtk.FileFilter ();
