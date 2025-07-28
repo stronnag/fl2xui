@@ -41,7 +41,8 @@ public class Flx2Ui : Gtk.Application {
 		BBOX = 2,
 		OTX = 3,
 		MWPJ = 4,
-		SAFEH = 5
+		SAFEH = 5,
+		SQLITE = 6
 	}
 
 	public Flx2Ui () {
@@ -304,7 +305,7 @@ public class Flx2Ui : Gtk.Application {
 				missionname.text = fn;
 				handled = true;
 				break;
-			case Ftype.BBOX, Ftype.OTX, Ftype.MWPJ:
+			case Ftype.BBOX, Ftype.OTX, Ftype.MWPJ, Ftype.SQLITE:
 				items += fn;
 				handled = true;
 				break;
@@ -358,6 +359,8 @@ public class Flx2Ui : Gtk.Application {
 						mt = Ftype.SAFEH;
 					} else if (((string)buf).contains("{\"type\":")) {
 						mt = Ftype.MWPJ;
+					} else if (((string)buf).has_prefix("SQLite format 3")) {
+						mt = Ftype.SQLITE;
 					}
 				}
 			}
@@ -384,6 +387,7 @@ public class Flx2Ui : Gtk.Application {
 				filter.add_pattern("*.csv");
 				filter.add_pattern("*.CSV");
 				filter.add_pattern("*.log");
+				filter.add_pattern("*.db");
 				ls.append(filter);
 
 				filter = new Gtk.FileFilter ();
