@@ -1,3 +1,5 @@
+# Migrated to [codeberg.org](https://codeberg.org/stronnag/fl2xui)
+
 ## fl2xui
 
 fl2xui is a cross-platform  GUI for the [flightlog2kml](https://github.com/stronnag/bbl2kml), a tool to generate beautiful colour coded, annotated, animated KML / KMZ from INAV blackbox and other (OTX, ETX, Bullet GCSS) flight logs.
